@@ -12,9 +12,9 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const email = req.query.email;
-    const data = await User.findOne({ email: email });
+    const data = await User.findOne({ email: req.body.email.user.email });
     res.send(data);
+    console.log(data);
     res.status(200);
   } catch (error) {
     res.status(500).send({ error: error.message });
