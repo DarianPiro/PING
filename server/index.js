@@ -13,11 +13,29 @@ const io = require('socket.io')(server, {
   },
 });
 
+let users = [];
+
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
   socket.emit('me', socket.id);
 
+  socket.on('userConnected', ({ name }) => {
+    const user = { socketID: socket.id, name };
+
+    const userExists = users.find((u) => u.name === name);
+    if (userExists) {
+      users = users.map((u) => (u.name === name ? user : u));
+    } else {
+      users.push(user);
+    }
+    io.emit('users', users);
+    console.log(users);
+  });
+
   socket.on('disconnect', () => {
+    users = users.filter((u) => u.socketID !== socket.id);
+    io.emit('users', users);
+
     socket.broadcast.emit('callEnded');
   });
 
