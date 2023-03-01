@@ -14,7 +14,6 @@ exports.getUser = async (req, res) => {
   try {
     const data = await User.findOne({ email: req.body.email.user.email });
     res.send(data);
-    console.log(data);
     res.status(200);
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -24,6 +23,7 @@ exports.getUser = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const data = new User(req.body);
+    console.log(req.body);
     await data.save();
     res.send(data);
     res.status(201);

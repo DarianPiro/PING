@@ -4,8 +4,8 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 const server = require('http').createServer(app);
-
 app.use(cors());
+
 const io = require('socket.io')(server, {
   cors: {
     origin: '*',
@@ -29,10 +29,8 @@ io.on('connection', (socket) => {
     io.to(data.to).emit('callAccepted', data.signal);
   });
 });
-
 app.use(express.json());
 app.use(router);
-
-app.listen(port, () =>
+server.listen(port, () =>
   console.log(`🧲 Server running on http://localhost:${port} 🧲`)
 );
