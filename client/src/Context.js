@@ -54,7 +54,7 @@ const ContextProvider = ({ children }) => {
       console.log('Current User: ' + currentUser.username);
       socket.emit('userConnected', { name: currentUser.username });
       socket.on('users', (users) => {
-        setOnlineUsers(users.filter((u) => u.name !== currentUser.username));
+        setOnlineUsers(users.filter((user) => user.username !== currentUser.username));
       });
     }
   }, [isAuthenticated, currentUser]);

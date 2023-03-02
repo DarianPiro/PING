@@ -5,8 +5,8 @@ const UserSchema = new Schema({
   username: String,
   email: String,
   role: String,
-  // socketID: String,
-  // online: Boolean,
+  socketID: String,
+  online: Boolean,
 });
 
 const User = model('User', UserSchema);

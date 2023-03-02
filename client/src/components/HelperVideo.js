@@ -49,15 +49,14 @@ const VideoChat = () => {
               style={{ width: '150px' }}
             />
             <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
-              <video
-                className="big-video"
-                playsInline
-                muted
-                ref={userVideo}
-                autoPlay
-                style={{ width: videoWidth, height: videoHeight }}
-              />
-            
+            <video
+              className="big-video"
+              playsInline
+              muted
+              ref={userVideo}
+              autoPlay
+              style={{ width: videoWidth, height: videoHeight }}
+            />
           </div>
         )}
       </div>
@@ -68,9 +67,9 @@ const VideoChat = () => {
 
       <div>
         <h2>Users waiting</h2>
-        {onlineUsers.map((u) => (
-          <button key={u.socketID} onClick={() => callUser(u.socketID)}>
-            {u.name}
+        {onlineUsers.map((user) => (
+          <button key={user.socketID} onClick={() => callUser(user.socketID)}>
+            {user.username}
           </button>
         ))}
       </div>

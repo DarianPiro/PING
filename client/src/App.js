@@ -13,7 +13,6 @@ function App() {
       <Login />
       {currentUser.registered && currentUser.role === 'Helpee' && <ClientVideo />}
       {currentUser.registered && currentUser.role === 'Helper' && <HelperVideo />}
-      {/* <Pong /> */}
     </div>
   );
 }

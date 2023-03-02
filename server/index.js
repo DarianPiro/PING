@@ -12,45 +12,26 @@ const io = require('socket.io')(server, {
     methods: ['GET', 'POST'],
   },
 });
-
-let users = [];
 const User = require('./models/User');
-
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
   socket.emit('me', socket.id);
 
-  socket.on('userConnected', ({ name }) => {
-    const user = { socketID: socket.id, name };
-
-    const userExists = users.find((u) => u.name === name);
-    if (userExists) {
-      users = users.map((u) => (u.name === name ? user : u));
-    } else {
-      users.push(user);
-    }
-
-    // User.findOneAndUpdate(
-    //   { username: name },
-    //   { socketID: socket.id, online: true },
-    //   (err) => {
-    //     if (err) {
-    //       console.log(err);
-    //     }
-    //   }
-    // );
-
-    // let users = User.find({ online: true }, (err, users) => {
-    //   if (err) {
-    //     console.log(err);
-    //   }
-    // });
+  socket.on('userConnected', async ({ name }) => {
+    await User.findOneAndUpdate(
+      { username: name },
+      { socketID: socket.id, online: true }
+    );
+    let users = await User.find({ online: true });
     io.emit('users', users);
   });
 
-  socket.on('disconnect', () => {
-    users = users.filter((u) => u.socketID !== socket.id);
-    io.emit('users', users);
+  socket.on('disconnect', async () => {
+    await User.findOneAndUpdate(
+      { socketID: socket.id },
+      { socketID: '', online: false }
+    );
+
     socket.broadcast.emit('callEnded');
   });
 
@@ -64,8 +45,7 @@ io.on('connection', (socket) => {
 
   socket.on('stroke', ({ recipientID, stroke }) => {
     io.to(recipientID).emit('stroke', stroke);
-  })
-
+  });
 });
 app.use(express.json());
 app.use(router);
