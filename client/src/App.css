@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+}
+.container {
+  position: relative;
+}
+
+.big-video {
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.small-video {
+  position: absolute;
+  margin: 5px;
+  border-radius: 5px;
+  z-index: 3 ;
+}
+
+.sketchpad {
+  position: absolute;
+  z-index: 2;
+}
+
+button {
+  background-color: #4d4a59;
+  border: none;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #5e5b6e;
+  opacity: 0.8;
+}
+
+button:active {
+  background-color: #5e5b6e;
+  opacity: 0.6;
+}

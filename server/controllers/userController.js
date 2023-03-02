@@ -22,8 +22,8 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
+    console.log(req.body)
     const data = new User(req.body);
-    console.log(req.body);
     await data.save();
     res.send(data);
     res.status(201);

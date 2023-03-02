@@ -14,6 +14,7 @@ const io = require('socket.io')(server, {
 });
 
 let users = [];
+const User = require('./models/User');
 
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
@@ -28,14 +29,28 @@ io.on('connection', (socket) => {
     } else {
       users.push(user);
     }
+
+    // User.findOneAndUpdate(
+    //   { username: name },
+    //   { socketID: socket.id, online: true },
+    //   (err) => {
+    //     if (err) {
+    //       console.log(err);
+    //     }
+    //   }
+    // );
+
+    // let users = User.find({ online: true }, (err, users) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    // });
     io.emit('users', users);
-    console.log(users);
   });
 
   socket.on('disconnect', () => {
     users = users.filter((u) => u.socketID !== socket.id);
     io.emit('users', users);
-
     socket.broadcast.emit('callEnded');
   });
 
@@ -46,6 +61,11 @@ io.on('connection', (socket) => {
   socket.on('answerCall', (data) => {
     io.to(data.to).emit('callAccepted', data.signal);
   });
+
+  socket.on('stroke', ({ recipientID, stroke }) => {
+    io.to(recipientID).emit('stroke', stroke);
+  })
+
 });
 app.use(express.json());
 app.use(router);
