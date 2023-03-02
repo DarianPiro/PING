@@ -32,13 +32,14 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef();
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
-      });
-
+    if (currentUser.registered) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          setStream(currentStream);
+          myVideo.current.srcObject = currentStream;
+        });
+    }
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
@@ -48,9 +49,7 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
-  }, [isAuthenticated]);
 
-  useEffect(() => {
     if (isAuthenticated && currentUser.registered === true) {
       console.log('Current User: ' + currentUser.username);
       socket.emit('userConnected', { name: currentUser.username });

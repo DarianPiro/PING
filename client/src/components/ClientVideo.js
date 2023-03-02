@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
@@ -14,13 +14,13 @@ const VideoChat = () => {
     leaveCall,
     incomingStroke,
   } = useContext(Context);
+  const [screenshotUrl, setScreenshotUrl] = useState(null);
 
   const canvasRef = useRef(null);
+  const sketchpadRef = useRef(null);
 
   let videoWidth = 600;
   let videoHeight = 450;
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -30,10 +30,12 @@ const VideoChat = () => {
     const sketchpad = new Atrament(canvasRef.current, {
       color: 'orange',
     });
+    sketchpadRef.current = sketchpad;
 
-    if (incomingStroke.length) {
-      const points = sketchpad.points;
-      const firstPoint = incomingStroke.shift().point;
+
+    if (incomingStroke.points) {
+      const points = incomingStroke.points.slice();
+      const firstPoint = points.shift().point;
       sketchpad.beginStroke(firstPoint.x, firstPoint.y);
       let prevPoint = firstPoint;
       while (points.length > 0) {
@@ -48,11 +50,26 @@ const VideoChat = () => {
       }
       sketchpad.endStroke(prevPoint.x, prevPoint.y);
     }
+
+
   }, [incomingStroke]);
+
+  const handleScreenshot = () => {
+    const canvas = canvasRef.current;
+    const video = userVideo.current;
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+
+    const dataUrl = canvas.toDataURL();
+    canvas.remove();
+    setScreenshotUrl(dataUrl);
+  };
 
   return (
     <div>
-      <h1>Hi, {currentUser.username}!</h1>
+      <h1>{currentUser.username}, don't despair!</h1>
+      <h1> Help is on the way</h1>
       <div>
         {userVideo && (
           <div className="video-container" style={{ videoWidth }}>
@@ -64,7 +81,7 @@ const VideoChat = () => {
               autoPlay
               style={{ width: '150px' }}
             />
-            <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
+            <canvas ref={canvasRef}  className="sketchpad" />
             <video
               className="big-video"
               playsInline
@@ -77,11 +94,20 @@ const VideoChat = () => {
         )}
       </div>
       {call.isReceivingCall && !callAccepted && (
-        <button onClick={answerCall}>Accept</button>
+        <button onClick={answerCall}>Accept help</button>
       )}
 
       {callAccepted && !callEnded && (
-        <button onClick={leaveCall}>Hang Up</button>
+        <div>
+          <button onClick={handleScreenshot}>Take Screenshot</button>
+          {screenshotUrl && (
+            <div>
+              <h2>Screenshot:</h2>
+              <img src={screenshotUrl} alt="Screenshot" />
+            </div>
+          )}
+          <button onClick={leaveCall}>Hang Up</button>
+        </div>
       )}
     </div>
   );

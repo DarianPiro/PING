@@ -9,7 +9,6 @@ const VideoChat = () => {
     myVideo,
     userVideo,
     callEnded,
-    call,
     leaveCall,
     callUser,
     onlineUsers,
@@ -37,7 +36,7 @@ const VideoChat = () => {
 
   return (
     <div>
-      <h1>Hi, helper {currentUser.username}!</h1>
+      <h1>{currentUser.username}, someone needs your help!</h1>
       <div>
         {userVideo && (
           <div className="video-container" style={{ videoWidth }}>
@@ -68,7 +67,7 @@ const VideoChat = () => {
       )}
 
       <div>
-        <h2>Users waiting for help:</h2>
+        <h2>Users waiting</h2>
         {onlineUsers.map((u) => (
           <button key={u.socketID} onClick={() => callUser(u.socketID)}>
             {u.name}
