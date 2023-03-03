@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react';
-import { Context } from '../Context';
+import { Context } from '../../Context';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Nav = () => {
-  const { logout, currentUser } = useContext(Context);
+  const { logout, currentUser,currentPage, setCurrentPage } =
+    useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (event) => {
+    if (event.target.getAttribute('data-key')) setCurrentPage(event.target.getAttribute('data-key'));
     setAnchorEl(null);
   };
 
@@ -42,18 +44,28 @@ const Nav = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {currentUser.role === 'Helpee' && (
-          <>
-            <MenuItem onClick={handleClose}>Get Help</MenuItem>
-            <MenuItem onClick={handleClose}>My Requests</MenuItem>
-          </>
-        )}
+        {currentUser.role === 'Helpee' && [
+          <MenuItem key='1' data-key="Request" onClick={handleClose}>
+            Get Help
+          </MenuItem>,
+          <MenuItem key='2' data-key="PastRequests" onClick={handleClose}>
+            My Requests
+          </MenuItem>,
+        ]}
         {currentUser.role === 'Helper' && (
-          <MenuItem onClick={handleClose}>Requests</MenuItem>
+          <MenuItem key='3' data-key="Request" onClick={handleClose}>
+            Requests
+          </MenuItem>
         )}
-        <MenuItem onClick={handleClose}>My Reviews</MenuItem>
-        <MenuItem onClick={handleClose}>My Account</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem key='4' data-key="Reviews" onClick={handleClose}>
+          My Reviews
+        </MenuItem>
+        <MenuItem key='5' data-key="Account" onClick={handleClose}>
+          My Account
+        </MenuItem>
+        <MenuItem key='6' onClick={handleLogout}>
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );

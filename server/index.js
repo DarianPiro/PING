@@ -26,12 +26,18 @@ io.on('connection', (socket) => {
     io.emit('users', users);
   });
 
+  socket.on('newRequest', async () => {
+    let users = await User.find({ online: true });
+    io.emit('users', users);
+  });
+
   socket.on('disconnect', async () => {
     await User.findOneAndUpdate(
       { socketID: socket.id },
       { socketID: '', online: false }
     );
-
+    let users = await User.find({ online: true });
+    io.emit('users', users);
     socket.broadcast.emit('callEnded');
   });
 

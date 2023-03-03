@@ -1,21 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
+import ImageStack from './ui/ImageStack';
 import { Atrament } from 'atrament';
-import Button from '@mui/material/Button';
+import { Button, Typography } from '@mui/material';
+import { uploadImageToCloudinary } from '../lib/ImageUpload';
 
 const VideoChat = () => {
   const {
     currentUser,
     callAccepted,
     answerCall,
-    myVideo,
-    userVideo,
+    localVideo,
+    remoteVideo,
     callEnded,
     call,
     leaveCall,
     incomingStroke,
   } = useContext(Context);
-  const [screenshotUrl, setScreenshotUrl] = useState(null);
+  const [screenshots, setScreenshots] = useState([]);
 
   const canvasRef = useRef(null);
   const sketchpadRef = useRef(null);
@@ -53,82 +55,37 @@ const VideoChat = () => {
     }
   }, [incomingStroke]);
 
-  const handleScreenshot = () => {
+  const handleScreenshot = async () => {
     const canvas = canvasRef.current;
-    const video = userVideo.current;
+    const video = remoteVideo.current;
     const ctx = canvas.getContext('2d');
-
     ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-    const dataUrl = canvas.toDataURL();
+    const dataUrl = canvas.toDataURL({ format: 'png' });
     canvas.remove();
-    setScreenshotUrl(dataUrl);
+
+    const screenshotUrl = await uploadImageToCloudinary(
+      dataUrl,
+      currentUser.username
+    );
+    setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
   };
 
   return (
     <div>
-      <h1>
-        Don't despair, <span className="orange">help</span> is on the way!
-      </h1>
-      <div>
-        {userVideo && (
-          <div className="video-container" style={{ videoWidth }}>
-            <video
-              className="small-video"
-              playsInline
-              muted
-              ref={userVideo}
-              autoPlay
-              style={{ width: '150px' }}
-            />
-            <canvas ref={canvasRef} className="sketchpad" />
-            <video
-              className="big-video"
-              playsInline
-              muted
-              ref={myVideo}
-              autoPlay
-              style={{ width: videoWidth }}
-            ></video>
-          </div>
-        )}
-      </div>
-      {call.isReceivingCall && !callAccepted && (
-        <Button
-          onClick={answerCall}
-          variant="contained"
-          style={{
-            color: '#8793a2',
-            fontWeight: 'bold',
-            backgroundColor: '#2d3b4c',
-            margin: '10px',
-          }}
-        >
-          Accept help
-        </Button>
+      {!call.isReceivingCall && (
+        <Typography variant="h4">
+          Don't despair, <span className="orange">help</span> is on the way!
+        </Typography>
       )}
 
-      {callAccepted && !callEnded && (
-        <div>
+      {call.isReceivingCall && !callAccepted && (
+        <>
+          <Typography variant="h4">
+            <span className="orange">Help</span> is here!
+          </Typography>
           <Button
-            onClick={handleScreenshot}
-            variant="contained"
-            style={{
-              color: '#8793a2',
-              fontWeight: 'bold',
-              backgroundColor: '#2d3b4c',
-            }}
-          >
-            Take Screenshot
-          </Button>
-          {screenshotUrl && (
-            <div>
-              <h2>Screenshot:</h2>
-              <img src={screenshotUrl} alt="Screenshot" />
-            </div>
-          )}
-          <Button
-            onClick={leaveCall}
+            onClick={answerCall}
             variant="contained"
             style={{
               color: '#8793a2',
@@ -137,10 +94,44 @@ const VideoChat = () => {
               margin: '10px',
             }}
           >
-            Hang Up
+            Accept help
           </Button>
-        </div>
+        </>
       )}
+      <div className="video-container" style={{ videoWidth }}>
+        {remoteVideo && (
+          <>
+            {callAccepted && !callEnded && (
+              <>
+                <button onClick={handleScreenshot} className="button save-step">
+                  Save
+                </button>
+                <button onClick={leaveCall} className="button end-call">
+                  End Call
+                </button>
+              </>
+            )}
+            <video
+              className="small-video"
+              playsInline
+              muted
+              ref={remoteVideo}
+              autoPlay
+              style={{ width: '150px' }}
+            />
+            <canvas ref={canvasRef} className="sketchpad" />
+            <video
+              className="big-video"
+              playsInline
+              muted
+              ref={localVideo}
+              autoPlay
+              style={{ width: videoWidth }}
+            />
+          </>
+        )}
+      </div>
+      {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
     </div>
   );
 };

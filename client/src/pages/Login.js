@@ -8,14 +8,14 @@ const Login = () => {
     setCurrentUser,
     isAuthenticated,
     loginWithRedirect,
-    handleLogin,
+    handleGetUser,
     handleCreateUser,
   } = useContext(Context);
 
   useEffect(() => {
     if (isAuthenticated) {
       console.log('User is authenticated');
-      handleLogin();
+      handleGetUser();
     }
   }, [isAuthenticated]);
 
@@ -88,7 +88,7 @@ const Login = () => {
               margin: '10px',
             }}
           >
-            Create User
+            Create account
           </Button>
         </form>
       )}

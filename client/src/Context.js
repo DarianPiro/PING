@@ -4,7 +4,13 @@ import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
-import { getUser, createUser } from './lib/ApiService';
+import {
+  getUser,
+  createUser,
+  // updateUser,
+  // deleteUser,
+  sendRequest,
+} from './lib/ApiService';
 
 const Context = createContext();
 
@@ -16,6 +22,8 @@ const ContextProvider = ({ children }) => {
     username: '',
     email: '',
     role: 'Helpee',
+    requests: [],
+    reviews: [],
     socketID: '',
     registered: false,
   });
@@ -26,9 +34,16 @@ const ContextProvider = ({ children }) => {
   const [call, setCall] = useState({});
   const [stroke, setStroke] = useState([]);
   const [incomingStroke, setIncomingStroke] = useState([]);
+  const [request, setRequest] = useState({
+    content: '',
+    type: '',
+    status: 'Pending',
+    sent: false,
+  });
+  const [currentPage, setCurrentPage] = useState('Request');
 
-  const myVideo = useRef();
-  const userVideo = useRef();
+  const localVideo = useRef({});
+  const remoteVideo = useRef({});
   const connectionRef = useRef();
 
   useEffect(() => {
@@ -37,7 +52,7 @@ const ContextProvider = ({ children }) => {
         .getUserMedia({ video: true, audio: true })
         .then((currentStream) => {
           setStream(currentStream);
-          myVideo.current.srcObject = currentStream;
+          localVideo.current.srcObject = currentStream;
         });
     }
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
@@ -54,7 +69,10 @@ const ContextProvider = ({ children }) => {
       console.log('Current User: ' + currentUser.username);
       socket.emit('userConnected', { name: currentUser.username });
       socket.on('users', (users) => {
-        setOnlineUsers(users.filter((user) => user.username !== currentUser.username));
+        const usersWithPendingRequests = users.filter((user) =>
+          user.requests.some((request) => request.status === 'Pending')
+        );
+        setOnlineUsers(usersWithPendingRequests);
       });
     }
   }, [isAuthenticated, currentUser]);
@@ -65,7 +83,7 @@ const ContextProvider = ({ children }) => {
   }, [stroke]);
 
   // Check if user exists in database
-  const handleLogin = async () => {
+  const handleGetUser = async () => {
     const receivedUser = await getUser({ user });
     if (receivedUser) {
       setCurrentUser({
@@ -73,6 +91,8 @@ const ContextProvider = ({ children }) => {
         username: receivedUser.username,
         email: receivedUser.email,
         role: receivedUser.role,
+        requests: receivedUser.requests,
+        reviews: receivedUser.reviews,
         registered: true,
       });
     }
@@ -96,9 +116,20 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  const handleRequest = async (e) => {
+    e.preventDefault();
+    setRequest({ ...request, sent: true });
+    const newRequest = await sendRequest({
+      username: currentUser.username,
+      content: request.content,
+      type: request.type,
+      status: request.status,
+    });
+    socket.emit('newRequest', newRequest);
+  };
+
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
-
     setCall({ isReceivingCall: false, userToCall: id });
     console.log('Call User: ' + id);
     peer.on('signal', (data) => {
@@ -111,19 +142,32 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream;
+      remoteVideo.current.srcObject = currentStream;
     });
 
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true);
       peer.signal(signal);
     });
-
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        localVideo.current.srcObject = currentStream;
+      });
     connectionRef.current = peer;
   };
 
   const answerCall = () => {
     setCallAccepted(true);
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        localVideo.current.srcObject = currentStream;
+      });
+
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
     peer.on('signal', (data) => {
@@ -131,7 +175,7 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream;
+      remoteVideo.current.srcObject = currentStream;
     });
 
     peer.signal(call.signal);
@@ -155,17 +199,22 @@ const ContextProvider = ({ children }) => {
         onlineUsers,
         call,
         callAccepted,
-        myVideo,
-        userVideo,
+        localVideo,
+        remoteVideo,
         stream,
         callEnded,
         callUser,
         leaveCall,
         answerCall,
-        handleLogin,
+        handleGetUser,
         handleCreateUser,
         setStroke,
         incomingStroke,
+        request,
+        setRequest,
+        handleRequest,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

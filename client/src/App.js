@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import './App.css';
-import Nav from './components/Nav';
-import Logo from './components/Logo';
-import Login from './components/Login';
+import Nav from './components/ui/Nav';
+import Logo from './components/ui/Logo';
+import Login from './pages/Login';
 import Account from './components/Account';
-import ClientDashboard from './components/ClientDashboard';
-import HelperDashboard from './components/HelperDashboard';
+import ClientDashboard from './pages/ClientDashboard';
+import HelperDashboard from './pages/HelperDashboard';
 import { Context } from './Context';
 
 function App() {

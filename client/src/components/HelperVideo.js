@@ -8,8 +8,8 @@ const VideoChat = () => {
     currentUser,
     callAccepted,
     call,
-    myVideo,
-    userVideo,
+    localVideo,
+    remoteVideo,
     callEnded,
     leaveCall,
     callUser,
@@ -44,13 +44,21 @@ const VideoChat = () => {
         <span className="orange"> help</span>!
       </h1>
       <div>
-        {userVideo && (
+        {call.isReceivingCall === false && (
           <div className="video-container" style={{ videoWidth }}>
+            {callAccepted && !callEnded && (
+              <button
+                className="button end-call"
+                onClick={leaveCall}
+              >
+                End Call
+              </button>
+            )}
             <video
               className="small-video"
               playsInline
               muted
-              ref={myVideo}
+              ref={localVideo}
               autoPlay
               style={{ width: '150px' }}
             />
@@ -60,29 +68,13 @@ const VideoChat = () => {
               className="big-video"
               playsInline
               muted
-              ref={userVideo}
+              ref={remoteVideo}
               autoPlay
               style={{ width: videoWidth, height: videoHeight }}
             />
           </div>
         )}
       </div>
-      {callAccepted && !callEnded && (
-        <Button
-          className="hang-up"
-          onClick={leaveCall}
-          variant="contained"
-          style={{
-            color: '#8793a2',
-            fontWeight: 'bold',
-            backgroundColor: '#2d3b4c',
-            opacity: '0.8',
-            margin: '10px',
-          }}
-        >
-          Hang Up
-        </Button>
-      )}
     </div>
   );
 };

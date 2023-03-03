@@ -55,7 +55,7 @@ const Account = () => {
             margin: '10px',
           }}
         >
-          Update Profile
+          Update profile
         </Button>
       </form>
     </div>
