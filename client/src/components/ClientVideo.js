@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import { Atrament } from 'atrament';
+import Button from '@mui/material/Button';
 
 const VideoChat = () => {
   const {
@@ -30,8 +31,8 @@ const VideoChat = () => {
     const sketchpad = new Atrament(canvasRef.current, {
       color: 'orange',
     });
+    sketchpad.smoothing = 1.3;
     sketchpadRef.current = sketchpad;
-
 
     if (incomingStroke.points) {
       const points = incomingStroke.points.slice();
@@ -50,8 +51,6 @@ const VideoChat = () => {
       }
       sketchpad.endStroke(prevPoint.x, prevPoint.y);
     }
-
-
   }, [incomingStroke]);
 
   const handleScreenshot = () => {
@@ -68,8 +67,9 @@ const VideoChat = () => {
 
   return (
     <div>
-      <h1>{currentUser.username}, don't despair!</h1>
-      <h1> Help is on the way</h1>
+      <h1>
+        Don't despair, <span className="orange">help</span> is on the way!
+      </h1>
       <div>
         {userVideo && (
           <div className="video-container" style={{ videoWidth }}>
@@ -81,7 +81,7 @@ const VideoChat = () => {
               autoPlay
               style={{ width: '150px' }}
             />
-            <canvas ref={canvasRef}  className="sketchpad" />
+            <canvas ref={canvasRef} className="sketchpad" />
             <video
               className="big-video"
               playsInline
@@ -94,19 +94,51 @@ const VideoChat = () => {
         )}
       </div>
       {call.isReceivingCall && !callAccepted && (
-        <button onClick={answerCall}>Accept help</button>
+        <Button
+          onClick={answerCall}
+          variant="contained"
+          style={{
+            color: '#8793a2',
+            fontWeight: 'bold',
+            backgroundColor: '#2d3b4c',
+            margin: '10px',
+          }}
+        >
+          Accept help
+        </Button>
       )}
 
       {callAccepted && !callEnded && (
         <div>
-          <button onClick={handleScreenshot}>Take Screenshot</button>
+          <Button
+            onClick={handleScreenshot}
+            variant="contained"
+            style={{
+              color: '#8793a2',
+              fontWeight: 'bold',
+              backgroundColor: '#2d3b4c',
+            }}
+          >
+            Take Screenshot
+          </Button>
           {screenshotUrl && (
             <div>
               <h2>Screenshot:</h2>
               <img src={screenshotUrl} alt="Screenshot" />
             </div>
           )}
-          <button onClick={leaveCall}>Hang Up</button>
+          <Button
+            onClick={leaveCall}
+            variant="contained"
+            style={{
+              color: '#8793a2',
+              fontWeight: 'bold',
+              backgroundColor: '#2d3b4c',
+              margin: '10px',
+            }}
+          >
+            Hang Up
+          </Button>
         </div>
       )}
     </div>

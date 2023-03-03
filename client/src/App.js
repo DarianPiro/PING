@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
 import './App.css';
+import Nav from './components/Nav';
+import Logo from './components/Logo';
 import Login from './components/Login';
-import HelperVideo from './components/HelperVideo';
-import ClientVideo from './components/ClientVideo';
+import Account from './components/Account';
+import ClientDashboard from './components/ClientDashboard';
+import HelperDashboard from './components/HelperDashboard';
 import { Context } from './Context';
 
 function App() {
@@ -10,9 +13,16 @@ function App() {
 
   return (
     <div className="App">
+      <Logo />
       <Login />
-      {currentUser.registered && currentUser.role === 'Helpee' && <ClientVideo />}
-      {currentUser.registered && currentUser.role === 'Helper' && <HelperVideo />}
+      {currentUser.registered && <Nav />}
+      {/* {currentUser.registered && <Account />} */}
+      {currentUser.registered && currentUser.role === 'Helpee' && (
+        <ClientDashboard />
+      )}
+      {currentUser.registered && currentUser.role === 'Helper' && (
+        <HelperDashboard />
+      )}
     </div>
   );
 }

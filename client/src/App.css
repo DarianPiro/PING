@@ -1,13 +1,27 @@
 .App {
   text-align: center;
+  width: 98vw;
+  height: 97vh;
 }
+
 .container {
   position: relative;
 }
 
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orange {
+  color: rgb(255, 166, 0);
+}
+
 .big-video {
   border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); */
   z-index: 1;
 }
 
@@ -15,7 +29,7 @@
   position: absolute;
   margin: 5px;
   border-radius: 5px;
-  z-index: 3 ;
+  z-index: 3;
 }
 
 .sketchpad {
@@ -23,27 +37,29 @@
   z-index: 2;
 }
 
-button {
-  background-color: #4d4a59;
-  border: none;
-  color: white;
-  padding: 0.8rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
-  font-weight: bold;
+.nav {
+  position: absolute;
   margin: 1rem;
-  cursor: pointer;
+  top: 0;
+  right: 0;
+  z-index: 99;
 }
 
-button:hover {
-  background-color: #5e5b6e;
-  opacity: 0.8;
+.logo {
+  position: absolute;
+  margin-left: 1.5rem;
+  color: rgb(255, 166, 0);
+  top: 0;
+  left: 0;
+  z-index: 98;
 }
 
-button:active {
-  background-color: #5e5b6e;
-  opacity: 0.6;
-}
+
+
+
+/* .hang-up {
+  position: absolute;
+  bottom: 5px;
+  left: 1rem;
+  margin: 5px;
+} */
