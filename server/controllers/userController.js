@@ -33,9 +33,10 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const username = req.body.username;
-    data = await User.findOneAndUpdate({ username: username }, req.body);
+    const { socketID, username, role } = req.body;
+    const data = await User.findOneAndUpdate({ socketID: socketID }, { username: username, role: role }, { new: true });
     res.send(data);
+    console.log(data);
     res.status(201);
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -58,7 +59,16 @@ exports.sendRequest = async (req, res) => {
     const { username, content, type, status } = req.body;
     const data = await User.findOneAndUpdate(
       { username: username },
-      { $push: { requests: { content: content, type: type, status: status } } }
+      {
+        $push: {
+          requests: {
+            content: content,
+            type: type,
+            status: status,
+            date: new Date(),
+          },
+        },
+      }
     );
     res.send(data);
     res.status(201);
@@ -73,7 +83,9 @@ exports.updateImages = async (req, res) => {
     const { username, image } = req.body;
     const user = await User.findOneAndUpdate(
       { username: username },
-      { $push: { 'requests.$[elem].images': { $each: [image], $position: 0 } } },
+      {
+        $push: { 'requests.$[elem].images': { $each: [image], $position: 0 } },
+      },
       { arrayFilters: [{ 'elem.images': { $exists: true } }], new: true }
     );
     res.send(user);
@@ -83,4 +95,3 @@ exports.updateImages = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
-

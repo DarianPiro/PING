@@ -41,6 +41,20 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('callEnded');
   });
 
+  socket.on('leaveCall', async ({ recipientID, senderID }) => {
+    await User.findOneAndUpdate(
+      { $or: [{ socketID: recipientID }, { socketID: senderID }] },
+      { $set: { 'requests.$[elem].status': 'Completed' } },
+      {
+        arrayFilters: [{ 'elem.date': { $lte: new Date() } }],
+        new: true,
+        sort: { 'requests.date': -1 },
+      }
+    );
+    io.to(recipientID).emit('callEnded');
+    io.to(senderID).emit('callEnded');
+  });
+
   socket.on('callUser', ({ userToCall, signalData, from, name }) => {
     io.to(userToCall).emit('callUser', { signal: signalData, from, name });
   });

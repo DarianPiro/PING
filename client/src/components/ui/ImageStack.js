@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../../Context';
 import './ImageStack.css';
 import { Button, Modal, Box } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import { createZip } from '../../lib/ImageApi';
+import { saveAs } from 'file-saver';
 
 const style = {
   position: 'absolute',
@@ -14,12 +17,23 @@ const style = {
 };
 
 const ImageStack = ({ screenshots }) => {
+  const { currentUser } = useContext(Context);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleImageDownload = async () => {
+    const zip = await createZip(screenshots, currentUser.username);
+    const zipBlob = new Blob([zip], { type: 'application/zip' });
+    saveAs(zipBlob, 'screenshots.zip');
+  };
+
   return (
-    <div className="image-stack-container" onClick={handleOpen}>
+    <div
+      className="image-stack-container"
+      // onClick={handleOpen}
+      onClick={handleImageDownload}
+    >
       <br />
       {screenshots.slice(-3).map((url, index) => (
         <img

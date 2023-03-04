@@ -6,6 +6,7 @@ const RequestSchema = new Schema({
   type: String,
   status: String,
   images: [String],
+  date: Date,
 });
 
 const ReviewSchema = new Schema({

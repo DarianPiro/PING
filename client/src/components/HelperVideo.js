@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Context } from '../Context';
 import { Atrament } from 'atrament';
-import Button from '@mui/material/Button';
 
 const VideoChat = () => {
   const {

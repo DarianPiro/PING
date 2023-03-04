@@ -3,11 +3,11 @@ import { Context } from '../Context';
 import { Button, TextField, Typography, Select, MenuItem } from '@mui/material';
 
 const Account = () => {
-  const { currentUser, setCurrentUser, updateProfile } = useContext(Context);
+  const { currentUser, setCurrentUser, handleUpdateUser } = useContext(Context);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // updateProfile();
+    handleUpdateUser();
   };
 
   return (
@@ -17,11 +17,9 @@ const Account = () => {
         <br />
         <TextField
           label="Username"
+          className="input"
           variant="outlined"
           value={currentUser.username}
-          // style={{
-          //   color: 'white',
-          // }}
           onChange={(e) =>
             setCurrentUser({ ...currentUser, username: e.target.value })
           }
@@ -32,9 +30,6 @@ const Account = () => {
           className="form-control"
           id="role"
           value={currentUser.role}
-          // style={{
-          //   color: 'white',
-          // }}
           onChange={(e) =>
             setCurrentUser({ ...currentUser, role: e.target.value })
           }
@@ -45,11 +40,10 @@ const Account = () => {
         <br />
         <br />
         <Button
-          variant="contained"
-          color="primary"
           type="submit"
+          variant="contained"
           style={{
-            color: '#8793a2',
+            color: '#b9c1c9',
             fontWeight: 'bold',
             backgroundColor: '#2d3b4c',
             margin: '10px',

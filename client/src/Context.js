@@ -4,13 +4,7 @@ import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
-import {
-  getUser,
-  createUser,
-  // updateUser,
-  // deleteUser,
-  sendRequest,
-} from './lib/ApiService';
+import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
@@ -42,7 +36,7 @@ const ContextProvider = ({ children }) => {
 
   const localVideo = useRef({});
   const remoteVideo = useRef({});
-  const connectionRef = useRef();
+  // const connectionRef = useRef();
 
   useEffect(() => {
     navigator.mediaDevices
@@ -60,6 +54,11 @@ const ContextProvider = ({ children }) => {
 
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
+    });
+
+    socket.on('callEnded', () => {
+      setCall({ accepted: false, ended: true });
+      setCurrentPage('Request');
     });
 
     if (isAuthenticated && currentUser.registered === true) {
@@ -113,6 +112,14 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  const handleUpdateUser = async () => {
+    await updateUser({
+      socketID: currentUser.socketID,
+      username: currentUser.username,
+      role: currentUser.role,
+    });
+  };
+
   const handleRequest = async (e) => {
     e.preventDefault();
     setRequest({ ...request, sent: true });
@@ -151,7 +158,7 @@ const ContextProvider = ({ children }) => {
         setStream(currentStream);
         localVideo.current.srcObject = currentStream;
       });
-    connectionRef.current = peer;
+    // connectionRef.current = peer;
   };
 
   const answerCall = () => {
@@ -168,12 +175,18 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.signal(call.signal);
-    connectionRef.current = peer;
+    // connectionRef.current = peer;
   };
 
   const leaveCall = () => {
+    socket.emit('leaveCall', {
+      recipientID: call.from,
+      senderID: currentUser.socketID,
+    });
     setCall({ accepted: false, ended: true });
-    connectionRef.current.destroy();
+    setRequest({ content: '', type: '', status: 'Pending', sent: false });
+    setCurrentPage('Request');
+    // connectionRef.current.destroy();
   };
 
   return (
@@ -198,6 +211,7 @@ const ContextProvider = ({ children }) => {
         answerCall,
         handleGetUser,
         handleCreateUser,
+        handleUpdateUser,
         setStroke,
         setRequest,
         handleRequest,

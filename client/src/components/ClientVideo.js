@@ -3,7 +3,7 @@ import { Context } from '../Context';
 import ImageStack from './ui/ImageStack';
 import { Atrament } from 'atrament';
 import { Button, Typography } from '@mui/material';
-import { uploadImageToCloudinary } from '../lib/ImageUpload';
+import { uploadImageToCloudinary, createZip } from '../lib/ImageApi';
 
 const VideoChat = () => {
   const {
@@ -81,7 +81,7 @@ const VideoChat = () => {
     <div>
       {!call.isReceivingCall && (
         <Typography variant="h4">
-          Don't despair, <br />
+          Despair not, <br />
           <span className="orange">help</span> is on the way!
         </Typography>
       )}
