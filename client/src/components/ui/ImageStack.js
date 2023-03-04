@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import './ImageStack.css';
-import { Button, Modal, Box, Paper } from '@mui/material';
+import { Button, Modal, Box } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
+  width: '50vw',
+  height: '50vh',
 };
 
 const ImageStack = ({ screenshots }) => {
@@ -32,24 +31,41 @@ const ImageStack = ({ screenshots }) => {
         />
       ))}
 
-      <Modal open={open} >
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={style}>
           <Carousel>
             {screenshots.map((url, i) => (
-              <div key={i} className='center' >
-                <img
-                  src={url}
-                  alt={`Screenshot ${i + 1}`}
-                  className="modal-image"
-                  id={`image-${i + 1}`}
-                  onClose={handleClose}
-                />
-                <Button className="downloadImages">Download</Button>
-              </div>
+              <Image key={i} url={url} />
             ))}
           </Carousel>
+        </Box>
       </Modal>
     </div>
   );
 };
+
+function Image(props) {
+  return (
+    <>
+      <DownloadForOfflineIcon
+        // onClick={handleClick}
+        cursor="pointer"
+        style={{
+          fontSize: '2rem',
+          margin: '10px',
+          opacity: '0.5',
+          color: 'black',
+        }}
+      />
+      <img
+        key={props.i}
+        src={props.url}
+        alt={`Screenshot ${props.index + 1}`}
+        className="modal-image"
+        id={`image-${props.index + 1}`}
+      />
+    </>
+  );
+}
 
 export default ImageStack;
