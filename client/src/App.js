@@ -3,7 +3,6 @@ import './App.css';
 import Nav from './components/ui/Nav';
 import Logo from './components/ui/Logo';
 import Login from './pages/Login';
-import Account from './components/Account';
 import ClientDashboard from './pages/ClientDashboard';
 import HelperDashboard from './pages/HelperDashboard';
 import { Context } from './Context';
@@ -16,7 +15,6 @@ function App() {
       <Logo />
       <Login />
       {currentUser.registered && <Nav />}
-      {/* {currentUser.registered && <Account />} */}
       {currentUser.registered && currentUser.role === 'Helpee' && (
         <ClientDashboard />
       )}

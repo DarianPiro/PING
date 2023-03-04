@@ -14,7 +14,6 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('User is authenticated');
       handleGetUser();
     }
   }, [isAuthenticated]);

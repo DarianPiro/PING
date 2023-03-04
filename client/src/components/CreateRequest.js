@@ -46,7 +46,6 @@ const CreateRequest = () => {
             backgroundColor: '#2d3b4c',
             margin: '10px',
           }}
-          // onClick={handleRequest}
         >
           Ask for Help
         </Button>

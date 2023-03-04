@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import { Context } from '../Context';
 import HelperVideo from '../components/HelperVideo';
 import CurrentRequests from '../components/CurrentRequests';
-import Reviews from '../components/Reviews';
-import Account from '../components/Account';
+import Reviews from '../pages/Reviews';
+import Account from '../pages/Account';
 
 const HelperDashboard = () => {
-  const { callAccepted, currentPage } = useContext(Context);
+  const { currentPage, call } = useContext(Context);
 
   return (
     <div className="center">
-      {currentPage === 'Request' && !callAccepted && <CurrentRequests />}
-      {currentPage === 'Request' && callAccepted && <HelperVideo />}
+      {currentPage === 'Request' && call.isReceivingCall !== false && <CurrentRequests />}
+      {currentPage === 'Request' && call.isReceivingCall === false && <HelperVideo />}
       {currentPage === 'Reviews' && <Reviews />}
       {currentPage === 'Account' && <Account />}
     </div>

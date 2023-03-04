@@ -108,9 +108,7 @@ export const sendRequest = async (request: any) => {
   }
 };
 
-
 export const imageToDB = async (image:any, username:any) => {
-  console.log(image, username)
   try {
     await fetch(`${process.env.REACT_APP_SERVER_URL}/updateImages`, {
       method: 'POST',

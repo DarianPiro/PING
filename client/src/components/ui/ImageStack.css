@@ -1,0 +1,35 @@
+.image-stack-container {
+  position: absolute;
+  width: 5rem;
+  z-index: 4;
+  bottom: 3.7rem;
+  left: 1rem;
+}
+
+.image-stack-image {
+  position: absolute;
+  width: 5rem;
+  top: 0;
+  left: 0;
+  border-radius: 0.3rem;
+  box-shadow: 1px 1px 2px #000000 0.9;
+  transition: all 0.3s ease-in-out;
+}
+
+.image-stack-container:hover #image-3 {
+  transform: rotate(-4deg) translate(100px, -3px) scale(1.2);
+}
+
+.image-stack-container:hover #image-2 {
+  transform: rotate(-2deg) translate(50px, -3px) scale(1.15);
+}
+
+.image-stack-container:hover #image-1 {
+  transform:  scale(1.1);
+}
+
+.modal-image {
+  width: 50rem;
+  border-radius: 1rem;
+  
+}

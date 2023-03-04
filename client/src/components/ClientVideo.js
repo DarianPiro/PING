@@ -8,14 +8,13 @@ import { uploadImageToCloudinary } from '../lib/ImageUpload';
 const VideoChat = () => {
   const {
     currentUser,
-    callAccepted,
     answerCall,
     localVideo,
     remoteVideo,
-    callEnded,
     call,
     leaveCall,
     incomingStroke,
+    setStream,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -26,6 +25,13 @@ const VideoChat = () => {
   let videoHeight = 450;
 
   useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        localVideo.current.srcObject = currentStream;
+      });
+
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;
@@ -75,11 +81,12 @@ const VideoChat = () => {
     <div>
       {!call.isReceivingCall && (
         <Typography variant="h4">
-          Don't despair, <span className="orange">help</span> is on the way!
+          Don't despair, <br />
+          <span className="orange">help</span> is on the way!
         </Typography>
       )}
 
-      {call.isReceivingCall && !callAccepted && (
+      {call.isReceivingCall && !call.accepted && (
         <>
           <Typography variant="h4">
             <span className="orange">Help</span> is here!
@@ -101,7 +108,8 @@ const VideoChat = () => {
       <div className="video-container" style={{ videoWidth }}>
         {remoteVideo && (
           <>
-            {callAccepted && !callEnded && (
+            {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+            {call && (
               <>
                 <button onClick={handleScreenshot} className="button save-step">
                   Save
@@ -131,7 +139,6 @@ const VideoChat = () => {
           </>
         )}
       </div>
-      {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
     </div>
   );
 };

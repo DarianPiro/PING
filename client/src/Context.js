@@ -28,10 +28,8 @@ const ContextProvider = ({ children }) => {
     registered: false,
   });
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [callAccepted, setCallAccepted] = useState(false);
-  const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
-  const [call, setCall] = useState({});
+  const [call, setCall] = useState({ accepted: false, ended: false });
   const [stroke, setStroke] = useState([]);
   const [incomingStroke, setIncomingStroke] = useState([]);
   const [request, setRequest] = useState({
@@ -47,14 +45,13 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef();
 
   useEffect(() => {
-    if (currentUser.registered) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((currentStream) => {
-          setStream(currentStream);
-          localVideo.current.srcObject = currentStream;
-        });
-    }
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        localVideo.current.srcObject = currentStream;
+      });
+
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
@@ -66,7 +63,6 @@ const ContextProvider = ({ children }) => {
     });
 
     if (isAuthenticated && currentUser.registered === true) {
-      console.log('Current User: ' + currentUser.username);
       socket.emit('userConnected', { name: currentUser.username });
       socket.on('users', (users) => {
         const usersWithPendingRequests = users.filter((user) =>
@@ -99,7 +95,8 @@ const ContextProvider = ({ children }) => {
   };
 
   // Create user in database
-  const handleCreateUser = async () => {
+  const handleCreateUser = async (event) => {
+    event.preventDefault();
     const receivedUser = await createUser({
       username: currentUser.username,
       email: user.email,
@@ -131,7 +128,6 @@ const ContextProvider = ({ children }) => {
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
     setCall({ isReceivingCall: false, userToCall: id });
-    console.log('Call User: ' + id);
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -146,7 +142,7 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('callAccepted', (signal) => {
-      setCallAccepted(true);
+      setCall({ ...call, accepted: true, isReceivingCall: false });
       peer.signal(signal);
     });
     navigator.mediaDevices
@@ -159,14 +155,7 @@ const ContextProvider = ({ children }) => {
   };
 
   const answerCall = () => {
-    setCallAccepted(true);
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
-      });
+    setCall({ ...call, accepted: true });
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
@@ -183,7 +172,7 @@ const ContextProvider = ({ children }) => {
   };
 
   const leaveCall = () => {
-    setCallEnded(true);
+    setCall({ accepted: false, ended: true });
     connectionRef.current.destroy();
   };
 
@@ -191,30 +180,29 @@ const ContextProvider = ({ children }) => {
     <Context.Provider
       value={{
         currentUser,
-        setCurrentUser,
+        currentPage,
         isAuthenticated,
         user,
-        loginWithRedirect,
-        logout,
         onlineUsers,
         call,
-        callAccepted,
         localVideo,
         remoteVideo,
         stream,
-        callEnded,
+        incomingStroke,
+        request,
+        setCurrentUser,
+        loginWithRedirect,
+        logout,
         callUser,
         leaveCall,
         answerCall,
         handleGetUser,
         handleCreateUser,
         setStroke,
-        incomingStroke,
-        request,
         setRequest,
         handleRequest,
-        currentPage,
         setCurrentPage,
+        setStream,
       }}
     >
       {children}

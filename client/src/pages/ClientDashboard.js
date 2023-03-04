@@ -2,11 +2,9 @@ import React, { useContext } from 'react';
 import { Context } from '../Context';
 import ClientVideo from '../components/ClientVideo';
 import CreateRequest from '../components/CreateRequest';
-import PastRequests from '../components/PastRequests';
-import Reviews from '../components/Reviews';
-import Account from '../components/Account';
-
-
+import PastRequests from '../pages/PastRequests';
+import Reviews from '../pages/Reviews';
+import Account from '../pages/Account';
 
 const ClientDashboard = () => {
   const { request, currentPage } = useContext(Context);
