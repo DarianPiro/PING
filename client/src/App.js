@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <Logo />
-      <Login />
+      {/* <Login /> */}
       {currentUser.registered && <Nav />}
       {/* {currentUser.registered && currentUser.role === 'Helpee' && (
         <ClientDashboard />
