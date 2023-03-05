@@ -3,7 +3,7 @@ import { Context } from '../Context';
 import ImageStack from './ui/ImageStack';
 import { Atrament } from 'atrament';
 import { Button, Typography } from '@mui/material';
-import { uploadImageToCloudinary, createZip } from '../lib/ImageApi';
+import { uploadImageToCloudinary } from '../lib/ImageApi';
 
 const VideoChat = () => {
   const {
@@ -31,7 +31,9 @@ const VideoChat = () => {
         setStream(currentStream);
         localVideo.current.srcObject = currentStream;
       });
+  }, []);
 
+  useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;
@@ -79,14 +81,14 @@ const VideoChat = () => {
 
   return (
     <div>
-      {!call.isReceivingCall && (
+      {!call.incoming && (
         <Typography variant="h4">
           Despair not, <br />
           <span className="orange">help</span> is on the way!
         </Typography>
       )}
 
-      {call.isReceivingCall && !call.accepted && (
+      {call.incoming && !call.accepted && (
         <>
           <Typography variant="h4">
             <span className="orange">Help</span> is here!

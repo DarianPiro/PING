@@ -47,8 +47,9 @@ const CurrentRequests = () => {
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={user.username}
-                      secondary={request.content}
+                      primary={request.content}
+                      secondary={user.username}
+                      style={{ color: '#8793a2' }}
                     />
                     <Button
                       variant="contained"

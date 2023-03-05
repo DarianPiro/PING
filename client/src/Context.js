@@ -1,8 +1,6 @@
-// @ts-check
-
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
@@ -23,33 +21,48 @@ const ContextProvider = ({ children }) => {
   });
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [stream, setStream] = useState();
-  const [call, setCall] = useState({ accepted: false, ended: false });
+  const [call, setCall] = useState({
+    accepted: false,
+    ended: false,
+    incoming: false,
+    from: '',
+    name: '',
+    signal: null,
+  });
   const [stroke, setStroke] = useState([]);
   const [incomingStroke, setIncomingStroke] = useState([]);
   const [request, setRequest] = useState({
+    _id: '',
     content: '',
-    type: '',
-    status: 'Pending',
+    type: 'Plumbing',
+    status: 'Completed',
     sent: false,
+    helper: '',
+    rating: null,
+    review: '',
   });
   const [currentPage, setCurrentPage] = useState('Request');
 
-  const localVideo = useRef({});
-  const remoteVideo = useRef({});
-  // const connectionRef = useRef();
+  const localVideo = useRef(null);
+  const remoteVideo = useRef(null);
 
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
       });
 
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
-      setCall({ isReceivingCall: true, from, name: callerName, signal });
+      setCall({
+        ...call,
+        incoming: true,
+        from,
+        name: callerName,
+        signal,
+      });
     });
 
     socket.on('stroke', (stroke) => {
@@ -57,10 +70,18 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('callEnded', () => {
-      setCall({ accepted: false, ended: true });
+      setCall({
+        accepted: false,
+        ended: true,
+        incoming: false,
+        from: '',
+        name: '',
+        signal: null,
+      });
+
       setCurrentPage('Request');
     });
-
+    console.log(currentPage);
     if (isAuthenticated && currentUser.registered === true) {
       socket.emit('userConnected', { name: currentUser.username });
       socket.on('users', (users) => {
@@ -70,12 +91,12 @@ const ContextProvider = ({ children }) => {
         setOnlineUsers(usersWithPendingRequests);
       });
     }
-  }, [isAuthenticated, currentUser]);
+  }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
     const recipientID = call.userToCall;
     socket.emit('stroke', { recipientID, stroke });
-  }, [stroke]);
+  }, [stroke, call]);
 
   // Check if user exists in database
   const handleGetUser = async () => {
@@ -122,19 +143,22 @@ const ContextProvider = ({ children }) => {
 
   const handleRequest = async (e) => {
     e.preventDefault();
-    setRequest({ ...request, sent: true });
     const newRequest = await sendRequest({
       username: currentUser.username,
       content: request.content,
       type: request.type,
-      status: request.status,
+      status: 'Pending',
     });
+    setRequest({ ...request, _id: newRequest._id, sent: true, status: 'Pending' });
     socket.emit('newRequest', newRequest);
   };
 
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
-    setCall({ isReceivingCall: false, userToCall: id });
+    setCall({
+      ...call,
+      userToCall: id,
+    });
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -149,16 +173,9 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('callAccepted', (signal) => {
-      setCall({ ...call, accepted: true, isReceivingCall: false });
+      setCall({ ...call, accepted: true, incoming: true });
       peer.signal(signal);
     });
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
-      });
-    // connectionRef.current = peer;
   };
 
   const answerCall = () => {
@@ -175,7 +192,6 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.signal(call.signal);
-    // connectionRef.current = peer;
   };
 
   const leaveCall = () => {
@@ -183,10 +199,18 @@ const ContextProvider = ({ children }) => {
       recipientID: call.from,
       senderID: currentUser.socketID,
     });
-    setCall({ accepted: false, ended: true });
-    setRequest({ content: '', type: '', status: 'Pending', sent: false });
-    setCurrentPage('Request');
-    // connectionRef.current.destroy();
+    setRequest({
+      ...request,
+      helper: call.name,
+    });
+    setCall({
+      accepted: false,
+      ended: true,
+      incoming: false,
+      from: '',
+      name: '',
+      signal: null,
+    });
   };
 
   return (

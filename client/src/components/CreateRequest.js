@@ -14,6 +14,10 @@ const CreateRequest = () => {
         <TextField
           required
           label="Request"
+          inputProps={{ maxLength: 140 }}
+          maxRows={4}
+          minRows={2}
+          multiline
           variant="outlined"
           value={request.content}
           onChange={(e) => setRequest({ ...request, content: e.target.value })}

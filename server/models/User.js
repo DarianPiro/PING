@@ -1,17 +1,19 @@
 const mongoose = require('./');
 const { Schema, model } = mongoose;
 
+const ReviewSchema = new Schema({
+  helper: String,
+  rating: Number,
+  review: String,
+});
+
 const RequestSchema = new Schema({
   content: String,
   type: String,
   status: String,
   images: [String],
+  review: [ReviewSchema],
   date: Date,
-});
-
-const ReviewSchema = new Schema({
-  content: String,
-  rating: Number,
 });
 
 const UserSchema = new Schema({
@@ -19,7 +21,6 @@ const UserSchema = new Schema({
   email: String,
   role: String,
   requests: [RequestSchema],
-  reviews: [ReviewSchema],
   socketID: String,
   online: Boolean,
 });

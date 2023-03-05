@@ -1,24 +1,4 @@
-// interface User {
-//   email: string;
-//   name: string;
-// }
-
-export const getAllUsers = async () => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const users = await response.json();
-    return users;
-  } catch (error) {
-    console.error('Error getting users:', error);
-  }
-};
-
-export const getUser = async (email: any) => {
+export const getUser = async (email) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/getUser`,
@@ -37,7 +17,7 @@ export const getUser = async (email: any) => {
   }
 };
 
-export const createUser = async (newUser: any) => {
+export const createUser = async (newUser) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/createUser`,
@@ -56,7 +36,7 @@ export const createUser = async (newUser: any) => {
   }
 };
 
-export const updateUser = async (updatedUser: any) => {
+export const updateUser = async (updatedUser) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/updateUser`,
@@ -75,28 +55,25 @@ export const updateUser = async (updatedUser: any) => {
   }
 };
 
-export const deleteUser = async (email: string) => {
+export const sendRequest = async (request) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER_URL}/deleteUser`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      }
-    );
-    const user = await response.json();
-    return user;
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/sendRequest`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+    const storedRequest = await response.json();
+    return storedRequest;
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error('Error sending request:', error);
   }
 };
 
-export const sendRequest = async (request: any) => {
+export const sendReview = async (request) => {
   try {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/sendRequest`, {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/sendReview`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,20 +81,20 @@ export const sendRequest = async (request: any) => {
       body: JSON.stringify(request),
     });
   } catch (error) {
-    console.error('Error sending request:', error);
+    console.error('Error sending review:', error);
   }
 };
 
-export const imageToDB = async (image:any, username:any) => {
+export const imageToDB = async (image, username) => {
   try {
     await fetch(`${process.env.REACT_APP_SERVER_URL}/updateImages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({image, username}),
+      body: JSON.stringify({ image, username }),
     });
   } catch (error) {
     console.error('Error sending image:', error);
   }
-}
+};

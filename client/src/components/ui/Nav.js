@@ -5,15 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Nav = () => {
-  const { logout, currentUser,currentPage, setCurrentPage } =
-    useContext(Context);
+  const { logout, currentUser, setCurrentPage } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (event) => {
-    if (event.target.getAttribute('data-key')) setCurrentPage(event.target.getAttribute('data-key'));
+    if (event.target.getAttribute('data-key'))
+      setCurrentPage(event.target.getAttribute('data-key'));
     setAnchorEl(null);
   };
 
@@ -45,25 +45,25 @@ const Nav = () => {
         }}
       >
         {currentUser.role === 'Helpee' && [
-          <MenuItem key='1' data-key="Request" onClick={handleClose}>
+          <MenuItem key="1" data-key="Request" onClick={handleClose}>
             Get Help
           </MenuItem>,
-          <MenuItem key='2' data-key="PastRequests" onClick={handleClose}>
+          <MenuItem key="2" data-key="PastRequests" onClick={handleClose}>
             My Requests
           </MenuItem>,
         ]}
         {currentUser.role === 'Helper' && (
-          <MenuItem key='3' data-key="Request" onClick={handleClose}>
+          <MenuItem key="3" data-key="Request" onClick={handleClose}>
             Requests
           </MenuItem>
         )}
-        <MenuItem key='4' data-key="Reviews" onClick={handleClose}>
+        <MenuItem key="4" data-key="Reviews" onClick={handleClose}>
           My Reviews
         </MenuItem>
-        <MenuItem key='5' data-key="Account" onClick={handleClose}>
+        <MenuItem key="5" data-key="Account" onClick={handleClose}>
           My Account
         </MenuItem>
-        <MenuItem key='6' onClick={handleLogout}>
+        <MenuItem key="6" onClick={handleLogout}>
           Logout
         </MenuItem>
       </Menu>

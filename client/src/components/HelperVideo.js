@@ -10,6 +10,7 @@ const VideoChat = () => {
     leaveCall,
     setStroke,
     setStream,
+    stream,
   } = useContext(Context);
 
   const canvasRef = useRef(null);
@@ -17,13 +18,13 @@ const VideoChat = () => {
   let videoHeight = 450;
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
-      });
-
+    // navigator.mediaDevices
+    //   .getUserMedia({ video: true, audio: true })
+    //   .then((currentStream) => {
+    //     setStream(currentStream);
+    //     localVideo.current.srcObject = currentStream;
+    //   });
+    localVideo.current.srcObject = stream;
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;
