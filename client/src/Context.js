@@ -136,6 +136,7 @@ const ContextProvider = ({ children }) => {
   };
 
   const handleUpdateUser = async () => {
+    setCurrentPage('Request');
     await updateUser({
       socketID: currentUser.socketID,
       username: currentUser.username,
@@ -162,7 +163,17 @@ const ContextProvider = ({ children }) => {
   };
 
   const callUser = (id) => {
-    const peer = new Peer({ initiator: true, trickle: false, stream });
+    const peer = new Peer({
+      config: {
+        iceServers: [
+          { url: 'stun:stun.l.google.com:19302' },
+          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+        ],
+      },
+      initiator: true,
+      trickle: false,
+      stream,
+    });
     setCall({
       ...call,
       userToCall: id,
@@ -193,7 +204,17 @@ const ContextProvider = ({ children }) => {
       ...request,
       time: DateTime.now(),
     });
-    const peer = new Peer({ initiator: false, trickle: false, stream });
+    const peer = new Peer({
+      config: {
+        iceServers: [
+          { url: 'stun:stun.l.google.com:19302' },
+          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+        ],
+      },
+      initiator: false,
+      trickle: false,
+      stream,
+    });
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });

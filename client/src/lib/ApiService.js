@@ -25,7 +25,7 @@ export const getUser = async (email) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('No User found:');
+    console.error('No User found');
   }
 };
 
@@ -47,7 +47,7 @@ export const createUser = async (newUser) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    alert('Error creating user:', error);
+    alert(error);
     console.error('Error creating user:', error);
   }
 };
