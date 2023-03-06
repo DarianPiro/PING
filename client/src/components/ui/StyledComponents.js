@@ -40,21 +40,10 @@ export const StyledSelect = styled(Select)`
   & .MuiSelect-icon {
     color: #8793a2;
   }
-
 `;
 
 export const StyledButton = styled(Button)`
-  background-color: #2b3540;
-  color: #8793a2;
   font-white: 'bold';
   transition: all 0.4s ease-in-out;
   box-shadow: 1px 1px 1px #000000 0.5;
-  &:hover {
-    background-color: #8793a2;
-    color: #191c1f;
-  }
-  &:active {
-    background-color: #8793a2;
-    color: #191c1f;
-  }
 `;
