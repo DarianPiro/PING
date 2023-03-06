@@ -45,7 +45,7 @@ const ContextProvider = ({ children }) => {
     time: null,
   });
   const [currentPage, setCurrentPage] = useState('Request');
- const [recipient, setRecipient] = useState('');
+  const [recipient, setRecipient] = useState('');
 
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
@@ -67,11 +67,9 @@ const ContextProvider = ({ children }) => {
         name: callerName,
         signal,
       });
-      console.log(call);
     });
 
     socket.on('stroke', (stroke) => {
-      console.log(stroke);
       setIncomingStroke(stroke);
     });
 
@@ -85,7 +83,6 @@ const ContextProvider = ({ children }) => {
         signal: null,
         userToCall: '',
       });
-      console.log(call)
       setCurrentPage('Request');
     });
     if (isAuthenticated && currentUser.registered === true) {
@@ -100,9 +97,6 @@ const ContextProvider = ({ children }) => {
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
-    // const recipientID = call.userToCall;
-    
-    console.log(recipient);
     socket.emit('stroke', { recipient, stroke });
   }, [stroke]);
 
@@ -173,9 +167,7 @@ const ContextProvider = ({ children }) => {
       ...call,
       userToCall: id,
     });
-    setRecipient(id)
-    console.log(call)
-    console.log(id)
+    setRecipient(id);
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -190,16 +182,13 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('callAccepted', (signal) => {
-      console.log(call)
       setCall({ ...call, accepted: true, incoming: true });
-      console.log(call)
       peer.signal(signal);
     });
   };
 
   const answerCall = () => {
     setCall({ ...call, accepted: true });
-    console.log(call)
     setRequest({
       ...request,
       time: DateTime.now(),

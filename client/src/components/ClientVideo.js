@@ -5,6 +5,7 @@ import { Atrament } from 'atrament';
 import { Typography } from '@mui/material';
 import { StyledButton } from './ui/StyledComponents';
 import { uploadImageToCloudinary } from '../lib/ImageApi';
+import AR from '../pages/AR';
 
 const VideoChat = () => {
   const {
@@ -19,11 +20,11 @@ const VideoChat = () => {
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
-  const canvasRef = useRef(null);
-  const sketchpadRef = useRef(null);
+  // const canvasRef = useRef(null);
+  // const sketchpadRef = useRef(null);
 
-  let videoWidth = 600;
-  let videoHeight = 450;
+  // let videoWidth = 600;
+  // let videoHeight = 450;
 
   useEffect(() => {
     navigator.mediaDevices
@@ -34,52 +35,52 @@ const VideoChat = () => {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(incomingStroke)
-    const canvas = canvasRef.current;
-    canvas.width = videoWidth;
-    canvas.height = videoHeight;
+  // useEffect(() => {
+  //   console.log(incomingStroke);
+  //   const canvas = canvasRef.current;
+  //   canvas.width = videoWidth;
+  //   canvas.height = videoHeight;
 
-    const sketchpad = new Atrament(canvasRef.current, {
-      color: 'orange',
-    });
-    sketchpad.smoothing = 1.3;
-    sketchpadRef.current = sketchpad;
+  //   const sketchpad = new Atrament(canvasRef.current, {
+  //     color: 'orange',
+  //   });
+  //   sketchpad.smoothing = 1.3;
+  //   sketchpadRef.current = sketchpad;
 
-    if (incomingStroke.points) {
-      const points = incomingStroke.points.slice();
-      const firstPoint = points.shift().point;
-      sketchpad.beginStroke(firstPoint.x, firstPoint.y);
-      let prevPoint = firstPoint;
-      while (points.length > 0) {
-        const point = points.shift().point;
-        const { x, y } = sketchpad.draw(
-          point.x,
-          point.y,
-          prevPoint.x,
-          prevPoint.y
-        );
-        prevPoint = { x, y };
-      }
-      sketchpad.endStroke(prevPoint.x, prevPoint.y);
-    }
-  }, [incomingStroke]);
+  //   if (incomingStroke.points) {
+  //     const points = incomingStroke.points.slice();
+  //     const firstPoint = points.shift().point;
+  //     sketchpad.beginStroke(firstPoint.x, firstPoint.y);
+  //     let prevPoint = firstPoint;
+  //     while (points.length > 0) {
+  //       const point = points.shift().point;
+  //       const { x, y } = sketchpad.draw(
+  //         point.x,
+  //         point.y,
+  //         prevPoint.x,
+  //         prevPoint.y
+  //       );
+  //       prevPoint = { x, y };
+  //     }
+  //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
+  //   }
+  // }, [incomingStroke]);
 
-  const handleScreenshot = async () => {
-    const canvas = canvasRef.current;
-    const video = remoteVideo.current;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  // const handleScreenshot = async () => {
+  //   const canvas = canvasRef.current;
+  //   const video = remoteVideo.current;
+  //   const ctx = canvas.getContext('2d');
+  //   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-    const dataUrl = canvas.toDataURL({ format: 'png' });
-    canvas.remove();
+  //   const dataUrl = canvas.toDataURL({ format: 'png' });
+  //   canvas.remove();
 
-    const screenshotUrl = await uploadImageToCloudinary(
-      dataUrl,
-      currentUser.username
-    );
-    setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
-  };
+  //   const screenshotUrl = await uploadImageToCloudinary(
+  //     dataUrl,
+  //     currentUser.username
+  //   );
+  //   setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
+  // };
 
   return (
     <div>
@@ -106,7 +107,7 @@ const VideoChat = () => {
           </StyledButton>
         </>
       )}
-      <div className="video-container" style={{ videoWidth }}>
+      {/* <div className="video-container" style={{ videoWidth }}>
         {remoteVideo && (
           <>
             {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
@@ -139,7 +140,8 @@ const VideoChat = () => {
             />
           </>
         )}
-      </div>
+      </div> */}
+      <AR />
     </div>
   );
 };

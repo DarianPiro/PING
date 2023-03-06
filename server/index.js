@@ -65,7 +65,6 @@ io.on('connection', (socket) => {
 
   socket.on('stroke', ({ recipient, stroke }) => {
     io.to(recipient).emit('stroke', stroke);
-    console.log(recipient);
   });
 });
 app.use(express.json());

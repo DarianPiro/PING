@@ -64,8 +64,8 @@ const Login = () => {
       {isAuthenticated && !currentUser.registered && (
         <form className="form-group center" onSubmit={handleCreateUser}>
           <div>
-            <Typography variant="h4" sx={{ fontWeight: 'bold' }}>This is your first time here</Typography>
-            <Typography variant="h6" >Please enter a username</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>This is your first time here</Typography>
+            <Typography variant="h6" >Enter a username</Typography>
             <StyledTextField
               required
               type="text"
@@ -79,7 +79,7 @@ const Login = () => {
             />
           </div>
           <div>
-            <Typography variant="h6" >Do you need help or are you a helper?</Typography>
+            <Typography variant="h6" sx={{ m: '1rem' }} >Do you need help or are you a helper?</Typography>
             <StyledSelect
               className="form-control"
               id="role"

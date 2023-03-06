@@ -1,13 +1,14 @@
 export const getAllUsers = async () => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/getAllUsers`);
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/getAllUsers`
+    );
     const users = await response.json();
     return users;
   } catch (error) {
     console.error('Error getting users:', error);
   }
 };
-
 
 export const getUser = async (email) => {
   try {
@@ -24,12 +25,15 @@ export const getUser = async (email) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('Error getting user:', error);
+    console.error('No User found:');
   }
 };
 
 export const createUser = async (newUser) => {
   try {
+    alert(newUser.username)
+    alert(newUser.email)
+    alert(newUser.role)
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/createUser`,
       {
@@ -43,7 +47,8 @@ export const createUser = async (newUser) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('Error getting user:', error);
+    alert('Error creating user:', error);
+    console.error('Error creating user:', error);
   }
 };
 
@@ -68,13 +73,16 @@ export const updateUser = async (updatedUser) => {
 
 export const sendRequest = async (request) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/sendRequest`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/sendRequest`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+      }
+    );
     const storedRequest = await response.json();
     return storedRequest;
   } catch (error) {
@@ -84,13 +92,16 @@ export const sendRequest = async (request) => {
 
 export const sendReview = async (request) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/sendReview`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/sendReview`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+      }
+    );
     const storedRequest = await response.json();
     return storedRequest;
   } catch (error) {
@@ -114,10 +125,12 @@ export const imageToDB = async (image, username) => {
 
 export const getTaglines = async () => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/getTaglines`);
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/getTaglines`
+    );
     const taglines = await response.json();
     return taglines;
   } catch (error) {
     console.error('Error getting taglines:', error);
   }
-}
+};

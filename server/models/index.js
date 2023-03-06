@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 try {
   mongoose.connect(
-    "mongodb://localhost:27017/ping",  
+    "mongodb+srv://P1ro:oDOaxYB8Du3Y9GJx@piro.f8cbqeh.mongodb.net/?retryWrites=true&w=majority",  
   console.log('💗 Connected to database 💗')
   );
 } catch (error) {

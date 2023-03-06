@@ -8,6 +8,11 @@ const Insights = () => {
   const { currentUser } = useContext(Context);
   const [allRequests, setAllRequests] = useState([]);
 
+  const convertTime = (timeInMil) => {
+    const time = new Date(timeInMil);
+    return `${time.getMinutes()} Minutes, ${time.getSeconds()} Seconds`;
+  };
+
   useEffect(() => {
     const getRequests = async () => {
       const data = await getAllUsers();
@@ -40,8 +45,11 @@ const Insights = () => {
       )}
       {allRequests.length > 0 && (
         <Box>
-          <Typography variant="h6">Average rating</Typography>
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            Average rating
+          </Typography>
           <Rating
+            sx={{ fontSize: 20 }}
             name="read-only"
             value={
               allRequests.reduce((acc, curr) => {
@@ -52,18 +60,18 @@ const Insights = () => {
             precision={0.5}
           />
           <Typography variant="h6">Average call time</Typography>
-          <Typography variant="h6">
-            {
-              allRequests
-                .reduce((acc, curr) => {
-                  return (
-                    acc +
-                    Duration.fromISO(curr.request.review.time).milliseconds
-                  );
-                }, 0 / allRequests.length)
-                }
+          <Typography variant="h8" sx={{ fontSize: 14 }}>
+            {convertTime(
+              allRequests.reduce((acc, curr) => {
+                return (
+                  acc + Duration.fromISO(curr.request.review.time).milliseconds
+                );
+              }, 0 / allRequests.length)
+            )}
           </Typography>
-          <Typography variant="h6">Reviews</Typography>
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            Reviews
+          </Typography>
           <Box sx={{ overflow: 'auto', maxHeight: '75vh', width: '80vw' }}>
             {allRequests.map((obj) => {
               return (
@@ -75,17 +83,18 @@ const Insights = () => {
                     <b>Helpee:</b> {obj.helpee}
                   </p>
                   <p>
+                    <b>Length:</b>{' '}
+                    {Duration.fromISO(obj.request.review.time).toFormat(
+                      'mm:ss'
+                    )}
+                  </p>
+                  <p>
                     <b>Request:</b> {obj.request.content}
                   </p>
                   <p>
                     <b>Review:</b> {obj.request.review.review}
                   </p>
-                  <p>
-                    <b>Time:</b>{' '}
-                    {Duration.fromISO(obj.request.review.time).toFormat(
-                      'mm:ss'
-                    )}
-                  </p>
+
                   <p>
                     <Rating
                       name="read-only"
