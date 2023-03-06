@@ -45,7 +45,7 @@ const ContextProvider = ({ children }) => {
     time: null,
   });
   const [currentPage, setCurrentPage] = useState('Request');
- // const [recipientID, setrecipientID] = useState('');
+ const [recipient, setRecipient] = useState('');
 
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
@@ -100,10 +100,11 @@ const ContextProvider = ({ children }) => {
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
-    const recipientID = call.userToCall;
-    console.log(recipientID);
-    socket.emit('stroke', { recipientID, stroke });
-  }, [stroke, call]);
+    // const recipientID = call.userToCall;
+    
+    console.log(recipient);
+    socket.emit('stroke', { recipient, stroke });
+  }, [stroke]);
 
   // Check if user exists in database
   const handleGetUser = async () => {
@@ -172,6 +173,7 @@ const ContextProvider = ({ children }) => {
       ...call,
       userToCall: id,
     });
+    setRecipient(id)
     console.log(call)
     console.log(id)
     peer.on('signal', (data) => {
@@ -225,8 +227,7 @@ const ContextProvider = ({ children }) => {
       helper: call.name,
       time: Interval.fromDateTimes(request.time, DateTime.now()).toDuration(),
     });
-    var seconds = Math.round(request.time / 1000);
-    console.log(seconds + ' seconds');
+
     setCall({
       accepted: false,
       ended: true,
@@ -234,7 +235,6 @@ const ContextProvider = ({ children }) => {
       from: '',
       name: '',
       signal: null,
-      userToCall: '',
     });
   };
 
