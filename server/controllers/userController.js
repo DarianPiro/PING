@@ -1,5 +1,15 @@
 const User = require('../models/User');
 
+exports.getAllUsers = async (req, res) => {
+  try {
+    const data = await User.find();
+    res.send(data);
+    res.status(200);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 exports.getUser = async (req, res) => {
   try {
     const data = await User.findOne({ email: req.body.email.user.email });
@@ -51,7 +61,8 @@ exports.sendRequest = async (req, res) => {
             date: new Date(),
           },
         },
-      }
+      },
+      { new: true }
     );
     res.send(data);
     res.status(201);
@@ -62,18 +73,11 @@ exports.sendRequest = async (req, res) => {
 
 exports.sendReview = async (req, res) => {
   try {
-    const { _id, helper, rating, review } = req.body;
+    const { _id, helper, rating, review } = req.body.request;
     const data = await User.findOneAndUpdate(
       { 'requests._id': _id },
-      {
-        $push: {
-          'requests.$.reviews': {
-            helper: helper,
-            rating: rating,
-            review: review,
-          },
-        },
-      }
+      { 'requests.$.review': { helper, rating, review } },
+      { new: true }
     );
     res.send(data);
     res.status(201);
@@ -95,7 +99,6 @@ exports.updateImages = async (req, res) => {
     res.send(user);
     res.status(201);
   } catch (error) {
-    console.log('this is the line', error);
     res.status(500).send({ error: error.message });
   }
 };

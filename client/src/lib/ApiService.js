@@ -1,3 +1,14 @@
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/getAllUsers`);
+    const users = await response.json();
+    return users;
+  } catch (error) {
+    console.error('Error getting users:', error);
+  }
+};
+
+
 export const getUser = async (email) => {
   try {
     const response = await fetch(
@@ -73,13 +84,15 @@ export const sendRequest = async (request) => {
 
 export const sendReview = async (request) => {
   try {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/sendReview`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/sendReview`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
     });
+    const storedRequest = await response.json();
+    return storedRequest;
   } catch (error) {
     console.error('Error sending review:', error);
   }
@@ -98,3 +111,13 @@ export const imageToDB = async (image, username) => {
     console.error('Error sending image:', error);
   }
 };
+
+export const getTaglines = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/getTaglines`);
+    const taglines = await response.json();
+    return taglines;
+  } catch (error) {
+    console.error('Error getting taglines:', error);
+  }
+}

@@ -25,22 +25,23 @@ const RateHelper = () => {
   const { request, setRequest } = useContext(Context);
   const [hover, setHover] = useState(-1);
 
-  const handleSendReview = (e) => {
+  const handleSendReview = async (e) => {
     e.preventDefault();
-    sendReview({
-      rating: request.rating,
-      comment: request.review,
+    const response = await sendReview({
+      request,
     });
-    setRequest({
-      _id: '',
-      content: '',
-      type: 'Plumbing',
-      status: 'Completed',
-      sent: false,
-      helper: '',
-      rating: null,
-      review: '',
-    });
+    if (response) {
+      setRequest({
+        _id: '',
+        content: '',
+        type: 'Plumbing',
+        status: 'Completed',
+        sent: false,
+        helper: '',
+        rating: null,
+        review: '',
+      });
+    }
   };
 
   return (

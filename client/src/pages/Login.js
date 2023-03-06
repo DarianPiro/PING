@@ -1,5 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Context } from '../Context';
+import { getTaglines } from '../lib/ApiService';
 import { Button, TextField, Select, MenuItem, Typography } from '@mui/material';
 
 const Login = () => {
@@ -11,6 +12,15 @@ const Login = () => {
     handleGetUser,
     handleCreateUser,
   } = useContext(Context);
+  const [taglines, setTaglines] = useState([]);
+
+  // useEffect(() => {
+  //   const getTaglines = async () => {
+  //     const data = await getTaglines();
+  //     setTaglines(data);
+  //   }
+  //   getTaglines();
+  // }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,9 +34,10 @@ const Login = () => {
         <div className="center">
           <Typography variant="h4">
             <p>
-              You seem desperate.
+              {/* {taglines[Math.floor(Math.random() * taglines.length)]} */}
+              {/* You seem desperate.
               <br />
-              We're here to <span className="orange">help</span>!
+              We're here to <span className="orange">help</span>! */}
             </p>
           </Typography>
 
@@ -60,8 +71,6 @@ const Login = () => {
               onChange={(e) =>
                 setCurrentUser({ ...currentUser, username: e.target.value })
               }
-
-
             />
           </div>
           <div>

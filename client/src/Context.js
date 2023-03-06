@@ -35,10 +35,10 @@ const ContextProvider = ({ children }) => {
     _id: '',
     content: '',
     type: 'Plumbing',
-    status: 'Completed',
+    status: null,
     sent: false,
     helper: '',
-    rating: null,
+    rating: 0,
     review: '',
   });
   const [currentPage, setCurrentPage] = useState('Request');
@@ -81,7 +81,6 @@ const ContextProvider = ({ children }) => {
 
       setCurrentPage('Request');
     });
-    console.log(currentPage);
     if (isAuthenticated && currentUser.registered === true) {
       socket.emit('userConnected', { name: currentUser.username });
       socket.on('users', (users) => {
@@ -143,12 +142,13 @@ const ContextProvider = ({ children }) => {
 
   const handleRequest = async (e) => {
     e.preventDefault();
-    const newRequest = await sendRequest({
+    const userResponse = await sendRequest({
       username: currentUser.username,
       content: request.content,
       type: request.type,
       status: 'Pending',
     });
+    const newRequest = userResponse.requests[userResponse.requests.length - 1];
     setRequest({ ...request, _id: newRequest._id, sent: true, status: 'Pending' });
     socket.emit('newRequest', newRequest);
   };

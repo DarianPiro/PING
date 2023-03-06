@@ -12,7 +12,7 @@ const RequestSchema = new Schema({
   type: String,
   status: String,
   images: [String],
-  review: [ReviewSchema],
+  review: ReviewSchema,
   date: Date,
 });
 

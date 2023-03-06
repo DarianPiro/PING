@@ -49,19 +49,22 @@ const Nav = () => {
             Get Help
           </MenuItem>,
           <MenuItem key="2" data-key="PastRequests" onClick={handleClose}>
-            My Requests
+            Requests
           </MenuItem>,
         ]}
         {currentUser.role === 'Helper' && (
-          <MenuItem key="3" data-key="Request" onClick={handleClose}>
-            Requests
-          </MenuItem>
+          <>
+            <MenuItem key="3" data-key="Request" onClick={handleClose}>
+              Requests
+            </MenuItem>
+            <MenuItem key="4" data-key="Insights" onClick={handleClose}>
+              Insights
+            </MenuItem>
+          </>
         )}
-        <MenuItem key="4" data-key="Reviews" onClick={handleClose}>
-          My Reviews
-        </MenuItem>
+
         <MenuItem key="5" data-key="Account" onClick={handleClose}>
-          My Account
+          Account
         </MenuItem>
         <MenuItem key="6" onClick={handleLogout}>
           Logout
