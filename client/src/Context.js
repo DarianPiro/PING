@@ -29,7 +29,6 @@ const ContextProvider = ({ children }) => {
     from: '',
     name: '',
     signal: null,
-    userToCall: '',
   });
   const [stroke, setStroke] = useState([]);
   const [incomingStroke, setIncomingStroke] = useState([]);
@@ -81,7 +80,6 @@ const ContextProvider = ({ children }) => {
         from: '',
         name: '',
         signal: null,
-        userToCall: '',
       });
       setCurrentPage('Request');
     });
@@ -164,19 +162,15 @@ const ContextProvider = ({ children }) => {
 
   const callUser = (id) => {
     const peer = new Peer({
-      config: {
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-        ],
-      },
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: true,
       trickle: false,
       stream,
-    });
-    setCall({
-      ...call,
-      userToCall: id,
     });
     setRecipient(id);
     peer.on('signal', (data) => {
@@ -205,12 +199,12 @@ const ContextProvider = ({ children }) => {
       time: DateTime.now(),
     });
     const peer = new Peer({
-      config: {
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-        ],
-      },
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: false,
       trickle: false,
       stream,

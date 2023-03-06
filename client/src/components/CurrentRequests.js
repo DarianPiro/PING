@@ -32,15 +32,11 @@ const CurrentRequests = () => {
 
       <List
         sx={{
-          // p: 1,
           m: 3,
           mt: 5,
           width: '80vw',
           overflow: 'auto',
           maxHeight: 400,
-          // left: '50%',
-          // right: '50%',
-          // transform: 'translate(-50%, -50%)',
         }}
       >
         {onlineUsers.map((user) => {

@@ -31,9 +31,6 @@ export const getUser = async (email) => {
 
 export const createUser = async (newUser) => {
   try {
-    alert(newUser.username)
-    alert(newUser.email)
-    alert(newUser.role)
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/createUser`,
       {
@@ -47,7 +44,6 @@ export const createUser = async (newUser) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    alert(error);
     console.error('Error creating user:', error);
   }
 };
