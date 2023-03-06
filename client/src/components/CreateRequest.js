@@ -1,21 +1,26 @@
 import React, { useContext } from 'react';
 import { Context } from '../Context';
-import { Button, TextField, Typography, Select, MenuItem } from '@mui/material';
+import { Typography, MenuItem } from '@mui/material';
+import {
+  StyledTextField,
+  StyledSelect,
+  StyledButton,
+} from './ui/StyledComponents';
 
 const CreateRequest = () => {
   const { request, setRequest, handleRequest } = useContext(Context);
   return (
     <div>
-      <Typography variant="h4">
+      <Typography variant="h4" >
         State your <span className="orange"> problem</span>!
       </Typography>
       <form onSubmit={handleRequest}>
         <br />
-        <TextField
+        <StyledTextField
           required
           label="Request"
-          inputProps={{ maxLength: 140 }}
-          maxRows={4}
+          inputProps={{ maxLength: 57, style: { color: 'white' } }}
+          maxRows={3}
           minRows={2}
           multiline
           variant="outlined"
@@ -24,7 +29,7 @@ const CreateRequest = () => {
         />
         <br />
         <br />
-        <Select
+        <StyledSelect
           className="form-control"
           required
           id="type"
@@ -37,22 +42,12 @@ const CreateRequest = () => {
           <MenuItem value="Carpentry">Carpentry</MenuItem>
           <MenuItem value="IT">IT</MenuItem>
           <MenuItem value="Other">Other</MenuItem>
-        </Select>
+        </StyledSelect>
         <br />
         <br />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          style={{
-            color: '#8793a2',
-            fontWeight: 'bold',
-            backgroundColor: '#2d3b4c',
-            margin: '10px',
-          }}
-        >
+        <StyledButton variant="contained" color="primary" type="submit">
           Ask for Help
-        </Button>
+        </StyledButton>
       </form>
     </div>
   );

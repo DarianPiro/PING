@@ -2,11 +2,12 @@ import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
+import { DateTime, Interval } from 'luxon';
 import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
-const socket = io('http://localhost:5000');
+const socket = io(process.env.REACT_APP_SERVER_URL);
 
 const ContextProvider = ({ children }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -28,6 +29,7 @@ const ContextProvider = ({ children }) => {
     from: '',
     name: '',
     signal: null,
+    userToCall: '',
   });
   const [stroke, setStroke] = useState([]);
   const [incomingStroke, setIncomingStroke] = useState([]);
@@ -40,8 +42,10 @@ const ContextProvider = ({ children }) => {
     helper: '',
     rating: 0,
     review: '',
+    time: null,
   });
   const [currentPage, setCurrentPage] = useState('Request');
+ // const [recipientID, setrecipientID] = useState('');
 
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
@@ -63,9 +67,11 @@ const ContextProvider = ({ children }) => {
         name: callerName,
         signal,
       });
+      console.log(call);
     });
 
     socket.on('stroke', (stroke) => {
+      console.log(stroke);
       setIncomingStroke(stroke);
     });
 
@@ -77,8 +83,9 @@ const ContextProvider = ({ children }) => {
         from: '',
         name: '',
         signal: null,
+        userToCall: '',
       });
-
+      console.log(call)
       setCurrentPage('Request');
     });
     if (isAuthenticated && currentUser.registered === true) {
@@ -94,6 +101,7 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     const recipientID = call.userToCall;
+    console.log(recipientID);
     socket.emit('stroke', { recipientID, stroke });
   }, [stroke, call]);
 
@@ -149,7 +157,12 @@ const ContextProvider = ({ children }) => {
       status: 'Pending',
     });
     const newRequest = userResponse.requests[userResponse.requests.length - 1];
-    setRequest({ ...request, _id: newRequest._id, sent: true, status: 'Pending' });
+    setRequest({
+      ...request,
+      _id: newRequest._id,
+      sent: true,
+      status: 'Pending',
+    });
     socket.emit('newRequest', newRequest);
   };
 
@@ -159,6 +172,8 @@ const ContextProvider = ({ children }) => {
       ...call,
       userToCall: id,
     });
+    console.log(call)
+    console.log(id)
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -173,14 +188,20 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('callAccepted', (signal) => {
+      console.log(call)
       setCall({ ...call, accepted: true, incoming: true });
+      console.log(call)
       peer.signal(signal);
     });
   };
 
   const answerCall = () => {
     setCall({ ...call, accepted: true });
-
+    console.log(call)
+    setRequest({
+      ...request,
+      time: DateTime.now(),
+    });
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
     peer.on('signal', (data) => {
@@ -202,7 +223,10 @@ const ContextProvider = ({ children }) => {
     setRequest({
       ...request,
       helper: call.name,
+      time: Interval.fromDateTimes(request.time, DateTime.now()).toDuration(),
     });
+    var seconds = Math.round(request.time / 1000);
+    console.log(seconds + ' seconds');
     setCall({
       accepted: false,
       ended: true,
@@ -210,6 +234,7 @@ const ContextProvider = ({ children }) => {
       from: '',
       name: '',
       signal: null,
+      userToCall: '',
     });
   };
 

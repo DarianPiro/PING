@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import ImageStack from './ui/ImageStack';
 import { Atrament } from 'atrament';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { StyledButton } from './ui/StyledComponents';
 import { uploadImageToCloudinary } from '../lib/ImageApi';
 
 const VideoChat = () => {
@@ -34,6 +35,7 @@ const VideoChat = () => {
   }, []);
 
   useEffect(() => {
+    console.log(incomingStroke)
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;
@@ -93,18 +95,15 @@ const VideoChat = () => {
           <Typography variant="h4">
             <span className="orange">Help</span> is here!
           </Typography>
-          <Button
+          <StyledButton
             onClick={answerCall}
             variant="contained"
             style={{
-              color: '#8793a2',
-              fontWeight: 'bold',
-              backgroundColor: '#2d3b4c',
               margin: '10px',
             }}
           >
             Accept help
-          </Button>
+          </StyledButton>
         </>
       )}
       <div className="video-container" style={{ videoWidth }}>

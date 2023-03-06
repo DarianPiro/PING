@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Context } from '../Context';
 import {
-  Button,
   Typography,
   List,
   ListItem,
@@ -9,6 +8,7 @@ import {
   ListItemAvatar,
   Avatar,
 } from '@mui/material';
+import { StyledButton } from './ui/StyledComponents';
 import PlumbingIcon from '@mui/icons-material/Plumbing';
 import HomeIcon from '@mui/icons-material/Home';
 import WeekendIcon from '@mui/icons-material/Weekend';
@@ -32,17 +32,15 @@ const CurrentRequests = () => {
 
       <List
         sx={{
-          // border: 1,
-          p: 1,
+          // p: 1,
           m: 3,
-          mt: 10,
-          borderRadius: 2,
-          width: '30vw',
+          mt: 5,
+          width: '80vw',
           overflow: 'auto',
           maxHeight: 400,
-          left: '50%',
-          right: '50%',
-          transform: 'translate(-50%, -50%)',
+          // left: '50%',
+          // right: '50%',
+          // transform: 'translate(-50%, -50%)',
         }}
       >
         {onlineUsers.map((user) => {
@@ -64,21 +62,19 @@ const CurrentRequests = () => {
                   <ListItemText
                     primary={request.content}
                     secondary={user.username}
-                    style={{ color: '#8793a2' }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{
+                    primaryTypographyProps={{
                       color: '#8793a2',
                       fontWeight: 'bold',
-                      backgroundColor: '#2d3b4c',
-                      margin: '10px',
                     }}
+                    secondaryTypographyProps={{ color: '#8793a2' }}
+                  />
+                  <StyledButton
+                    variant="contained"
+                    color="primary"
                     onClick={() => callUser(user.socketID)}
                   >
                     Call
-                  </Button>
+                  </StyledButton>
                 </ListItem>
               );
             });

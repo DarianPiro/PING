@@ -9,7 +9,6 @@ const VideoChat = () => {
     remoteVideo,
     leaveCall,
     setStroke,
-    setStream,
     stream,
   } = useContext(Context);
 

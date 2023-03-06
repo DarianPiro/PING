@@ -59,7 +59,7 @@ const PastRequests = () => {
 
   return (
     <>
-      <Typography variant="h4">Your requests</Typography>
+      <Typography variant="h4" >Past requests</Typography>
       <List sx={{ width: 400, overflow: 'auto', maxHeight: 400 }}>
         {currentUser.requests.map((request) => {
           return (

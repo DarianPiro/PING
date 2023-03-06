@@ -1,7 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Context } from '../Context';
 import { getTaglines } from '../lib/ApiService';
-import { Button, TextField, Select, MenuItem, Typography } from '@mui/material';
+import { MenuItem, Typography } from '@mui/material';
+import {
+  StyledTextField,
+  StyledSelect,
+  StyledButton,
+} from '../components/ui/StyledComponents';
 
 const Login = () => {
   const {
@@ -32,19 +37,19 @@ const Login = () => {
     <>
       {!isAuthenticated && (
         <div className="center">
-          <Typography variant="h4">
+          <Typography variant="h4" >
             <p>
               {/* {taglines[Math.floor(Math.random() * taglines.length)]} */}
-              {/* You seem desperate.
+              You seem desperate.
               <br />
-              We're here to <span className="orange">help</span>! */}
+              We're here to <span className="orange">help</span>!
             </p>
           </Typography>
 
-          <Button
+          <StyledButton
             onClick={() => loginWithRedirect()}
             variant="contained"
-            style={{
+            sx={{
               color: '#b9c1c9',
               fontWeight: 'bold',
               backgroundColor: '#2d3b4c',
@@ -52,16 +57,16 @@ const Login = () => {
             }}
           >
             Login
-          </Button>
+          </StyledButton>
         </div>
       )}
 
       {isAuthenticated && !currentUser.registered && (
         <form className="form-group center" onSubmit={handleCreateUser}>
           <div>
-            <Typography variant="h4">This is your first time here</Typography>
-            <Typography variant="h6">Please enter a username</Typography>
-            <TextField
+            <Typography variant="h4" sx={{ fontWeight: 'bold' }}>This is your first time here</Typography>
+            <Typography variant="h6" >Please enter a username</Typography>
+            <StyledTextField
               required
               type="text"
               className="form-control"
@@ -74,8 +79,8 @@ const Login = () => {
             />
           </div>
           <div>
-            <h3>Do you need help or are you a helper?</h3>
-            <Select
+            <Typography variant="h6" >Do you need help or are you a helper?</Typography>
+            <StyledSelect
               className="form-control"
               id="role"
               value={currentUser.role}
@@ -85,13 +90,13 @@ const Login = () => {
             >
               <MenuItem value="Helpee">Helpee</MenuItem>
               <MenuItem value="Helper">Helper</MenuItem>
-            </Select>
+            </StyledSelect>
           </div>
-          <Button
+          <StyledButton
             variant="contained"
             color="primary"
             type="submit"
-            style={{
+            sx={{
               color: '#8793a2',
               fontWeight: 'bold',
               backgroundColor: '#2d3b4c',
@@ -99,7 +104,7 @@ const Login = () => {
             }}
           >
             Create account
-          </Button>
+          </StyledButton>
         </form>
       )}
     </>

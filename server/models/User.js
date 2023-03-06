@@ -5,6 +5,7 @@ const ReviewSchema = new Schema({
   helper: String,
   rating: Number,
   review: String,
+  time: String,
 });
 
 const RequestSchema = new Schema({

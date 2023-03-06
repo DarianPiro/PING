@@ -73,10 +73,10 @@ exports.sendRequest = async (req, res) => {
 
 exports.sendReview = async (req, res) => {
   try {
-    const { _id, helper, rating, review } = req.body.request;
+    const { _id, helper, rating, review, time } = req.body.request;
     const data = await User.findOneAndUpdate(
       { 'requests._id': _id },
-      { 'requests.$.review': { helper, rating, review } },
+      { 'requests.$.review': { helper, rating, review, time } },
       { new: true }
     );
     res.send(data);

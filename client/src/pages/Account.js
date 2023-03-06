@@ -1,6 +1,11 @@
 import React, { useContext } from 'react';
 import { Context } from '../Context';
-import { Button, TextField, Typography, Select, MenuItem } from '@mui/material';
+import { Typography, MenuItem } from '@mui/material';
+import {
+  StyledTextField,
+  StyledSelect,
+  StyledButton,
+} from '../components/ui/StyledComponents';
 
 const Account = () => {
   const { currentUser, setCurrentUser, handleUpdateUser } = useContext(Context);
@@ -15,7 +20,7 @@ const Account = () => {
       <Typography variant="h4">Account Settings</Typography>
       <form onSubmit={handleSubmit}>
         <br />
-        <TextField
+        <StyledTextField
           label="Username"
           className="input"
           variant="outlined"
@@ -26,31 +31,25 @@ const Account = () => {
         />
         <br />
         <br />
-        <Select
+        <Typography variant="h7" sx={{ color: '#8793a2', fontSize: 13 }}>
+         Role </Typography><br />
+        <StyledSelect
           className="form-control"
           id="role"
           value={currentUser.role}
+          sx={{ mt: '0.3rem' }}
           onChange={(e) =>
             setCurrentUser({ ...currentUser, role: e.target.value })
           }
         >
           <MenuItem value="Helpee">Helpee</MenuItem>
           <MenuItem value="Helper">Helper</MenuItem>
-        </Select>
+        </StyledSelect>
         <br />
         <br />
-        <Button
-          type="submit"
-          variant="contained"
-          style={{
-            color: '#b9c1c9',
-            fontWeight: 'bold',
-            backgroundColor: '#2d3b4c',
-            margin: '10px',
-          }}
-        >
+        <StyledButton type="submit" variant="contained">
           Update profile
-        </Button>
+        </StyledButton>
       </form>
     </div>
   );

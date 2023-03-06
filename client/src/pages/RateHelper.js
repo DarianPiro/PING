@@ -1,8 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Context } from '../Context';
 import { sendReview } from '../lib/ApiService';
-import { Button, TextField, Typography, Rating, Box } from '@mui/material';
+import { Typography, Rating, Box } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import {
+  StyledTextField,
+  StyledButton,
+} from '../components/ui/StyledComponents';
 
 const labels = {
   0.5: 'Useless',
@@ -30,6 +34,7 @@ const RateHelper = () => {
     const response = await sendReview({
       request,
     });
+    console.log(request)
     if (response) {
       setRequest({
         _id: '',
@@ -38,7 +43,7 @@ const RateHelper = () => {
         status: 'Completed',
         sent: false,
         helper: '',
-        rating: null,
+        rating: 0,
         review: '',
       });
     }
@@ -51,7 +56,7 @@ const RateHelper = () => {
       </Typography>
       <form onSubmit={handleSendReview}>
         <br />
-        <TextField
+        <StyledTextField
           required
           label="Comment"
           inputProps={{ maxLength: 140 }}
@@ -82,7 +87,7 @@ const RateHelper = () => {
             </Box>
           )}
         </div>
-        <Button
+        <StyledButton
           variant="contained"
           color="primary"
           type="submit"
@@ -94,7 +99,7 @@ const RateHelper = () => {
           }}
         >
           Send
-        </Button>
+        </StyledButton>
       </form>
     </div>
   );
