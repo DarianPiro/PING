@@ -32,6 +32,7 @@ const VideoChat = () => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
+        alert()
         // localVideo.current.srcObject = currentStream;
       });
   }, []);

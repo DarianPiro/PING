@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
-import { ARButton } from 'three/addons/webxr/ARButton.js';
+import { ARButton  } from './ui/ARButton';
+// import { ARButton } from 'three/addons/webxr/ARButton.js';
 // import { ARButton } from '@react-three/xr';
 
 const AR = () => {
