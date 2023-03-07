@@ -175,7 +175,10 @@ const ContextProvider = ({ children }) => {
     const peer = new Peer({
       host: process.env.REACT_APP_SERVER_URL,
       secure: true,
-      port: 5000,
+      port: 443,
+      config: {'iceServers': [
+        { url: 'stun:stun.l.google.com:19302' }
+      ]},
       path: '/peerjs/ping',
       initiator: true,
       trickle: false,
@@ -221,7 +224,10 @@ const ContextProvider = ({ children }) => {
     const peer = new Peer({
       host: process.env.REACT_APP_SERVER_URL,
       secure: true,
-      port: 5000,
+      port: 443,
+      config: {'iceServers': [
+        { url: 'stun:stun.l.google.com:19302' }
+      ]},
       path: '/peerjs/ping',
       initiator: false,
       trickle: false,
