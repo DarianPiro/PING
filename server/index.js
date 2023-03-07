@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 const server = require('http').createServer(app);
-const { ExpressPeerServer } = require("peer");
+// const { ExpressPeerServer } = require("peer");
 app.use(cors());
 
 const io = require('socket.io')(server, {
@@ -17,12 +17,12 @@ const io = require('socket.io')(server, {
 
 const User = require('./models/User');
 
-const peerServer = ExpressPeerServer(server, {
-	debug: true,
-	path: "/ping",
-});
+// const peerServer = ExpressPeerServer(server, {
+// 	debug: true,
+// 	path: "/ping",
+// });
 
-app.use("/peerjs", peerServer);
+// app.use("/peerjs", peerServer);
 
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
