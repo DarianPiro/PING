@@ -206,12 +206,12 @@ const ContextProvider = ({ children }) => {
 
   const answerCall = () => {
     setCall({ ...call, accepted: true });
-    console.log(call)
+ 
     setRequest({
       ...request,
       time: DateTime.now(),
     });
-    
+
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -220,12 +220,15 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
+      console.log(data)
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
+      console.log(currentStream)
     });
 
+    console.log(call)
     peer.signal(call.signal);
   };
 
