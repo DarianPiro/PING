@@ -93,11 +93,16 @@ const ContextProvider = ({ children }) => {
       });
       setCurrentPage('Request');
     });
+
+    socket.on('stroke', (stroke) => {
+      console.log(stroke);
+      setIncomingStroke(stroke);
+    });
+
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
     socket.emit('stroke', { recipient, stroke });
-    console.log(stroke);
   }, [stroke]);
 
   // Checks if user exists in database
