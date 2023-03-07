@@ -10,7 +10,6 @@ const VideoChat = () => {
   const {
     currentUser,
     answerCall,
-    localVideo,
     remoteVideo,
     call,
     leaveCall,
@@ -32,7 +31,7 @@ const VideoChat = () => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        alert()
+        console.log(currentStream);
         // localVideo.current.srcObject = currentStream;
       });
   }, []);

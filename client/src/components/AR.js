@@ -3,7 +3,7 @@ import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
 import { ARButton } from './ui/ARButton';
-import { ARButtonAlt } from './ui/ARButtonAlt';
+// import { ARButtonAlt } from './ui/ARButtonAlt';
 // import { ARButton } from 'three/addons/webxr/ARButton.js';
 // import { ARButton } from '@react-three/xr';
 
@@ -87,7 +87,6 @@ const AR = () => {
     sceneRef.current.add(controllerRef.current);
 
     document.body.appendChild(ARButton.createButton(rendererRef.current));
-    const btn = new ARButton(rendererRef.current);
 
     navigator.xr.requestSession();
     window.addEventListener('resize', onWindowResize);
