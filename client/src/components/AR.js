@@ -54,6 +54,7 @@ const AR = () => {
     rendererRef.current.setPixelRatio(window.devicePixelRatio);
     rendererRef.current.setSize(window.innerWidth, window.innerHeight);
     rendererRef.current.xr.enabled = true;
+    // rendererRef.current.xr.opt
     container.appendChild(rendererRef.current.domElement);
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
