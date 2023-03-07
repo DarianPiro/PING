@@ -12,7 +12,9 @@ const io = require('socket.io')(server, {
     methods: ['GET', 'POST'],
   },
 });
+
 const User = require('./models/User');
+
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
   socket.emit('me', socket.id);
@@ -38,7 +40,19 @@ io.on('connection', (socket) => {
     );
     let users = await User.find({ online: true });
     io.emit('users', users);
-    socket.broadcast.emit('callEnded');
+    // socket.broadcast.emit('callEnded');
+  });
+
+  socket.on('callUser', ({ userToCall, signalData, from, name }) => {
+    io.to(userToCall).emit('callUser', { signal: signalData, from, name });
+  });
+
+  socket.on('answerCall', (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+  });
+
+  socket.on('stroke', ({ recipient, stroke }) => {
+    io.to(recipient).emit('stroke', stroke);
   });
 
   socket.on('leaveCall', async ({ recipientID, senderID }) => {
@@ -54,21 +68,9 @@ io.on('connection', (socket) => {
     io.to(recipientID).emit('callEnded');
     io.to(senderID).emit('callEnded');
   });
-
-  socket.on('callUser', ({ userToCall, signalData, from, name }) => {
-    io.to(userToCall).emit('callUser', { signal: signalData, from, name });
-  });
-
-  socket.on('answerCall', (data) => {
-    io.to(data.to).emit('callAccepted', data.signal);
-  });
-
-  socket.on('stroke', ({ recipient, stroke }) => {
-    io.to(recipient).emit('stroke', stroke);
-  });
 });
+
 app.use(express.json());
 app.use(router);
-server.listen(port, () =>
-  console.log(`🧲 Server running on http://localhost:${port} 🧲`)
-);
+
+server.listen(port, () => console.log(`🧲 Server running on port ${port} 🧲`));

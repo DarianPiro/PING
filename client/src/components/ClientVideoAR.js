@@ -37,8 +37,8 @@ const VideoChat = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(incomingStroke);
+  useEffect(() => {
+    alert('incomingStroke');
   //   const canvas = canvasRef.current;
   //   canvas.width = videoWidth;
   //   canvas.height = videoHeight;
@@ -66,7 +66,7 @@ const VideoChat = () => {
   //     }
   //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
   //   }
-  // }, [incomingStroke]);
+  }, [incomingStroke]);
 
   // const handleScreenshot = async () => {
   //   const canvas = canvasRef.current;
@@ -143,7 +143,7 @@ const VideoChat = () => {
           </>
         )}
       </div> */}
-      <AR />
+      {call.accepted && <AR />}
     </div>
   );
 };
