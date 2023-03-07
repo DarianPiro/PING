@@ -82,23 +82,25 @@ const VideoChat = () => {
       </div>
 
       {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-      {call && (
-              <>
-                <button onClick={handleScreenshot} className="button save-step">
-                  Save
-                </button>
-                <button onClick={leaveCall} className="button end-call">
-                  End Call
-                </button>
-              </>
-            )}
-      <video
-        className="small-video"
-        playsInline
-        muted
-        ref={remoteVideo}
-        autoPlay
-      />
+      {call.accepted && (
+        <>
+          <button onClick={handleScreenshot} className="button save-step">
+            Save
+          </button>
+          <button onClick={leaveCall} className="button end-call">
+            End Call
+          </button>
+          <video
+            className="small-video"
+            playsInline
+            muted
+            ref={remoteVideo}
+            autoPlay
+          />
+          <AR />
+        </>
+      )}
+
       {/* <canvas ref={canvasRef} className="sketchpad" />
             <video
               className="big-video"
@@ -108,7 +110,6 @@ const VideoChat = () => {
               autoPlay
               style={{ width: videoWidth }}
             /> */}
-      {/* <AR /> */}
     </div>
   );
 };
