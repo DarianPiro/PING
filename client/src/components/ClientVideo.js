@@ -127,7 +127,7 @@ const VideoChat = () => {
   };
 
   return (
-    <div>
+    <div className='center'>
       {!call.incoming && (
         <Typography variant="h4">
           Despair not, <br />
