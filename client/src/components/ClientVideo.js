@@ -17,7 +17,6 @@ const VideoChat = () => {
     leaveCall,
     incomingStroke,
     setStream,
-    Box,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -35,7 +34,7 @@ const VideoChat = () => {
         localVideo.current.srcObject = currentStream;
       });
 
-      console.log(call)
+    console.log(call);
   }, [call]);
 
   useEffect(() => {
@@ -151,34 +150,34 @@ const VideoChat = () => {
 
       <canvas ref={canvasRef} className="sketchpad" />
       {/* {call.accepted && ( */}
-        <Box>
-          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+      <div>
+        {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
 
-          <button onClick={handleScreenshot} className="button save-step">
-            Save
-          </button>
-          <button onClick={leaveCall} className="button end-call">
-            End Call
-          </button>
+        <button onClick={handleScreenshot} className="button save-step">
+          Save
+        </button>
+        <button onClick={leaveCall} className="button end-call">
+          End Call
+        </button>
 
-          <video
-            className="small-video"
-            playsInline
-            muted
-            ref={remoteVideo}
-            autoPlay
-            style={{ width: '150px' }}
-          />
+        <video
+          className="small-video"
+          playsInline
+          muted
+          ref={remoteVideo}
+          autoPlay
+          style={{ width: '150px' }}
+        />
 
-          <video
-            className="big-video"
-            playsInline
-            muted
-            ref={localVideo}
-            autoPlay
-            crossOrigin="anonymous"
-          />
-        </Box>
+        <video
+          className="big-video"
+          playsInline
+          muted
+          ref={localVideo}
+          autoPlay
+          crossOrigin="anonymous"
+        />
+      </div>
       {/* )} */}
     </div>
   );
