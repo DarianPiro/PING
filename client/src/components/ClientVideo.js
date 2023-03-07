@@ -28,10 +28,6 @@ const VideoChat = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    // if (/Mobi/.test(navigator.userAgent)) {
-    //   window.screen.orientation.lock('portrait');
-    // }
-
     if (call.accepted) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })

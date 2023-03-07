@@ -13,7 +13,7 @@ const ClientDashboard = () => {
   return (
     <div>
       {currentPage === 'Request' && request.status !== 'Pending' && <CreateRequest /> }
-      {currentPage === 'Request' && request.helper === '' && request.status === 'Pending' && <ClientVideo />}
+      {currentPage === 'Request' && request.helper === '' && request.status === 'Pending' && <ClientVideoAR />}
       {currentPage === 'Request' && request.helper !== '' && request.status === 'Pending' && <RateHelper />}
       {currentPage === 'PastRequests' && <PastRequests />}
       {currentPage === 'Account' && <Account />}

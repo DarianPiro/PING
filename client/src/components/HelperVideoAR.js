@@ -31,23 +31,27 @@ const VideoChat = () => {
     );
   }, [call]);
 
+  useEffect(() => {
+    console.log(remoteVideo);
+  }, [remoteVideo]);
+  
   return (
-      <div className="video-container" style={{ videoWidth }}>
-        {call.accepted && !call.ended && (
-          <button className="button end-call" onClick={leaveCall}>
-            End Call
-          </button>
-        )}
-        <video
-          className="small-video"
-          playsInline
-          muted
-          ref={localVideo}
-          autoPlay
-        />
-        <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
-        <video className="big-video" muted ref={remoteVideo} autoPlay />
-      </div>
+    <div className="video-container" style={{ videoWidth }}>
+      {call.accepted && !call.ended && (
+        <button className="button end-call" onClick={leaveCall}>
+          End Call
+        </button>
+      )}
+      <video
+        className="small-video"
+        playsInline
+        muted
+        ref={localVideo}
+        autoPlay
+      />
+      <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
+      <video className="big-video" muted ref={remoteVideo} autoPlay />
+    </div>
   );
 };
 
