@@ -16,7 +16,6 @@ const ClientVIdeo = () => {
     call,
     leaveCall,
     incomingStroke,
-    setStream,
     stream,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
@@ -119,61 +118,61 @@ const ClientVIdeo = () => {
 
   return (
     <div className="video-container">
-      {!call.incoming && (
-        <Typography variant="h4">
-          Despair not, <br />
-          <span className="orange">help</span> is on the way!
-        </Typography>
-      )}
+      <div className="center">
+        {!call.incoming && (
+          <Typography variant="h4">
+            Despair not, <br />
+            <span className="orange">help</span> is on the way!
+          </Typography>
+        )}
 
-      {/* {call.incoming && !call.accepted && ( */}
-      <>
-        <Typography variant="h4">
-          <span className="orange">Help</span> is here!
-        </Typography>
-        <StyledButton
-          onClick={answerCall}
-          variant="contained"
-          style={{
-            margin: '0.5rem',
-            zIndex: 1000,
-          }}
-        >
-          Accept help
-        </StyledButton>
-      </>
-      {/* )} */}
-
-      <canvas ref={canvasRef} className="sketchpad" />
-      <div>
-        {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-
-        <button onClick={handleScreenshot} className="button save-step">
-          Save
-        </button>
-        <button onClick={leaveCall} className="button end-call">
-          End Call
-        </button>
-
-        <video
-          className="small-video"
-          playsInline
-          muted
-          ref={remoteVideo}
-          autoPlay
-          style={{ width: '150px' }}
-        />
-
-        <video
-          className="big-video"
-          playsInline
-          muted
-          ref={localVideo}
-          autoPlay
-          // crossOrigin="anonymous"
-        />
+        {call.incoming && !call.accepted && (
+          <>
+            <Typography variant="h4">
+              <span className="orange">Help</span> is here!
+            </Typography>
+            <StyledButton
+              onClick={answerCall}
+              variant="contained"
+              style={{
+                margin: '0.5rem',
+                zIndex: 1000,
+              }}
+            >
+              Accept help
+            </StyledButton>
+          </>
+        )}
       </div>
-      {/* )} */}
+      <canvas ref={canvasRef} className="sketchpad" />
+      {call.accepted && !call.ended && (
+        <div>
+          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+
+          <button onClick={handleScreenshot} className="button save-step">
+            Screenshot
+          </button>
+          <button onClick={leaveCall} className="button end-call">
+            End Call
+          </button>
+
+          <video
+            className="small-video"
+            playsInline
+            muted
+            ref={localVideo}
+            autoPlay
+          />
+
+          <video
+            className="big-video"
+            playsInline
+            muted
+            ref={localVideo}
+            autoPlay
+          />
+        </div>
+      )}
     </div>
   );
 };

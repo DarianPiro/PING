@@ -173,16 +173,16 @@ const ContextProvider = ({ children }) => {
 
   };
 
-  // Sets up the peer.js connection
+// Calls the helpee user
   const callUser = (id) => {
     console.log('callUser', id)
     const peer = new Peer({
-      // config: {
-      //   iceServers: [
-      //     { url: 'stun:stun.l.google.com:19302' },
-      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-      //   ],
-      // },
+      config: {
+        iceServers: [
+          { url: 'stun:stun.l.google.com:19302' },
+          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+        ],
+      },
       initiator: true,
       trickle: false,
       stream,
@@ -198,19 +198,22 @@ const ContextProvider = ({ children }) => {
         from: currentUser.socketID,
         name: currentUser.username,
       });
+      console.log('callUser', data)
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
+      console.log('stream', currentStream)
     });
 
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
+      console.log('callAccepted', signal)
       peer.signal(signal);
     });
   };
 
-  // Accepts the call from the other user
+  // Accepts the call from the helper
   const answerCall = () => {
     setCall({ ...call, accepted: true });
     setRequest({
@@ -218,12 +221,12 @@ const ContextProvider = ({ children }) => {
       time: DateTime.now(),
     });
     const peer = new Peer({
-      // config: {
-      //   iceServers: [
-      //     { url: 'stun:stun.l.google.com:19302' },
-      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-      //   ],
-      // },
+      config: {
+        iceServers: [
+          { url: 'stun:stun.l.google.com:19302' },
+          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+        ],
+      },
       initiator: false,
       trickle: false,
       stream,
@@ -236,6 +239,7 @@ const ContextProvider = ({ children }) => {
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
+      console.log('stream', currentStream)
     });
 
     peer.signal(call.signal);

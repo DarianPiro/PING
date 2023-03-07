@@ -3,14 +3,8 @@ import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
 const HelperVideo = () => {
-  const {
-    call,
-    localVideo,
-    remoteVideo,
-    leaveCall,
-    setStroke,
-    stream,
-  } = useContext(Context);
+  const { call, localVideo, remoteVideo, leaveCall, setStroke, stream } =
+    useContext(Context);
 
   const canvasRef = useRef(null);
   let videoWidth = 600;
@@ -34,20 +28,18 @@ const HelperVideo = () => {
   }, [call]);
 
   return (
-    <div>
       <div className="video-container" style={{ videoWidth }}>
         {call.accepted && !call.ended && (
           <button className="button end-call" onClick={leaveCall}>
             End Call
           </button>
         )}
+
         <video
           className="small-video"
           playsInline
-          muted
           ref={localVideo}
           autoPlay
-          style={{ width: '150px' }}
         />
 
         <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
@@ -59,7 +51,6 @@ const HelperVideo = () => {
           autoPlay
         />
       </div>
-    </div>
   );
 };
 

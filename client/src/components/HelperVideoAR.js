@@ -39,7 +39,6 @@ const VideoChat = () => {
       <video
         className="small-video"
         playsInline
-        muted
         ref={localVideo}
         autoPlay
       />
