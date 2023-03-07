@@ -8,6 +8,7 @@ const { ExpressPeerServer } = require("peer");
 app.use(cors());
 
 const io = require('socket.io')(server, {
+  allowEIO3: true,
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
