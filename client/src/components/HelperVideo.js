@@ -17,8 +17,6 @@ const VideoChat = () => {
   let videoHeight = 450;
 
   useEffect(() => {
-
-
     localVideo.current.srcObject = stream;
     const canvas = canvasRef.current;
     canvas.width = videoWidth;

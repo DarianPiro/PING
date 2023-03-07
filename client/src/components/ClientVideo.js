@@ -28,14 +28,14 @@ const VideoChat = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    if (call.accepted) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((currentStream) => {
-          setStream(currentStream);
-          localVideo.current.srcObject = currentStream;
-        });
-    }
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        localVideo.current.srcObject = currentStream;
+      });
+
+      console.log(call)
   }, [call]);
 
   useEffect(() => {
