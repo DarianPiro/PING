@@ -17,9 +17,7 @@ const VideoChat = () => {
   let videoHeight = 450;
 
   useEffect(() => {
-    if (/Mobi/.test(navigator.userAgent)) {
-      window.screen.orientation.lock('portrait');
-    }
+
 
     localVideo.current.srcObject = stream;
     const canvas = canvasRef.current;
