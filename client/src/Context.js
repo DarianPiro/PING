@@ -71,9 +71,7 @@ const ContextProvider = ({ children }) => {
 
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
-  
     socket.on('callUser', ({ from, name: callerName, signal }) => {
-      
       setCall({
         ...call,
         incoming: true,
@@ -81,7 +79,7 @@ const ContextProvider = ({ children }) => {
         name: callerName,
         signal,
       });
-      console.log(call)
+      console.log(call);
     });
 
     // Responds to the other user ending the call
@@ -100,7 +98,6 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
-
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
@@ -171,19 +168,47 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.emit('newRequest', newRequest);
-
   };
 
   // Sets up the peer.js connection
   const callUser = (id) => {
     const peer = new Peer({
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+          { urls: 'stun:stun2.l.google.com:19302' },
+          { urls: 'stun:stun3.l.google.com:19302' },
+          { urls: 'stun:stun4.l.google.com:19302' },
+          {
+            urls: "stun:relay.metered.ca:80",
+          },
+          {
+            urls: "turn:relay.metered.ca:80",
+            username: "ddb83261bcbab423be61967e",
+            credential: "t9qMvIegTclMFGMk",
+          },
+          {
+            urls: "turn:relay.metered.ca:443",
+            username: "ddb83261bcbab423be61967e",
+            credential: "t9qMvIegTclMFGMk",
+          },
+          {
+            urls: "turn:relay.metered.ca:443?transport=tcp",
+            username: "ddb83261bcbab423be61967e",
+            credential: "t9qMvIegTclMFGMk",
+          },
+        ],
+      },
       initiator: true,
       trickle: false,
       stream,
     });
 
     setRecipient(id);
-
+    peer.on('open', (id) => {
+      console.log(`PeerJS ID: ${id}`);
+    });
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -200,17 +225,17 @@ const ContextProvider = ({ children }) => {
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
       peer.signal(signal);
-      console.log(call)
+      console.log(call);
     });
 
-    peer.on('error', function(err) {
-      console.log("Error: ", err);
-  });
+    peer.on('error', function (err) {
+      console.log('Error: ', err);
+    });
   };
 
   const answerCall = () => {
     setCall({ ...call, accepted: true });
- 
+
     setRequest({
       ...request,
       time: DateTime.now(),
@@ -222,22 +247,25 @@ const ContextProvider = ({ children }) => {
       stream,
     });
 
+    peer.on('open', (id) => {
+      console.log(`PeerJS ID: ${id}`);
+    });
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
-      console.log(data)
+      console.log(data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log(currentStream)
+      console.log(currentStream);
     });
 
-    console.log(call)
+    console.log(call);
     peer.signal(call.signal);
 
-    peer.on('error', function(err) {
-      console.log("Error: ", err);
-  });
+    peer.on('error', function (err) {
+      console.log('Error: ', err);
+    });
   };
 
   // Ends the call and saves the call time

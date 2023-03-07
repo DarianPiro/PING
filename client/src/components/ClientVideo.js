@@ -7,7 +7,7 @@ import { StyledButton } from './ui/StyledComponents';
 import { uploadImageToCloudinary } from '../lib/ImageApi';
 import mergeImages from 'merge-images';
 
-const VideoChat = () => {
+const ClientVIdeo = () => {
   const {
     currentUser,
     answerCall,
@@ -178,4 +178,4 @@ const VideoChat = () => {
   );
 };
 
-export default VideoChat;
+export default ClientVIdeo;
