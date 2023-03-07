@@ -8,7 +8,7 @@ import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
-const socket = io(process.env.REACT_APP_SERVER_URL);
+const socket = io(process.env.REACT_APP_SERVER_URL, {transports: ['websocket'], secure: true});
 
 const ContextProvider = ({ children }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -229,6 +229,7 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
+      console.log('answerCall', data)
     });
 
     peer.on('stream', (currentStream) => {
