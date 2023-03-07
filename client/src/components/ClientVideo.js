@@ -127,7 +127,7 @@ const VideoChat = () => {
   };
 
   return (
-    <div className='center'>
+    <div className="center">
       {!call.incoming && (
         <Typography variant="h4">
           Despair not, <br />
@@ -152,38 +152,37 @@ const VideoChat = () => {
         </>
       )}
       <div className="video-container" style={{ videoWidth }}>
-        {call.accepted && (
-          <>
-            {/* {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-            {call && (
-              <>
-                <button onClick={handleScreenshot} className="button save-step">
-                  Save
-                </button>
-                <button onClick={leaveCall} className="button end-call">
-                  End Call
-                </button>
-              </>
-            )} */}
-            <video
-              className="small-video"
-              playsInline
-              muted
-              ref={remoteVideo}
-              autoPlay
-              style={{ width: '150px' }}
-            />
-            <canvas ref={canvasRef} className="sketchpad" />
-            <video
-              className="big-video"
-              playsInline
-              muted
-              ref={localVideo}
-              autoPlay
-              style={{ width: videoWidth }}
-            />
-          </>
-        )}
+        {call.accepted && <canvas ref={canvasRef} className="sketchpad" />}
+        <>
+          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+          {call.accepted && (
+            <>
+              <button onClick={handleScreenshot} className="button save-step">
+                Save
+              </button>
+              <button onClick={leaveCall} className="button end-call">
+                End Call
+              </button>
+            </>
+          )}
+          <video
+            className="small-video"
+            playsInline
+            muted
+            ref={remoteVideo}
+            autoPlay
+            style={{ width: '150px' }}
+          />
+
+          <video
+            className="big-video"
+            playsInline
+            muted
+            ref={localVideo}
+            autoPlay
+            style={{ width: videoWidth }}
+          />
+        </>
       </div>
     </div>
     // <div className="video-container center">
