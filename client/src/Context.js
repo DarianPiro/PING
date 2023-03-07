@@ -202,6 +202,10 @@ const ContextProvider = ({ children }) => {
       peer.signal(signal);
       console.log(call)
     });
+
+    peer.on('error', function(err) {
+      console.log("Error: ", err);
+  });
   };
 
   const answerCall = () => {
@@ -230,6 +234,10 @@ const ContextProvider = ({ children }) => {
 
     console.log(call)
     peer.signal(call.signal);
+
+    peer.on('error', function(err) {
+      console.log("Error: ", err);
+  });
   };
 
   // Ends the call and saves the call time
