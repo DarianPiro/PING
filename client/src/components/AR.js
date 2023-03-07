@@ -86,6 +86,8 @@ const AR = () => {
 
     document.body.appendChild(ARButton.createButton(rendererRef.current));
 
+
+    navigator.xr.requestSession()
     window.addEventListener('resize', onWindowResize);
 
     animate();
