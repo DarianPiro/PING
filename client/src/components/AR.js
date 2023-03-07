@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
-import { ARButton } from './ui/ARButton';
+// import { ARButton } from './ui/ARButton';
 // import { ARButtonAlt } from './ui/ARButtonAlt';
-// import { ARButton } from 'three/addons/webxr/ARButton.js';
+import { ARButton } from 'three/addons/webxr/ARButton.js';
 // import { ARButton } from '@react-three/xr';
 
 const AR = () => {
@@ -18,25 +18,23 @@ const AR = () => {
   const cursor = new THREE.Vector3();
 
   useEffect(() => {
-      // const canvas = canvasRef.current;
-      // canvas.width = videoWidth;
-      // canvas.height = videoHeight;
-
     if (incomingStroke.points) {
-      console.log(incomingStroke.points[0]);
-      //     const points = incomingStroke.points.slice();
-      //     const firstPoint = points.shift().point;
+      const vectors = [];
+      incomingStroke.points.forEach((point) => {
+        vectors.push(
+          new THREE.Vector3(
+            (point.point.x / window.innerWidth) * 2 - 1,
+            -((point.point.y / window.innerHeight) * 2 - 1),
+            -0.4987192749977112
+          )
+        );
+      });
+      painterRef.current.moveTo(vectors.shift());
+      vectors.forEach((vector) => {
+        painterRef.current.lineTo(vector);
+      });
 
-      //     while (points.length > 0) {
-      //       const point = points.shift().point;
-      //       const { x, y } = sketchpad.draw(
-      //         point.x,
-      //         point.y,
-      //         prevPoint.x,
-      //         prevPoint.y
-      //       );
-      //       prevPoint = { x, y };
-      //     }
+      painterRef.current.update();
     }
   }, [incomingStroke]);
 
@@ -85,9 +83,8 @@ const AR = () => {
     controllerRef.current.userData.skipFrames = 0;
     sceneRef.current.add(controllerRef.current);
 
-    // document.body.appendChild(ARButton.createButton(rendererRef.current));
+    document.body.appendChild(ARButton.createButton(rendererRef.current));
 
-    navigator.xr.requestSession();
     window.addEventListener('resize', onWindowResize);
 
     animate();
@@ -129,12 +126,7 @@ const AR = () => {
     });
   };
 
-  return (
-    <>
-      <ARButton />
-      <div className="ar-canvas" ref={containerRef}></div>
-    </>
-  );
+  return <div className="ar-canvas" ref={containerRef}></div>;
 };
 
 export default AR;

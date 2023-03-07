@@ -95,7 +95,6 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.on('stroke', (stroke) => {
-      console.log(stroke);
       setIncomingStroke(stroke);
     });
 
