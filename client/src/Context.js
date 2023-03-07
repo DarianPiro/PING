@@ -97,6 +97,7 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     socket.emit('stroke', { recipient, stroke });
+    console.log(stroke);
   }, [stroke]);
 
   // Checks if user exists in database
