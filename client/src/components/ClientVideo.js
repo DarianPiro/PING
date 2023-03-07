@@ -17,6 +17,7 @@ const VideoChat = () => {
     leaveCall,
     incomingStroke,
     setStream,
+    stream,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -27,12 +28,7 @@ const VideoChat = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
-      });
+    localVideo.current.srcObject = stream;
 
     console.log(call);
   }, [call]);
@@ -175,7 +171,7 @@ const VideoChat = () => {
           muted
           ref={localVideo}
           autoPlay
-          crossOrigin="anonymous"
+          // crossOrigin="anonymous"
         />
       </div>
       {/* )} */}
