@@ -56,7 +56,6 @@ const AR = () => {
     rendererRef.current.setPixelRatio(window.devicePixelRatio);
     rendererRef.current.setSize(window.innerWidth, window.innerHeight);
     rendererRef.current.xr.enabled = true;
-    // rendererRef.current.xr.opt
     container.appendChild(rendererRef.current.domElement);
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
@@ -86,7 +85,7 @@ const AR = () => {
     controllerRef.current.userData.skipFrames = 0;
     sceneRef.current.add(controllerRef.current);
 
-    document.body.appendChild(ARButton.createButton(rendererRef.current));
+    // document.body.appendChild(ARButton.createButton(rendererRef.current));
 
     navigator.xr.requestSession();
     window.addEventListener('resize', onWindowResize);
