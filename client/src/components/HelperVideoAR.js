@@ -11,10 +11,6 @@ const VideoChat = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    // if (/Mobi/.test(navigator.userAgent)) {
-    //   window.screen.orientation.lock('portrait');
-    // }
-
     localVideo.current.srcObject = stream;
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
@@ -31,10 +27,8 @@ const VideoChat = () => {
     );
   }, [call]);
 
-  useEffect(() => {
-    console.log(remoteVideo);
-  }, [remoteVideo]);
-  
+
+
   return (
     <div className="video-container" style={{ videoWidth }}>
       {call.accepted && !call.ended && (

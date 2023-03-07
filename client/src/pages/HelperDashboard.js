@@ -12,7 +12,7 @@ const HelperDashboard = () => {
   return (
     <div>
       {currentPage === 'Request' && !call.incoming && <CurrentRequests />}
-      {currentPage === 'Request' && call.incoming && <HelperVideoAR />}
+      {currentPage === 'Request' && call.incoming && <HelperVideo />}
       {currentPage === 'Insights' && <Insights />}
       {currentPage === 'Account' && <Account />}
     </div>
