@@ -115,8 +115,9 @@ const PastRequests = () => {
                   >
                     <b>Category</b> <br /> {request.type}
                   </Typography>
-
-                  <ImageStack screenshots={request.images} />
+                  <Box sx={{ width: '10vw' }}>
+                    <ImageStack screenshots={request.images} />
+                  </Box>
                 </ListItem>
               )}
             </Box>

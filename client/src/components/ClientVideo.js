@@ -17,6 +17,7 @@ const VideoChat = () => {
     leaveCall,
     incomingStroke,
     setStream,
+    Box,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -126,7 +127,7 @@ const VideoChat = () => {
   };
 
   return (
-    <div className="video-container center">
+    <div>
       {!call.incoming && (
         <Typography variant="h4">
           Despair not, <br />
@@ -143,47 +144,106 @@ const VideoChat = () => {
             onClick={answerCall}
             variant="contained"
             style={{
-              margin: '0.5rem',
-              zIndex: 1000,
+              margin: '10px',
             }}
           >
             Accept help
           </StyledButton>
         </>
       )}
-
-      <canvas ref={canvasRef} className="sketchpad" />
-      {call.accepted && (
-        <>
-          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-
-          <button onClick={handleScreenshot} className="button save-step">
-            Save
-          </button>
-          <button onClick={leaveCall} className="button end-call">
-            End Call
-          </button>
-
-          <video
-            className="small-video"
-            playsInline
-            muted
-            ref={remoteVideo}
-            autoPlay
-            style={{ width: '150px' }}
-          />
-
-          <video
-            className="big-video"
-            playsInline
-            muted
-            ref={localVideo}
-            autoPlay
-            crossOrigin="anonymous"
-          />
-        </>
-      )}
+      <div className="video-container" style={{ videoWidth }}>
+        {remoteVideo && (
+          <>
+            {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+            {call && (
+              <>
+                <button onClick={handleScreenshot} className="button save-step">
+                  Save
+                </button>
+                <button onClick={leaveCall} className="button end-call">
+                  End Call
+                </button>
+              </>
+            )}
+            <video
+              className="small-video"
+              playsInline
+              muted
+              ref={remoteVideo}
+              autoPlay
+              style={{ width: '150px' }}
+            />
+            <canvas ref={canvasRef} className="sketchpad" />
+            <video
+              className="big-video"
+              playsInline
+              muted
+              ref={localVideo}
+              autoPlay
+              style={{ width: videoWidth }}
+            />
+          </>
+        )}
+      </div>
     </div>
+    // <div className="video-container center">
+    //   {!call.incoming && (
+    //     <Typography variant="h4">
+    //       Despair not, <br />
+    //       <span className="orange">help</span> is on the way!
+    //     </Typography>
+    //   )}
+
+    //   {call.incoming && !call.accepted && (
+    //     <>
+    //       <Typography variant="h4">
+    //         <span className="orange">Help</span> is here!
+    //       </Typography>
+    //       <StyledButton
+    //         onClick={answerCall}
+    //         variant="contained"
+    //         style={{
+    //           margin: '0.5rem',
+    //           zIndex: 1000,
+    //         }}
+    //       >
+    //         Accept help
+    //       </StyledButton>
+    //     </>
+    //   )}
+
+    //   <canvas ref={canvasRef} className="sketchpad" />
+    //   {call.accepted && (
+    //     <Box>
+    //       {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+
+    //       <button onClick={handleScreenshot} className="button save-step">
+    //         Save
+    //       </button>
+    //       <button onClick={leaveCall} className="button end-call">
+    //         End Call
+    //       </button>
+
+    //       <video
+    //         className="small-video"
+    //         playsInline
+    //         muted
+    //         ref={remoteVideo}
+    //         autoPlay
+    //         style={{ width: '150px' }}
+    //       />
+
+    //       <video
+    //         className="big-video"
+    //         playsInline
+    //         muted
+    //         ref={localVideo}
+    //         autoPlay
+    //         crossOrigin="anonymous"
+    //       />
+    //     </Box>
+    //   )}
+    // </div>
   );
 };
 
