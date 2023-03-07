@@ -154,7 +154,7 @@ const VideoChat = () => {
       <div className="video-container" style={{ videoWidth }}>
         {remoteVideo && (
           <>
-            {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+            {/* {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
             {call && (
               <>
                 <button onClick={handleScreenshot} className="button save-step">
@@ -164,7 +164,7 @@ const VideoChat = () => {
                   End Call
                 </button>
               </>
-            )}
+            )} */}
             <video
               className="small-video"
               playsInline
