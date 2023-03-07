@@ -31,8 +31,8 @@ const ImageStack = ({ screenshots }) => {
   return (
     <div
       className="image-stack-container"
-      // onClick={handleOpen}
-      onClick={handleImageDownload}
+      onClick={handleOpen}
+      // onClick={handleImageDownload}
     >
       <br />
       {screenshots.slice(-3).map((url, index) => (
