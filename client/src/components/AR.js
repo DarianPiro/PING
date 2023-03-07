@@ -25,10 +25,12 @@ const AR = () => {
           new THREE.Vector3(
             (point.point.x / window.innerWidth) * 2 - 1,
             -((point.point.y / window.innerHeight) * 2 - 1),
-            -0.4987192749977112
+            -0.487192749977112
           )
         );
       });
+      // painterRef.current.clear();
+      painterRef.current.setSize(2);
       painterRef.current.moveTo(vectors.shift());
       vectors.forEach((vector) => {
         painterRef.current.lineTo(vector);
@@ -110,10 +112,8 @@ const AR = () => {
       if (userData.skipFrames >= 0) {
         userData.skipFrames--;
         painterRef.current.moveTo(cursor);
-        console.log(cursor);
       } else {
         painterRef.current.lineTo(cursor);
-        console.log(cursor);
         painterRef.current.update();
       }
     }

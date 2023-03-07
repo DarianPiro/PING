@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Context } from '../Context';
 import { getTaglines } from '../lib/ApiService';
-import { MenuItem, Typography } from '@mui/material';
+import { MenuItem, Typography, CircularProgress } from '@mui/material';
 import {
   StyledTextField,
   StyledSelect,
@@ -16,6 +16,7 @@ const Login = () => {
     loginWithRedirect,
     handleGetUser,
     handleCreateUser,
+    initialFetch,
   } = useContext(Context);
   const [taglines, setTaglines] = useState([]);
 
@@ -34,9 +35,9 @@ const Login = () => {
   }, [isAuthenticated]);
 
   return (
-    <>
+    <div className='center'>
       {!isAuthenticated && (
-        <div className="center">
+        <div>
           <Typography variant="h4">
             <p>
               {/* {taglines[Math.floor(Math.random() * taglines.length)]} */}
@@ -52,8 +53,8 @@ const Login = () => {
         </div>
       )}
 
-      {isAuthenticated && !currentUser.registered && (
-        <form className="form-group center" onSubmit={handleCreateUser}>
+      {isAuthenticated && initialFetch && !currentUser.registered && (
+        <form className="form-group" onSubmit={handleCreateUser}>
           <div>
             <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
               This is your first time here
@@ -92,7 +93,8 @@ const Login = () => {
           </StyledButton>
         </form>
       )}
-    </>
+      {isAuthenticated && !initialFetch && <CircularProgress />}
+    </div>
   );
 };
 

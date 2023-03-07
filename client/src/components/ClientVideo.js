@@ -5,6 +5,7 @@ import { Atrament } from 'atrament';
 import { Typography } from '@mui/material';
 import { StyledButton } from './ui/StyledComponents';
 import { uploadImageToCloudinary } from '../lib/ImageApi';
+import mergeImages from 'merge-images';
 
 const VideoChat = () => {
   const {
@@ -22,24 +23,25 @@ const VideoChat = () => {
   const canvasRef = useRef(null);
   const sketchpadRef = useRef(null);
 
-  let videoWidth = 600;
-  let videoHeight = 450;
+  let videoWidth = window.innerWidth;
+  let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    if (/Mobi/.test(navigator.userAgent)) {
-      window.screen.orientation.lock('portrait');
+    // if (/Mobi/.test(navigator.userAgent)) {
+    //   window.screen.orientation.lock('portrait');
+    // }
+
+    if (call.accepted) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          setStream(currentStream);
+          localVideo.current.srcObject = currentStream;
+        });
     }
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        localVideo.current.srcObject = currentStream;
-      });
-  }, []);
+  }, [call]);
 
   useEffect(() => {
-    console.log(incomingStroke);
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;
@@ -70,80 +72,114 @@ const VideoChat = () => {
   }, [incomingStroke]);
 
   const handleScreenshot = async () => {
-    const canvas = canvasRef.current;
+    const canvas1 = canvasRef.current;
     const video = remoteVideo.current;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+    const ctx1 = canvas1.getContext('2d');
+    ctx1.drawImage(
+      video,
+      0,
+      0,
+      remoteVideo.current.videoWidth,
+      remoteVideo.current.videoWidth
+    );
 
-    const dataUrl = canvas.toDataURL({ format: 'png' });
-    canvas.remove();
+    const dataUrl1 = canvas1.toDataURL({ format: 'png' });
+    canvas1.remove();
 
-    const screenshotUrl = await uploadImageToCloudinary(
-      dataUrl,
+    const canvas2 = canvasRef.current;
+    const ctx2 = canvas2.getContext('2d');
+    ctx2.drawImage(
+      sketchpadRef.current.canvas,
+      0,
+      0,
+      remoteVideo.current.videoWidth,
+      remoteVideo.current.videoWidth
+    );
+    const dataUrl2 = canvas2.toDataURL({ format: 'png' });
+    
+    canvas2.remove();
+
+    let screenshotUrl;
+
+    const image1 = await uploadImageToCloudinary(dataUrl1, currentUser.username);
+    const image2 = await uploadImageToCloudinary(dataUrl2, currentUser.username);
+
+    mergeImages([image1, image2], {
+      width: remoteVideo.current.videoWidth,
+      height: remoteVideo.current.videoWidth,
+    }).then((b64) => {
+      screenshotUrl = b64;
+    });
+
+    const savedScreenshot = await uploadImageToCloudinary(
+      screenshotUrl,
       currentUser.username
     );
-    setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
+
+    setScreenshots((prevUrls) => [...prevUrls, savedScreenshot]);
   };
 
   return (
-    <div>
-      {!call.incoming && (
-        <Typography variant="h4">
-          Despair not, <br />
-          <span className="orange">help</span> is on the way!
-        </Typography>
-      )}
-
-      {call.incoming && !call.accepted && (
-        <>
+    <div className="video-container">
+      <div className="center">
+        {!call.incoming && (
           <Typography variant="h4">
-            <span className="orange">Help</span> is here!
+            Despair not, <br />
+            <span className="orange">help</span> is on the way!
           </Typography>
-          <StyledButton
-            onClick={answerCall}
-            variant="contained"
-            style={{
-              margin: '10px',
-            }}
-          >
-            Accept help
-          </StyledButton>
-        </>
-      )}
-      <div className="video-container" style={{ videoWidth }}>
-        {remoteVideo && (
+        )}
+
+        {call.incoming && !call.accepted && (
           <>
-            {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-            {call && (
-              <>
-                <button onClick={handleScreenshot} className="button save-step">
-                  Save
-                </button>
-                <button onClick={leaveCall} className="button end-call">
-                  End Call
-                </button>
-              </>
-            )}
-            <video
-              className="small-video"
-              playsInline
-              muted
-              ref={remoteVideo}
-              autoPlay
-              style={{ width: '150px' }}
-            />
-            <canvas ref={canvasRef} className="sketchpad" />
-            <video
-              className="big-video"
-              playsInline
-              muted
-              ref={localVideo}
-              autoPlay
-              style={{ width: videoWidth }}
-            />
+            <Typography variant="h4">
+              <span className="orange">Help</span> is here!
+            </Typography>
+            <StyledButton
+              onClick={answerCall}
+              variant="contained"
+              style={{
+                margin: '0.5rem',
+                zIndex: 1000,
+              }}
+            >
+              Accept help
+            </StyledButton>
           </>
         )}
       </div>
+      <canvas ref={canvasRef} className="sketchpad" />
+      {call.accepted && (
+        <>
+          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+          {call && (
+            <>
+              <button onClick={handleScreenshot} className="button save-step">
+                Save
+              </button>
+              <button onClick={leaveCall} className="button end-call">
+                End Call
+              </button>
+            </>
+          )}
+          <video
+            className="small-video"
+            playsInline
+            muted
+            ref={remoteVideo}
+            autoPlay
+            style={{ width: '150px' }}
+          />
+
+          <video
+            className="big-video"
+            playsInline
+            muted
+            ref={localVideo}
+            autoPlay
+            crossOrigin="anonymous"
+          />
+        </>
+      )}
     </div>
   );
 };

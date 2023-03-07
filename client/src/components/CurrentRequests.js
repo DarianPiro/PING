@@ -7,6 +7,8 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  CircularProgress,
+  Box,
 } from '@mui/material';
 import { StyledButton } from './ui/StyledComponents';
 import PlumbingIcon from '@mui/icons-material/Plumbing';
@@ -20,23 +22,25 @@ const CurrentRequests = () => {
   const { onlineUsers, callUser, currentUser } = useContext(Context);
 
   return (
-    <div className='center'>
+    <Box className="center">
       <Typography variant="h4">
         {currentUser.username}, someone needs your{' '}
         <span className="orange"> help</span>!
       </Typography>
       <br />
 
-      {onlineUsers.length > 0}
       <Typography variant="h5">Open requests</Typography>
-
+      {onlineUsers.length === 0 && (
+        <Box className="center" sx={{mt: '10rem'}}>
+          <CircularProgress />
+        </Box>
+      )}
       <List
         sx={{
-          m: 3,
           mt: 5,
           width: '80vw',
           overflow: 'auto',
-          maxHeight: 400,
+          maxHeight: '95vw',
         }}
       >
         {onlineUsers.map((user) => {
@@ -76,7 +80,7 @@ const CurrentRequests = () => {
             });
         })}
       </List>
-    </div>
+    </Box>
   );
 };
 

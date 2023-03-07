@@ -32,7 +32,9 @@ const Account = () => {
         <br />
         <br />
         <Typography variant="h7" sx={{ color: '#8793a2', fontSize: 13 }}>
-         Role </Typography><br />
+          Role{' '}
+        </Typography>
+        <br />
         <StyledSelect
           className="form-control"
           id="role"

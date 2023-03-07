@@ -34,9 +34,7 @@ export const StyledSelect = styled(Select)`
   & .Select-placeholder {
     font-size: smaller;
   }
-  & .MuiSelect-select {
-    color: #8793a2;
-  }
+
   & .MuiSelect-icon {
     color: #8793a2;
   }

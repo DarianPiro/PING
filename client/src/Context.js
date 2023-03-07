@@ -45,6 +45,7 @@ const ContextProvider = ({ children }) => {
   });
   const [currentPage, setCurrentPage] = useState('Request');
   const [recipient, setRecipient] = useState('');
+  const [initialFetch, setInitialFetch] = useState(false);
 
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
@@ -107,6 +108,7 @@ const ContextProvider = ({ children }) => {
   // Checks if user exists in database
   const handleGetUser = async () => {
     const receivedUser = await getUser({ user });
+    setInitialFetch(true);
     if (receivedUser) {
       setCurrentUser({
         ...currentUser,
@@ -271,6 +273,7 @@ const ContextProvider = ({ children }) => {
         stream,
         incomingStroke,
         request,
+        initialFetch,
         setCurrentUser,
         loginWithRedirect,
         logout,
