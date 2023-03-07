@@ -71,8 +71,9 @@ const ContextProvider = ({ children }) => {
 
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
-    // Sends a call to the helpee user
+  
     socket.on('callUser', ({ from, name: callerName, signal }) => {
+      
       setCall({
         ...call,
         incoming: true,
@@ -80,6 +81,7 @@ const ContextProvider = ({ children }) => {
         name: callerName,
         signal,
       });
+      console.log(call)
     });
 
     // Responds to the other user ending the call
@@ -204,12 +206,14 @@ const ContextProvider = ({ children }) => {
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
       peer.signal(signal);
+      console.log(call)
     });
   };
 
   // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
+    console.log(call)
     setRequest({
       ...request,
       time: DateTime.now(),
