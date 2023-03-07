@@ -57,7 +57,6 @@ const VideoChat = () => {
           muted
           ref={remoteVideo}
           autoPlay
-          style={{ width: videoWidth, height: videoHeight }}
         />
       </div>
     </div>

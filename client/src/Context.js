@@ -177,12 +177,6 @@ const ContextProvider = ({ children }) => {
   // Sets up the peer.js connection
   const callUser = (id) => {
     const peer = new Peer({
-      // config: {
-      //   iceServers: [
-      //     { url: 'stun:stun.l.google.com:19302' },
-      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-      //   ],
-      // },
       initiator: true,
       trickle: false,
       stream,
@@ -210,7 +204,6 @@ const ContextProvider = ({ children }) => {
     });
   };
 
-  // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
     console.log(call)
@@ -218,13 +211,8 @@ const ContextProvider = ({ children }) => {
       ...request,
       time: DateTime.now(),
     });
+    
     const peer = new Peer({
-      // config: {
-      //   iceServers: [
-      //     { url: 'stun:stun.l.google.com:19302' },
-      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-      //   ],
-      // },
       initiator: false,
       trickle: false,
       stream,

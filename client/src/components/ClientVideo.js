@@ -118,7 +118,7 @@ const VideoChat = () => {
   };
 
   return (
-    <div className="video-container center">
+    <div className="video-container">
       {!call.incoming && (
         <Typography variant="h4">
           Despair not, <br />
@@ -126,26 +126,25 @@ const VideoChat = () => {
         </Typography>
       )}
 
-      {call.incoming && !call.accepted && (
-        <>
-          <Typography variant="h4">
-            <span className="orange">Help</span> is here!
-          </Typography>
-          <StyledButton
-            onClick={answerCall}
-            variant="contained"
-            style={{
-              margin: '0.5rem',
-              zIndex: 1000,
-            }}
-          >
-            Accept help
-          </StyledButton>
-        </>
-      )}
+      {/* {call.incoming && !call.accepted && ( */}
+      <>
+        <Typography variant="h4">
+          <span className="orange">Help</span> is here!
+        </Typography>
+        <StyledButton
+          onClick={answerCall}
+          variant="contained"
+          style={{
+            margin: '0.5rem',
+            zIndex: 1000,
+          }}
+        >
+          Accept help
+        </StyledButton>
+      </>
+      {/* )} */}
 
       <canvas ref={canvasRef} className="sketchpad" />
-      {/* {call.accepted && ( */}
       <div>
         {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
 
