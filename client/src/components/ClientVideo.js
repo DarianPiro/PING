@@ -123,124 +123,64 @@ const VideoChat = () => {
   };
 
   return (
-    <div className="video-container">
-      <div className="center">
-        {!call.incoming && (
+    <div className="video-container center">
+      {!call.incoming && (
+        <Typography variant="h4">
+          Despair not, <br />
+          <span className="orange">help</span> is on the way!
+        </Typography>
+      )}
+
+      {call.incoming && !call.accepted && (
+        <>
           <Typography variant="h4">
-            Despair not, <br />
-            <span className="orange">help</span> is on the way!
+            <span className="orange">Help</span> is here!
           </Typography>
-        )}
+          <StyledButton
+            onClick={answerCall}
+            variant="contained"
+            style={{
+              margin: '0.5rem',
+              zIndex: 1000,
+            }}
+          >
+            Accept help
+          </StyledButton>
+        </>
+      )}
 
-        {call.incoming && !call.accepted && (
-          <>
-            <Typography variant="h4">
-              <span className="orange">Help</span> is here!
-            </Typography>
-            <StyledButton
-              onClick={answerCall}
-              variant="contained"
-              style={{
-                margin: '0.5rem',
-                zIndex: 1000,
-              }}
-            >
-              Accept help
-            </StyledButton>
-          </>
-        )}
-      </div>
+      <canvas ref={canvasRef} className="sketchpad" />
+      {call.accepted && (
+        <Box>
+          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
 
-      {call.accepted && <canvas ref={canvasRef} className="sketchpad" />}
-      <>
-        {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-        {call.accepted && (
-          <>
-            <button onClick={handleScreenshot} className="button save-step">
-              Save
-            </button>
-            <button onClick={leaveCall} className="button end-call">
-              End Call
-            </button>
-          </>
-        )}
-        <video
-          className="small-video"
-          playsInline
-          muted
-          ref={remoteVideo}
-          autoPlay
-          style={{ width: '150px' }}
-        />
+          <button onClick={handleScreenshot} className="button save-step">
+            Save
+          </button>
+          <button onClick={leaveCall} className="button end-call">
+            End Call
+          </button>
 
-        <video
-          className="big-video"
-          playsInline
-          muted
-          ref={localVideo}
-          autoPlay
-          style={{ width: videoWidth }}
-        />
-      </>
+          <video
+            className="small-video"
+            playsInline
+            muted
+            ref={remoteVideo}
+            autoPlay
+            style={{ width: '150px' }}
+          />
+
+          <video
+            className="big-video"
+            playsInline
+            muted
+            ref={localVideo}
+            autoPlay
+            crossOrigin="anonymous"
+          />
+        </Box>
+      )}
     </div>
-    // <div className="video-container center">
-    //   {!call.incoming && (
-    //     <Typography variant="h4">
-    //       Despair not, <br />
-    //       <span className="orange">help</span> is on the way!
-    //     </Typography>
-    //   )}
-
-    //   {call.incoming && !call.accepted && (
-    //     <>
-    //       <Typography variant="h4">
-    //         <span className="orange">Help</span> is here!
-    //       </Typography>
-    //       <StyledButton
-    //         onClick={answerCall}
-    //         variant="contained"
-    //         style={{
-    //           margin: '0.5rem',
-    //           zIndex: 1000,
-    //         }}
-    //       >
-    //         Accept help
-    //       </StyledButton>
-    //     </>
-    //   )}
-
-    //   <canvas ref={canvasRef} className="sketchpad" />
-    //   {call.accepted && (
-    //     <Box>
-    //       {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-
-    //       <button onClick={handleScreenshot} className="button save-step">
-    //         Save
-    //       </button>
-    //       <button onClick={leaveCall} className="button end-call">
-    //         End Call
-    //       </button>
-
-    //       <video
-    //         className="small-video"
-    //         playsInline
-    //         muted
-    //         ref={remoteVideo}
-    //         autoPlay
-    //         style={{ width: '150px' }}
-    //       />
-
-    //       <video
-    //         className="big-video"
-    //         playsInline
-    //         muted
-    //         ref={localVideo}
-    //         autoPlay
-    //         crossOrigin="anonymous"
-    //       />
-    //     </Box>
-    //   )}
-    // </div>
   );
 };
 
