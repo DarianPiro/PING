@@ -152,7 +152,7 @@ const VideoChat = () => {
         </>
       )}
       <div className="video-container" style={{ videoWidth }}>
-        {remoteVideo && (
+        {call.accepted && (
           <>
             {/* {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
             {call && (
