@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import io from 'socket.io-client';
 // import Peer from 'simple-peer';
-import { Peer } from "peerjs";
+import { Peer } from 'peerjs';
 import { DateTime, Interval } from 'luxon';
 import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
@@ -72,6 +72,7 @@ const ContextProvider = ({ children }) => {
 
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
+    // Sends a call to the helpee user
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({
         ...call,
@@ -80,7 +81,6 @@ const ContextProvider = ({ children }) => {
         name: callerName,
         signal,
       });
-      console.log(call);
     });
 
     // Responds to the other user ending the call
@@ -99,6 +99,7 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
+
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
@@ -169,27 +170,25 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.emit('newRequest', newRequest);
+
   };
 
   // Sets up the peer.js connection
   const callUser = (id) => {
     const peer = new Peer({
-      host: process.env.REACT_APP_SERVER_URL,
-      secure: true,
-      port: 443,
-      config: {'iceServers': [
-        { url: 'stun:stun.l.google.com:19302' }
-      ]},
-      path: '/peerjs/ping',
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: true,
       trickle: false,
       stream,
     });
 
     setRecipient(id);
-    peer.on('open', (id) => {
-      console.log(`PeerJS ID: ${id}`);
-    });
+
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -206,54 +205,37 @@ const ContextProvider = ({ children }) => {
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
       peer.signal(signal);
-      console.log(call);
-    });
-
-    peer.on('error', function (err) {
-      console.log('Error: ', err);
     });
   };
 
+  // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
-
     setRequest({
       ...request,
       time: DateTime.now(),
     });
-
     const peer = new Peer({
-      host: process.env.REACT_APP_SERVER_URL,
-      secure: true,
-      port: 443,
-      config: {'iceServers': [
-        { url: 'stun:stun.l.google.com:19302' }
-      ]},
-      path: '/peerjs/ping',
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: false,
       trickle: false,
       stream,
     });
 
-    peer.on('open', (id) => {
-      console.log(`PeerJS ID: ${id}`);
-    });
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
-      console.log(data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log(currentStream);
     });
 
-    console.log(call);
     peer.signal(call.signal);
-
-    peer.on('error', function (err) {
-      console.log('Error: ', err);
-    });
   };
 
   // Ends the call and saves the call time
