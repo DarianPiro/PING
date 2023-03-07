@@ -35,8 +35,8 @@ const Insights = () => {
   }, []);
 
   return (
-    <Box>
-      <Typography variant="h4">Insights</Typography>
+    <Box className='center'>
+      <Typography variant="h4" sx={{mt: '3rem'}}>Insights</Typography>
       {allRequests.length === 0 && (
         <Typography variant="h6">
           No reviews yet, <br /> <span className="orange">help </span>
@@ -44,7 +44,7 @@ const Insights = () => {
         </Typography>
       )}
       {allRequests.length > 0 && (
-        <Box>
+        <Box sx={{maxHeight: '750vh'}}>
           <Typography variant="h6" sx={{ mt: 2 }}>
             Average rating
           </Typography>

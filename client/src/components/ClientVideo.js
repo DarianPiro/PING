@@ -126,47 +126,44 @@ const VideoChat = () => {
   };
 
   return (
-    <div className="video-container">
-      <div className="center">
-        {!call.incoming && (
-          <Typography variant="h4">
-            Despair not, <br />
-            <span className="orange">help</span> is on the way!
-          </Typography>
-        )}
+    <div className="video-container center">
+      {!call.incoming && (
+        <Typography variant="h4">
+          Despair not, <br />
+          <span className="orange">help</span> is on the way!
+        </Typography>
+      )}
 
-        {call.incoming && !call.accepted && (
-          <>
-            <Typography variant="h4">
-              <span className="orange">Help</span> is here!
-            </Typography>
-            <StyledButton
-              onClick={answerCall}
-              variant="contained"
-              style={{
-                margin: '0.5rem',
-                zIndex: 1000,
-              }}
-            >
-              Accept help
-            </StyledButton>
-          </>
-        )}
-      </div>
+      {call.incoming && !call.accepted && (
+        <>
+          <Typography variant="h4">
+            <span className="orange">Help</span> is here!
+          </Typography>
+          <StyledButton
+            onClick={answerCall}
+            variant="contained"
+            style={{
+              margin: '0.5rem',
+              zIndex: 1000,
+            }}
+          >
+            Accept help
+          </StyledButton>
+        </>
+      )}
+
       <canvas ref={canvasRef} className="sketchpad" />
-      {/* {call.accepted && ( */}
+      {call.accepted && (
         <>
           {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-          {call && (
-            <>
-              <button onClick={handleScreenshot} className="button save-step">
-                Save
-              </button>
-              <button onClick={leaveCall} className="button end-call">
-                End Call
-              </button>
-            </>
-          )}
+
+          <button onClick={handleScreenshot} className="button save-step">
+            Save
+          </button>
+          <button onClick={leaveCall} className="button end-call">
+            End Call
+          </button>
+
           <video
             className="small-video"
             playsInline
@@ -185,7 +182,7 @@ const VideoChat = () => {
             crossOrigin="anonymous"
           />
         </>
-      {/* )} */}
+      )}
     </div>
   );
 };
