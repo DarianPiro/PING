@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
-import { ARButton } from 'three/addons/webxr/ARButton.js';
+// import { ARButton } from 'three/addons/webxr/ARButton.js';
+import { ARButton } from '@react-three/xr';
 
 const AR = () => {
   const { incomingStroke } = useContext(Context);
@@ -82,7 +83,7 @@ const AR = () => {
     controllerRef.current.userData.skipFrames = 0;
     sceneRef.current.add(controllerRef.current);
 
-    document.body.appendChild(ARButton.createButton(rendererRef.current));
+    // document.body.appendChild(ARButton.createButton(rendererRef.current));
 
     window.addEventListener('resize', onWindowResize);
 
@@ -125,7 +126,12 @@ const AR = () => {
     });
   };
 
-  return <div className='ar-canvas' ref={containerRef}></div>;
+  return (
+    <>
+      <ARButton />
+      <div className="ar-canvas" ref={containerRef}></div>
+    </>
+  );
 };
 
 export default AR;
