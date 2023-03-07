@@ -150,7 +150,7 @@ const VideoChat = () => {
       )}
 
       <canvas ref={canvasRef} className="sketchpad" />
-      {call.accepted && (
+      {/* {call.accepted && ( */}
         <Box>
           {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
 
@@ -179,7 +179,7 @@ const VideoChat = () => {
             crossOrigin="anonymous"
           />
         </Box>
-      )}
+      {/* )} */}
     </div>
   );
 };
