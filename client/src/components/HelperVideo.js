@@ -11,7 +11,9 @@ const HelperVideo = () => {
   let videoHeight = 450;
 
   useEffect(() => {
-    localVideo.current.srcObject = stream;
+    if (call.accepted) {
+      localVideo.current.srcObject = stream;
+    }
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;

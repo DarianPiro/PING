@@ -27,8 +27,9 @@ const ClientVIdeo = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    localVideo.current.srcObject = stream;
-
+    if (call.accepted) {
+      localVideo.current.srcObject = stream;
+    }
     console.log(call);
   }, [call]);
 
