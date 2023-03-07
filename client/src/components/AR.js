@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
-import { ARButton  } from './ui/ARButton';
+import { ARButton } from './ui/ARButton';
+import { ARButtonAlt } from './ui/ARButtonAlt';
 // import { ARButton } from 'three/addons/webxr/ARButton.js';
 // import { ARButton } from '@react-three/xr';
 
@@ -22,7 +23,7 @@ const AR = () => {
     //   canvas.height = videoHeight;
 
     if (incomingStroke.points) {
-      alert('incomingStroke');
+      console.log(incomingStroke.points);
       //     const points = incomingStroke.points.slice();
       //     const firstPoint = points.shift().point;
 
@@ -86,9 +87,9 @@ const AR = () => {
     sceneRef.current.add(controllerRef.current);
 
     document.body.appendChild(ARButton.createButton(rendererRef.current));
+    const btn = new ARButton(rendererRef.current);
 
-
-    navigator.xr.requestSession()
+    navigator.xr.requestSession();
     window.addEventListener('resize', onWindowResize);
 
     animate();
@@ -137,7 +138,6 @@ const AR = () => {
     </>
   );
 };
-
 
 export default AR;
 
