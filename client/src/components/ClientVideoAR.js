@@ -20,11 +20,11 @@ const VideoChat = () => {
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
-  // const canvasRef = useRef(null);
+  const canvasRef = useRef(null);
   // const sketchpadRef = useRef(null);
 
-  // let videoWidth = 600;
-  // let videoHeight = 450;
+  let videoWidth = 600;
+  let videoHeight = 450;
 
   useEffect(() => {
     window.screen.orientation.lock('portrait');
@@ -68,21 +68,21 @@ const VideoChat = () => {
   //   }
   }, [incomingStroke]);
 
-  // const handleScreenshot = async () => {
-  //   const canvas = canvasRef.current;
-  //   const video = remoteVideo.current;
-  //   const ctx = canvas.getContext('2d');
-  //   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  const handleScreenshot = async () => {
+    const canvas = canvasRef.current;
+    const video = remoteVideo.current;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-  //   const dataUrl = canvas.toDataURL({ format: 'png' });
-  //   canvas.remove();
+    const dataUrl = canvas.toDataURL({ format: 'png' });
+    canvas.remove();
 
-  //   const screenshotUrl = await uploadImageToCloudinary(
-  //     dataUrl,
-  //     currentUser.username
-  //   );
-  //   setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
-  // };
+    const screenshotUrl = await uploadImageToCloudinary(
+      dataUrl,
+      currentUser.username
+    );
+    setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
+  };
 
   return (
     <div>
@@ -109,7 +109,7 @@ const VideoChat = () => {
           </StyledButton>
         </>
       )}
-      {/* <div className="video-container" style={{ videoWidth }}>
+      <div className="video-container" style={{ videoWidth }}>
         {remoteVideo && (
           <>
             {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
@@ -131,7 +131,7 @@ const VideoChat = () => {
               autoPlay
               style={{ width: '150px' }}
             />
-            <canvas ref={canvasRef} className="sketchpad" />
+            {/* <canvas ref={canvasRef} className="sketchpad" />
             <video
               className="big-video"
               playsInline
@@ -139,11 +139,11 @@ const VideoChat = () => {
               ref={localVideo}
               autoPlay
               style={{ width: videoWidth }}
-            />
+            /> */}
           </>
         )}
-      </div> */}
-      {call.accepted && <AR />}
+      </div>
+      <AR />
     </div>
   );
 };

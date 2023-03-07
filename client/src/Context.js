@@ -50,14 +50,27 @@ const ContextProvider = ({ children }) => {
   const remoteVideo = useRef(null);
 
   useEffect(() => {
+    // Sets up the video stream
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
       });
 
+    // Updates the online user list
+    if (isAuthenticated && currentUser.registered === true) {
+      socket.emit('userConnected', { name: currentUser.username });
+      socket.on('users', (users) => {
+        const usersWithPendingRequests = users.filter((user) =>
+          user.requests.some((request) => request.status === 'Pending')
+        );
+        setOnlineUsers(usersWithPendingRequests);
+      });
+    }
+
     socket.on('me', (id) => setCurrentUser({ ...currentUser, socketID: id }));
 
+    // Sends a call to the helpee user
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({
         ...call,
@@ -68,10 +81,7 @@ const ContextProvider = ({ children }) => {
       });
     });
 
-    socket.on('stroke', (stroke) => {
-      setIncomingStroke(stroke);
-    });
-
+    // Responds to the other user ending the call
     socket.on('callEnded', () => {
       setCall({
         accepted: false,
@@ -83,22 +93,13 @@ const ContextProvider = ({ children }) => {
       });
       setCurrentPage('Request');
     });
-    if (isAuthenticated && currentUser.registered === true) {
-      socket.emit('userConnected', { name: currentUser.username });
-      socket.on('users', (users) => {
-        const usersWithPendingRequests = users.filter((user) =>
-          user.requests.some((request) => request.status === 'Pending')
-        );
-        setOnlineUsers(usersWithPendingRequests);
-      });
-    }
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
     socket.emit('stroke', { recipient, stroke });
   }, [stroke]);
 
-  // Check if user exists in database
+  // Checks if user exists in database
   const handleGetUser = async () => {
     const receivedUser = await getUser({ user });
     if (receivedUser) {
@@ -114,7 +115,7 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  // Create user in database
+  // Creates user in database
   const handleCreateUser = async (event) => {
     event.preventDefault();
     const receivedUser = await createUser({
@@ -133,6 +134,7 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  // Update user in database
   const handleUpdateUser = async () => {
     setCurrentPage('Request');
     await updateUser({
@@ -142,6 +144,7 @@ const ContextProvider = ({ children }) => {
     });
   };
 
+  // Send request to database and socket
   const handleRequest = async (e) => {
     e.preventDefault();
     const userResponse = await sendRequest({
@@ -157,9 +160,12 @@ const ContextProvider = ({ children }) => {
       sent: true,
       status: 'Pending',
     });
+
     socket.emit('newRequest', newRequest);
+
   };
 
+  // Sets up the peer.js connection
   const callUser = (id) => {
     const peer = new Peer({
       // config: {
@@ -172,7 +178,9 @@ const ContextProvider = ({ children }) => {
       trickle: false,
       stream,
     });
+
     setRecipient(id);
+
     peer.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
@@ -192,6 +200,7 @@ const ContextProvider = ({ children }) => {
     });
   };
 
+  // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
     setRequest({
@@ -221,6 +230,7 @@ const ContextProvider = ({ children }) => {
     peer.signal(call.signal);
   };
 
+  // Ends the call and saves the call time
   const leaveCall = () => {
     socket.emit('leaveCall', {
       recipientID: call.from,
