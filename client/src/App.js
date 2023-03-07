@@ -48,7 +48,7 @@ function App() {
         <CssBaseline />
         <Logo />
         <Login />
-        {currentUser.registered && !call.accepted && call.ended && <Nav />}
+        {currentUser.registered && !call.accepted && <Nav />}
         {currentUser.registered && currentUser.role === 'Helpee' && (
           <ClientDashboard />
         )}
