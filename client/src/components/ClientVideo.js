@@ -127,63 +127,65 @@ const VideoChat = () => {
   };
 
   return (
-    <div className="center">
-      {!call.incoming && (
-        <Typography variant="h4">
-          Despair not, <br />
-          <span className="orange">help</span> is on the way!
-        </Typography>
-      )}
-
-      {call.incoming && !call.accepted && (
-        <>
+    <div className="video-container">
+      <div className="center">
+        {!call.incoming && (
           <Typography variant="h4">
-            <span className="orange">Help</span> is here!
+            Despair not, <br />
+            <span className="orange">help</span> is on the way!
           </Typography>
-          <StyledButton
-            onClick={answerCall}
-            variant="contained"
-            style={{
-              margin: '10px',
-            }}
-          >
-            Accept help
-          </StyledButton>
-        </>
-      )}
-      <div className="video-container" style={{ videoWidth }}>
-        {call.accepted && <canvas ref={canvasRef} className="sketchpad" />}
-        <>
-          {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
-          {call.accepted && (
-            <>
-              <button onClick={handleScreenshot} className="button save-step">
-                Save
-              </button>
-              <button onClick={leaveCall} className="button end-call">
-                End Call
-              </button>
-            </>
-          )}
-          <video
-            className="small-video"
-            playsInline
-            muted
-            ref={remoteVideo}
-            autoPlay
-            style={{ width: '150px' }}
-          />
+        )}
 
-          <video
-            className="big-video"
-            playsInline
-            muted
-            ref={localVideo}
-            autoPlay
-            style={{ width: videoWidth }}
-          />
-        </>
+        {call.incoming && !call.accepted && (
+          <>
+            <Typography variant="h4">
+              <span className="orange">Help</span> is here!
+            </Typography>
+            <StyledButton
+              onClick={answerCall}
+              variant="contained"
+              style={{
+                margin: '0.5rem',
+                zIndex: 1000,
+              }}
+            >
+              Accept help
+            </StyledButton>
+          </>
+        )}
       </div>
+
+      {call.accepted && <canvas ref={canvasRef} className="sketchpad" />}
+      <>
+        {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
+        {call.accepted && (
+          <>
+            <button onClick={handleScreenshot} className="button save-step">
+              Save
+            </button>
+            <button onClick={leaveCall} className="button end-call">
+              End Call
+            </button>
+          </>
+        )}
+        <video
+          className="small-video"
+          playsInline
+          muted
+          ref={remoteVideo}
+          autoPlay
+          style={{ width: '150px' }}
+        />
+
+        <video
+          className="big-video"
+          playsInline
+          muted
+          ref={localVideo}
+          autoPlay
+          style={{ width: videoWidth }}
+        />
+      </>
     </div>
     // <div className="video-container center">
     //   {!call.incoming && (
