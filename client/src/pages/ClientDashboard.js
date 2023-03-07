@@ -11,7 +11,7 @@ const ClientDashboard = () => {
   const { request, currentPage } = useContext(Context);
 
   return (
-    <div className="center">
+    <div>
       {currentPage === 'Request' && request.status !== 'Pending' && <CreateRequest /> }
       {currentPage === 'Request' && request.helper === '' && request.status === 'Pending' && <ClientVideoAR />}
       {currentPage === 'Request' && request.helper !== '' && request.status === 'Pending' && <RateHelper />}

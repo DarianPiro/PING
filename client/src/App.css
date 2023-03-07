@@ -36,20 +36,29 @@
   z-index: 99;
 }
 
-.vieo-container {
-  position: relative;
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .big-video {
-  border-radius: 10px;
   z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .small-video {
   position: absolute;
-  margin: 5px;
+  width: 40vw;
+  margin: 0.5rem;
+  right: 0;
   border-radius: 5px;
   z-index: 3;
 }

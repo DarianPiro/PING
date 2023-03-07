@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import ClientDashboard from './pages/ClientDashboard';
 import HelperDashboard from './pages/HelperDashboard';
 import { Context } from './Context';
-import AR from './pages/AR';
+import AR from './components/AR';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -38,7 +38,7 @@ export const themeOptions = {
 };
 
 function App() {
-  const { currentUser } = useContext(Context);
+  const { currentUser, call } = useContext(Context);
 
   const theme = createTheme(themeOptions);
 
@@ -48,7 +48,7 @@ function App() {
         <CssBaseline />
         <Logo />
         <Login />
-        {currentUser.registered && <Nav />}
+        {currentUser.registered && !call.accepted && call.ended && <Nav />}
         {currentUser.registered && currentUser.role === 'Helpee' && (
           <ClientDashboard />
         )}

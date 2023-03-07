@@ -26,7 +26,9 @@ const VideoChat = () => {
   let videoHeight = 450;
 
   useEffect(() => {
-    window.screen.orientation.lock('portrait');
+    if (/Mobi/.test(navigator.userAgent)) {
+      window.screen.orientation.lock('portrait');
+    }
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })

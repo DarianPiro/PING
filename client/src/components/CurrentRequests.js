@@ -20,7 +20,7 @@ const CurrentRequests = () => {
   const { onlineUsers, callUser, currentUser } = useContext(Context);
 
   return (
-    <>
+    <div className='center'>
       <Typography variant="h4">
         {currentUser.username}, someone needs your{' '}
         <span className="orange"> help</span>!
@@ -76,7 +76,7 @@ const CurrentRequests = () => {
             });
         })}
       </List>
-    </>
+    </div>
   );
 };
 

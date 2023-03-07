@@ -3,21 +3,17 @@ import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
 const VideoChat = () => {
-  const {
-    call,
-    localVideo,
-    remoteVideo,
-    leaveCall,
-    setStroke,
-    stream,
-  } = useContext(Context);
+  const { call, localVideo, remoteVideo, leaveCall, setStroke, stream } =
+    useContext(Context);
 
   const canvasRef = useRef(null);
   let videoWidth = 600;
   let videoHeight = 450;
 
   useEffect(() => {
-    window.screen.orientation.lock('portrait');
+    if (/Mobi/.test(navigator.userAgent)) {
+      window.screen.orientation.lock('portrait');
+    }
 
     localVideo.current.srcObject = stream;
     const canvas = canvasRef.current;
@@ -36,7 +32,6 @@ const VideoChat = () => {
   }, [call]);
 
   return (
-    <div>
       <div className="video-container" style={{ videoWidth }}>
         {call.accepted && !call.ended && (
           <button className="button end-call" onClick={leaveCall}>
@@ -49,20 +44,10 @@ const VideoChat = () => {
           muted
           ref={localVideo}
           autoPlay
-          style={{ width: '150px' }}
         />
-
         <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
-        <video
-          className="big-video"
-          playsInline
-          muted
-          ref={remoteVideo}
-          autoPlay
-          style={{ width: videoWidth, height: videoHeight }}
-        />
+        <video className="big-video" muted ref={remoteVideo} autoPlay />
       </div>
-    </div>
   );
 };
 

@@ -58,7 +58,7 @@ const PastRequests = () => {
   };
 
   return (
-    <>
+    <div className='center'>
       <Typography variant="h4" >Past requests</Typography>
       <List sx={{ width: 400, overflow: 'auto', maxHeight: 400 }}>
         {currentUser.requests.map((request) => {
@@ -93,7 +93,7 @@ const PastRequests = () => {
           handleClose={handleCloseRequestDetails}
         />
       )}
-    </>
+    </div>
   );
 };
 

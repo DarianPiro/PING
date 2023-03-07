@@ -34,7 +34,6 @@ const RateHelper = () => {
     const response = await sendReview({
       request,
     });
-    console.log(request)
     if (response) {
       setRequest({
         _id: '',
@@ -50,7 +49,7 @@ const RateHelper = () => {
   };
 
   return (
-    <div>
+    <div className='center'>
       <Typography variant="h4">
         Rate your <span className="orange"> helper</span> {request.helper}!
       </Typography>

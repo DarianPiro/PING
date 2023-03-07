@@ -10,7 +10,7 @@ import {
 const CreateRequest = () => {
   const { request, setRequest, handleRequest } = useContext(Context);
   return (
-    <div>
+    <div className='center'>
       <Typography variant="h4" >
         State your <span className="orange"> problem</span>!
       </Typography>
