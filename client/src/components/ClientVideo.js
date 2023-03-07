@@ -96,13 +96,19 @@ const VideoChat = () => {
       remoteVideo.current.videoWidth
     );
     const dataUrl2 = canvas2.toDataURL({ format: 'png' });
-    
+
     canvas2.remove();
 
     let screenshotUrl;
 
-    const image1 = await uploadImageToCloudinary(dataUrl1, currentUser.username);
-    const image2 = await uploadImageToCloudinary(dataUrl2, currentUser.username);
+    const image1 = await uploadImageToCloudinary(
+      dataUrl1,
+      currentUser.username
+    );
+    const image2 = await uploadImageToCloudinary(
+      dataUrl2,
+      currentUser.username
+    );
 
     mergeImages([image1, image2], {
       width: remoteVideo.current.videoWidth,
@@ -148,7 +154,7 @@ const VideoChat = () => {
         )}
       </div>
       <canvas ref={canvasRef} className="sketchpad" />
-      {call.accepted && (
+      {/* {call.accepted && ( */}
         <>
           {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
           {call && (
@@ -179,7 +185,7 @@ const VideoChat = () => {
             crossOrigin="anonymous"
           />
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };
