@@ -125,7 +125,7 @@ const AR = () => {
     });
   };
 
-  return <div ref={containerRef}></div>;
+  return <div className='ar-canvas' ref={containerRef}></div>;
 };
 
 export default AR;
