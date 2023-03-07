@@ -97,7 +97,6 @@ const VideoChat = () => {
             ref={remoteVideo}
             autoPlay
           />
-          <AR />
         </>
       )}
 
@@ -110,6 +109,7 @@ const VideoChat = () => {
               autoPlay
               style={{ width: videoWidth }}
             /> */}
+      <AR />
     </div>
   );
 };
