@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
-const VideoChat = () => {
+const HelperVideo = () => {
   const {
     call,
     localVideo,
@@ -63,4 +63,4 @@ const VideoChat = () => {
   );
 };
 
-export default VideoChat;
+export default HelperVideo;

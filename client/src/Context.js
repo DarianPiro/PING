@@ -173,6 +173,8 @@ const ContextProvider = ({ children }) => {
   // Sets up the peer.js connection
   const callUser = (id) => {
     const peer = new Peer({
+      secure: true,
+      port: 443,
       config: {
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' },
@@ -243,6 +245,38 @@ const ContextProvider = ({ children }) => {
     });
 
     const peer = new Peer({
+      secure: true,
+    port: 443,
+    config: {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }, 
+        { urls: 'stun:stun2.l.google.com:19302' }, 
+        // { urls: 'stun:stun1.l.google.com:19302' },
+        // { urls: 'stun:stun2.l.google.com:19302' },
+        // { urls: 'stun:stun3.l.google.com:19302' },
+        // { urls: 'stun:stun4.l.google.com:19302' },
+        // {
+        //   urls: "stun:relay.metered.ca:80",
+        // },
+        // {
+        //   urls: "turn:relay.metered.ca:80",
+        //   username: "ddb83261bcbab423be61967e",
+        //   credential: "t9qMvIegTclMFGMk",
+        // },
+        // {
+        //   urls: "turn:relay.metered.ca:443",
+        //   username: "ddb83261bcbab423be61967e",
+        //   credential: "t9qMvIegTclMFGMk",
+        // },
+        // {
+        //   urls: "turn:relay.metered.ca:443?transport=tcp",
+        //   username: "ddb83261bcbab423be61967e",
+        //   credential: "t9qMvIegTclMFGMk",
+        // },
+        { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      ],
+    },
       initiator: false,
       trickle: false,
       stream,
