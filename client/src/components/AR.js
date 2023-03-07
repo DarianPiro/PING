@@ -41,93 +41,93 @@ const AR = () => {
   }, [incomingStroke]);
 
   useEffect(() => {
-    const container = containerRef.current;
-    sceneRef.current = new THREE.Scene();
-    cameraRef.current = new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
-      0.01,
-      20
-    );
-    rendererRef.current = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-    });
-    rendererRef.current.setPixelRatio(window.devicePixelRatio);
-    rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-    rendererRef.current.xr.enabled = true;
-    container.appendChild(rendererRef.current.domElement);
+    // const container = containerRef.current;
+    // sceneRef.current = new THREE.Scene();
+    // cameraRef.current = new THREE.PerspectiveCamera(
+    //   70,
+    //   window.innerWidth / window.innerHeight,
+    //   0.01,
+    //   20
+    // );
+    // rendererRef.current = new THREE.WebGLRenderer({
+    //   antialias: true,
+    //   alpha: true,
+    // });
+    // rendererRef.current.setPixelRatio(window.devicePixelRatio);
+    // rendererRef.current.setSize(window.innerWidth, window.innerHeight);
+    // rendererRef.current.xr.enabled = true;
+    // container.appendChild(rendererRef.current.domElement);
 
-    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-    light.position.set(0, 1, 0);
-    sceneRef.current.add(light);
+    // const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+    // light.position.set(0, 1, 0);
+    // sceneRef.current.add(light);
 
-    painterRef.current = new TubePainter();
-    painterRef.current.setSize(0.4);
-    painterRef.current.mesh.material.side = THREE.DoubleSide;
-    painterRef.current.mesh.material.color = new THREE.Color(
-      'rgb(255, 166, 1)'
-    );
-    sceneRef.current.add(painterRef.current.mesh);
+    // painterRef.current = new TubePainter();
+    // painterRef.current.setSize(0.4);
+    // painterRef.current.mesh.material.side = THREE.DoubleSide;
+    // painterRef.current.mesh.material.color = new THREE.Color(
+    //   'rgb(255, 166, 1)'
+    // );
+    // sceneRef.current.add(painterRef.current.mesh);
 
-    function onSelectStart() {
-      controllerRef.current.userData.isSelecting = true;
-      controllerRef.current.userData.skipFrames = 2;
-    }
+    // function onSelectStart() {
+    //   controllerRef.current.userData.isSelecting = true;
+    //   controllerRef.current.userData.skipFrames = 2;
+    // }
 
-    function onSelectEnd() {
-      controllerRef.current.userData.isSelecting = false;
-    }
+    // function onSelectEnd() {
+    //   controllerRef.current.userData.isSelecting = false;
+    // }
 
-    controllerRef.current = rendererRef.current.xr.getController(0);
-    controllerRef.current.addEventListener('selectstart', onSelectStart);
-    controllerRef.current.addEventListener('selectend', onSelectEnd);
-    controllerRef.current.userData.skipFrames = 0;
-    sceneRef.current.add(controllerRef.current);
+    // controllerRef.current = rendererRef.current.xr.getController(0);
+    // controllerRef.current.addEventListener('selectstart', onSelectStart);
+    // controllerRef.current.addEventListener('selectend', onSelectEnd);
+    // controllerRef.current.userData.skipFrames = 0;
+    // sceneRef.current.add(controllerRef.current);
 
-    // document.body.appendChild(ARButton.createButton(rendererRef.current));
+    // // document.body.appendChild(ARButton.createButton(rendererRef.current));
 
-    navigator.xr.requestSession();
-    window.addEventListener('resize', onWindowResize);
+    // navigator.xr.requestSession();
+    // window.addEventListener('resize', onWindowResize);
 
-    animate();
+    // animate();
 
-    return () => {
-      window.removeEventListener('resize', onWindowResize);
-      rendererRef.current.dispose();
-    };
+    // return () => {
+    //   window.removeEventListener('resize', onWindowResize);
+    //   rendererRef.current.dispose();
+    // };
   }, []);
 
-  const onWindowResize = () => {
-    cameraRef.current.aspect = window.innerWidth / window.innerHeight;
-    cameraRef.current.updateProjectionMatrix();
-    rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-  };
+  // const onWindowResize = () => {
+  //   cameraRef.current.aspect = window.innerWidth / window.innerHeight;
+  //   cameraRef.current.updateProjectionMatrix();
+  //   rendererRef.current.setSize(window.innerWidth, window.innerHeight);
+  // };
 
-  const handleController = (controller) => {
-    const userData = controller.userData;
+  // const handleController = (controller) => {
+  //   const userData = controller.userData;
 
-    cursor.set(0, 0, -0.2).applyMatrix4(controller.matrixWorld);
+  //   cursor.set(0, 0, -0.2).applyMatrix4(controller.matrixWorld);
 
-    if (userData.isSelecting === true) {
-      if (userData.skipFrames >= 0) {
-        userData.skipFrames--;
-        painterRef.current.moveTo(cursor);
-        console.log(cursor);
-      } else {
-        painterRef.current.lineTo(cursor);
-        console.log(cursor);
-        painterRef.current.update();
-      }
-    }
-  };
+  //   if (userData.isSelecting === true) {
+  //     if (userData.skipFrames >= 0) {
+  //       userData.skipFrames--;
+  //       painterRef.current.moveTo(cursor);
+  //       console.log(cursor);
+  //     } else {
+  //       painterRef.current.lineTo(cursor);
+  //       console.log(cursor);
+  //       painterRef.current.update();
+  //     }
+  //   }
+  // };
 
-  const animate = () => {
-    rendererRef.current.setAnimationLoop(() => {
-      handleController(controllerRef.current);
-      rendererRef.current.render(sceneRef.current, cameraRef.current);
-    });
-  };
+  // const animate = () => {
+  //   rendererRef.current.setAnimationLoop(() => {
+  //     handleController(controllerRef.current);
+  //     rendererRef.current.render(sceneRef.current, cameraRef.current);
+  //   });
+  // };
 
   return (
     <>
