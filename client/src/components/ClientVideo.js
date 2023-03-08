@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 import { StyledButton } from './ui/StyledComponents';
 import { uploadImageToCloudinary } from '../lib/ImageApi';
 import mergeImages from 'merge-images';
+import AR from './AR';
 
 const ClientVIdeo = () => {
   const {
@@ -21,8 +22,7 @@ const ClientVIdeo = () => {
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
-  const canvasRef = useRef(null);
-  const sketchpadRef = useRef(null);
+  const canvasRef = useRef({});
 
   let videoWidth = window.innerWidth;
   let videoHeight = window.innerHeight;
@@ -36,10 +36,10 @@ const ClientVIdeo = () => {
     console.log(call);
   }, [call]);
 
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   canvas.width = videoWidth;
-  //   canvas.height = videoHeight;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
 
   //   const sketchpad = new Atrament(canvasRef.current, {
   //     color: 'orange',
@@ -64,64 +64,26 @@ const ClientVIdeo = () => {
   //     }
   //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
   //   }
-  // }, [incomingStroke]);
+  }, []);
 
   const handleScreenshot = async () => {
-    const canvas1 = canvasRef.current;
+    const canvas = canvasRef.current;
     const video = remoteVideo.current;
-    const ctx1 = canvas1.getContext('2d');
-    ctx1.drawImage(
-      video,
-      0,
-      0,
-      remoteVideo.current.videoWidth,
-      remoteVideo.current.videoWidth
-    );
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-    const dataUrl1 = canvas1.toDataURL({ format: 'png' });
-    canvas1.remove();
+    const dataUrl = canvas.toDataURL({ format: 'png' });
+    canvas.remove();
 
-    // const canvas2 = canvasRef.current;
-    // const ctx2 = canvas2.getContext('2d');
-    // ctx2.drawImage(
-    //   sketchpadRef.current.canvas,
-    //   0,
-    //   0,
-    //   remoteVideo.current.videoWidth,
-    //   remoteVideo.current.videoWidth
-    // );
-    // const dataUrl2 = canvas2.toDataURL({ format: 'png' });
-
-    // canvas2.remove();
-
-    let screenshotUrl;
-
-    const image1 = await uploadImageToCloudinary(
-      dataUrl1,
+    const screenshotUrl = await uploadImageToCloudinary(
+      dataUrl,
       currentUser.username
     );
-    // const image2 = await uploadImageToCloudinary(
-    //   dataUrl2,
-    //   currentUser.username
-    // );
-
-    // mergeImages([image1, image2], {
-    //   width: remoteVideo.current.videoWidth,
-    //   height: remoteVideo.current.videoWidth,
-    // }).then((b64) => {
-    //   screenshotUrl = b64;
-    // });
-
-    // const savedScreenshot = await uploadImageToCloudinary(
-    //   screenshotUrl,
-    //   currentUser.username
-    // );
-
-    setScreenshots((prevUrls) => [...prevUrls, image1]);
+    setScreenshots((prevUrls) => [...prevUrls, screenshotUrl]);
   };
 
   return (
-    <div className="video-container">
+    <div >
       <div className="center">
         {!call.incoming && (
           <Typography variant="h4">
@@ -150,7 +112,7 @@ const ClientVIdeo = () => {
       </div>
       {/* <canvas ref={canvasRef} className="sketchpad" /> */}
       {call.accepted && !call.ended && (
-        <div>
+        <div className="video-container">
           {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
 
           <button onClick={handleScreenshot} className="button save-step">
@@ -167,7 +129,7 @@ const ClientVIdeo = () => {
             ref={remoteVideo}
             autoPlay
           />
-
+          <AR ref={canvasRef}c />
           <video
             className="big-video"
             playsInline
