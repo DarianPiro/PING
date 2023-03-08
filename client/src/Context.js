@@ -174,6 +174,8 @@ const ContextProvider = ({ children }) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
+        console.log(currentStream instanceof MediaStream);
+
         setStream(currentStream);
       });
 
@@ -225,6 +227,7 @@ const ContextProvider = ({ children }) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
+        console.log(currentStream instanceof MediaStream);
         setStream(currentStream);
       });
 
