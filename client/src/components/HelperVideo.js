@@ -14,8 +14,8 @@ const HelperVideo = () => {
   } = useContext(Context);
 
   const canvasRef = useRef(null);
-  let videoWidth = 600;
-  let videoHeight = 450;
+  let videoWidth = window.innerWidth;
+  let videoHeight = window.innerHeight;
 
   useEffect(() => {
     if (call.accepted) {
