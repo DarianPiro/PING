@@ -91,6 +91,8 @@ const AR = () => {
     controllerRef.current.userData.skipFrames = 0;
     sceneRef.current.add(controllerRef.current);
 
+
+    // Uncomment this button to add AR functionality
     // document.body.appendChild(ARButton.createButton(rendererRef.current));
 
     window.addEventListener('resize', onWindowResize);
@@ -136,6 +138,8 @@ const AR = () => {
 };
 
 export default AR;
+
+
 
 // this is an old/alternative version using three js fiber but the tube painter does not work in this
 

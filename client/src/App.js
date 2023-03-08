@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import ClientDashboard from './pages/ClientDashboard';
 import HelperDashboard from './pages/HelperDashboard';
 import { Context } from './Context';
-import AR from './components/AR';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -55,7 +54,6 @@ function App() {
         {currentUser.registered && currentUser.role === 'Helper' && (
           <HelperDashboard />
         )}
-        {/* <AR /> */}
       </ThemeProvider>
     </div>
   );

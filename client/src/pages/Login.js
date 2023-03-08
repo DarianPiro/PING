@@ -21,6 +21,9 @@ const Login = () => {
   const [taglines, setTaglines] = useState([]);
 
   // useEffect(() => {
+
+  // Fill Taglines document in DB to get random taglines the frontpage
+  
   //   const getTaglines = async () => {
   //     const data = await getTaglines();
   //     setTaglines(data);

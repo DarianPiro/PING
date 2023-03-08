@@ -19,28 +19,6 @@ import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import ImageStack from '../components/ui/ImageStack';
 const { DateTime, Duration } = require('luxon');
 
-const RequestDetailsModal = ({ request, isOpen, handleClose }) => {
-  return (
-    <Modal open={isOpen} onClose={handleClose}>
-      <div className="center modal">
-        <Typography variant="h4" gutterBottom>
-          {request.content}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          <b>Category:</b> {request.type}
-        </Typography>
-        <Typography variant="subtitle2" gutterBottom>
-          <b> Date:</b>{' '}
-          {DateTime.fromISO(request.date).toLocaleString(DateTime.DATETIME_MED)}
-        </Typography>
-
-        <Typography variant="subtitle2" gutterBottom>
-          <b>Status:</b> {request.status}
-        </Typography>
-      </div>
-    </Modal>
-  );
-};
 
 const PastRequests = () => {
   const [expandedItem, setExpandedItem] = useState(null);
@@ -50,16 +28,6 @@ const PastRequests = () => {
   useEffect(() => {
     handleGetUser();
   }, []);
-
-  const [selectedRequest, setSelectedRequest] = useState(null);
-
-  const handleOpenRequestDetails = (request) => {
-    setSelectedRequest(request);
-  };
-
-  const handleCloseRequestDetails = () => {
-    setSelectedRequest(null);
-  };
 
   return (
     <Box className="center">
@@ -100,7 +68,10 @@ const PastRequests = () => {
                     <b>Date</b> <br />
                     {DateTime.fromISO(request.date).toFormat('dd.MM')}
                   </Typography>
-                  {/* {request.review.time && (
+
+                  {/* 
+                  Needs fixing:
+                  {request.review.time && (
                     <Typography
                       variant="subtitle2"
                       sx={{ color: '#8793a2', mr: '1rem' }}
@@ -124,7 +95,9 @@ const PastRequests = () => {
           );
         })}{' '}
       </List>
-      {/* {selectedRequest && (
+      {/* 
+      // either use this modal or the one in ImageStack for image gallery
+      {selectedRequest && (
         <RequestDetailsModal
           request={selectedRequest}
           isOpen={Boolean(selectedRequest)}
