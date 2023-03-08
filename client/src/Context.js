@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import io from 'socket.io-client';
-import Peer from 'simple-peer';
-// import { Peer } from 'peerjs';
+// import Peer from 'simple-peer';
+import { Peer } from 'peerjs';
 import { DateTime, Interval } from 'luxon';
 import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
