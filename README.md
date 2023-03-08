@@ -12,11 +12,17 @@ Create Cloudinary account.
 Create .env in client and add following variables with your data:
 
 REACT_APP_SERVER_URL
+
 REACT_APP_CLOUDINARY_CLOUD_NAME
+
 REACT_APP_CLOUDINARY_UPLOAD_PRESET
+
 REACT_APP_CLOUDINARY_API_KEY
+
 REACT_APP_CLOUDINARY_API_SECRET
+
 REACT_APP_CLOUDINARY_URL
+
 
 Create .env in server and add the node version and your database url
 
