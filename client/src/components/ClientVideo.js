@@ -36,35 +36,35 @@ const ClientVIdeo = () => {
     console.log(call);
   }, [call]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.width = videoWidth;
-    canvas.height = videoHeight;
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   canvas.width = videoWidth;
+  //   canvas.height = videoHeight;
 
-    const sketchpad = new Atrament(canvasRef.current, {
-      color: 'orange',
-    });
-    sketchpad.smoothing = 1.3;
-    sketchpadRef.current = sketchpad;
+  //   const sketchpad = new Atrament(canvasRef.current, {
+  //     color: 'orange',
+  //   });
+  //   sketchpad.smoothing = 1.3;
+  //   sketchpadRef.current = sketchpad;
 
-    if (incomingStroke.points) {
-      const points = incomingStroke.points.slice();
-      const firstPoint = points.shift().point;
-      sketchpad.beginStroke(firstPoint.x, firstPoint.y);
-      let prevPoint = firstPoint;
-      while (points.length > 0) {
-        const point = points.shift().point;
-        const { x, y } = sketchpad.draw(
-          point.x,
-          point.y,
-          prevPoint.x,
-          prevPoint.y
-        );
-        prevPoint = { x, y };
-      }
-      sketchpad.endStroke(prevPoint.x, prevPoint.y);
-    }
-  }, [incomingStroke]);
+  //   if (incomingStroke.points) {
+  //     const points = incomingStroke.points.slice();
+  //     const firstPoint = points.shift().point;
+  //     sketchpad.beginStroke(firstPoint.x, firstPoint.y);
+  //     let prevPoint = firstPoint;
+  //     while (points.length > 0) {
+  //       const point = points.shift().point;
+  //       const { x, y } = sketchpad.draw(
+  //         point.x,
+  //         point.y,
+  //         prevPoint.x,
+  //         prevPoint.y
+  //       );
+  //       prevPoint = { x, y };
+  //     }
+  //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
+  //   }
+  // }, [incomingStroke]);
 
   const handleScreenshot = async () => {
     const canvas1 = canvasRef.current;
@@ -148,7 +148,7 @@ const ClientVIdeo = () => {
           </>
         )}
       </div>
-      <canvas ref={canvasRef} className="sketchpad" />
+      {/* <canvas ref={canvasRef} className="sketchpad" /> */}
       {call.accepted && !call.ended && (
         <div>
           {screenshots.length > 0 && <ImageStack screenshots={screenshots} />}
@@ -167,8 +167,9 @@ const ClientVIdeo = () => {
             ref={remoteVideo}
             autoPlay
           />
+
           <video
-            className="small-video"
+            className="big-video"
             playsInline
             muted
             ref={localVideo}

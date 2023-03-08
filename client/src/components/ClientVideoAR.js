@@ -15,6 +15,7 @@ const VideoChat = () => {
     call,
     leaveCall,
     setStream,
+    stream,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -24,11 +25,11 @@ const VideoChat = () => {
   let videoHeight = window.innerHeight;
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-      });
+    if (call.accepted) {
+      localVideo.current.srcObject = stream;
+      console.log({ localVideo });
+      console.log({ remoteVideo });
+    }
   }, []);
 
   const handleScreenshot = async () => {
@@ -92,7 +93,7 @@ const VideoChat = () => {
             ref={remoteVideo}
             autoPlay
           />{' '}
-          <AR />
+          {/* <AR /> */}
           <video
             className="big-video"
             playsInline
