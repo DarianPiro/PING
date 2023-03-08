@@ -21,6 +21,7 @@ const HelperVideo = () => {
     if (call.accepted) {
       localVideo.current.srcObject = stream;
     }
+
     const canvas = canvasRef.current;
     canvas.width = videoWidth;
     canvas.height = videoHeight;

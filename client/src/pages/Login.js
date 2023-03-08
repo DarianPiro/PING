@@ -35,7 +35,7 @@ const Login = () => {
   }, [isAuthenticated]);
 
   return (
-    <div className='center'>
+    <div className="center">
       {!isAuthenticated && (
         <div>
           <Typography variant="h4">
@@ -88,6 +88,8 @@ const Login = () => {
               <MenuItem value="Helper">Helper</MenuItem>
             </StyledSelect>
           </div>
+          <br />
+          <br />
           <StyledButton variant="contained" color="primary" type="submit">
             Create account
           </StyledButton>

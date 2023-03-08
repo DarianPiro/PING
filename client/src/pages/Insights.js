@@ -35,7 +35,7 @@ const Insights = () => {
   }, []);
 
   return (
-    <Box className='center'>
+    <Box className='center' sx={{maxHeight: '90vh'}}>
       <Typography variant="h4" sx={{mt: '3rem'}}>Insights</Typography>
       {allRequests.length === 0 && (
         <Typography variant="h6">
@@ -44,7 +44,7 @@ const Insights = () => {
         </Typography>
       )}
       {allRequests.length > 0 && (
-        <Box sx={{maxHeight: '750vh'}}>
+        <Box sx={{maxHeight: '80vh'}}>
           <Typography variant="h6" sx={{ mt: 2 }}>
             Average rating
           </Typography>
