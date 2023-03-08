@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 const server = require('http').createServer(app);
-// const { ExpressPeerServer } = require("peer");
+const { ExpressPeerServer } = require("peer");
 app.use(cors());
 
 const io = require('socket.io')(server, {
