@@ -47,8 +47,8 @@ const ContextProvider = ({ children }) => {
   const [recipient, setRecipient] = useState('');
   const [initialFetch, setInitialFetch] = useState(false);
 
-  const localVideo = useRef(null);
-  const remoteVideo = useRef(null);
+  const localVideo = useRef({});
+  const remoteVideo = useRef({});
 
   useEffect(() => {
     // Sets up the video stream
@@ -231,6 +231,8 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on('stream', (currentStream) => {
+      console.log(remoteVideo)
+
       remoteVideo.current.srcObject = currentStream;
     });
 

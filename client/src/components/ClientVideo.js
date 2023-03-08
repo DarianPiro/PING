@@ -30,7 +30,8 @@ const ClientVIdeo = () => {
   useEffect(() => {
     if (call.accepted) {
       localVideo.current.srcObject = stream;
-      
+      console.log({ localVideo });
+      console.log({ remoteVideo });
     }
     console.log(call);
   }, [call]);
@@ -80,18 +81,18 @@ const ClientVIdeo = () => {
     const dataUrl1 = canvas1.toDataURL({ format: 'png' });
     canvas1.remove();
 
-    const canvas2 = canvasRef.current;
-    const ctx2 = canvas2.getContext('2d');
-    ctx2.drawImage(
-      sketchpadRef.current.canvas,
-      0,
-      0,
-      remoteVideo.current.videoWidth,
-      remoteVideo.current.videoWidth
-    );
-    const dataUrl2 = canvas2.toDataURL({ format: 'png' });
+    // const canvas2 = canvasRef.current;
+    // const ctx2 = canvas2.getContext('2d');
+    // ctx2.drawImage(
+    //   sketchpadRef.current.canvas,
+    //   0,
+    //   0,
+    //   remoteVideo.current.videoWidth,
+    //   remoteVideo.current.videoWidth
+    // );
+    // const dataUrl2 = canvas2.toDataURL({ format: 'png' });
 
-    canvas2.remove();
+    // canvas2.remove();
 
     let screenshotUrl;
 
@@ -99,24 +100,24 @@ const ClientVIdeo = () => {
       dataUrl1,
       currentUser.username
     );
-    const image2 = await uploadImageToCloudinary(
-      dataUrl2,
-      currentUser.username
-    );
+    // const image2 = await uploadImageToCloudinary(
+    //   dataUrl2,
+    //   currentUser.username
+    // );
 
-    mergeImages([image1, image2], {
-      width: remoteVideo.current.videoWidth,
-      height: remoteVideo.current.videoWidth,
-    }).then((b64) => {
-      screenshotUrl = b64;
-    });
+    // mergeImages([image1, image2], {
+    //   width: remoteVideo.current.videoWidth,
+    //   height: remoteVideo.current.videoWidth,
+    // }).then((b64) => {
+    //   screenshotUrl = b64;
+    // });
 
-    const savedScreenshot = await uploadImageToCloudinary(
-      screenshotUrl,
-      currentUser.username
-    );
+    // const savedScreenshot = await uploadImageToCloudinary(
+    //   screenshotUrl,
+    //   currentUser.username
+    // );
 
-    setScreenshots((prevUrls) => [...prevUrls, savedScreenshot]);
+    setScreenshots((prevUrls) => [...prevUrls, image1]);
   };
 
   return (
@@ -163,7 +164,7 @@ const ClientVIdeo = () => {
             className="small-video"
             playsInline
             muted
-            ref={localVideo}
+            ref={remoteVideo}
             autoPlay
           />
 
