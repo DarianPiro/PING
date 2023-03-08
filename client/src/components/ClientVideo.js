@@ -17,6 +17,7 @@ const ClientVIdeo = () => {
     leaveCall,
     incomingStroke,
     stream,
+    setStream,
   } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
@@ -28,9 +29,14 @@ const ClientVIdeo = () => {
 
   useEffect(() => {
     if (call.accepted) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          setStream(currentStream);
+        });
       localVideo.current.srcObject = stream;
+      console.log(call);
     }
-    console.log(call);
   }, [call]);
 
   useEffect(() => {

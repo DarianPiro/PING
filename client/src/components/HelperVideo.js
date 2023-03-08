@@ -3,7 +3,7 @@ import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
 const HelperVideo = () => {
-  const { call, localVideo, remoteVideo, leaveCall, setStroke, stream } =
+  const { setStream, call, localVideo, remoteVideo, leaveCall, setStroke, stream } =
     useContext(Context);
 
   const canvasRef = useRef(null);
@@ -12,6 +12,11 @@ const HelperVideo = () => {
 
   useEffect(() => {
     if (call.accepted) {
+      navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+      });
       localVideo.current.srcObject = stream;
     }
     const canvas = canvasRef.current;

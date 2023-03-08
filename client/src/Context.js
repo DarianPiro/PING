@@ -53,11 +53,7 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     // Sets up the video stream
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-      });
+ 
 
     // Updates the online user list
     if (isAuthenticated && currentUser.registered === true) {
