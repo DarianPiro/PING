@@ -7,8 +7,15 @@ import { uploadImageToCloudinary } from '../lib/ImageApi';
 import AR from './AR';
 
 const VideoChat = () => {
-  const { currentUser, answerCall, remoteVideo, localVideo, call, leaveCall, setStream } =
-    useContext(Context);
+  const {
+    currentUser,
+    answerCall,
+    remoteVideo,
+    localVideo,
+    call,
+    leaveCall,
+    setStream,
+  } = useContext(Context);
   const [screenshots, setScreenshots] = useState([]);
 
   const canvasRef = useRef(null);
@@ -73,7 +80,7 @@ const VideoChat = () => {
       {call.accepted && (
         <>
           <button onClick={handleScreenshot} className="button save-step">
-            Save
+            Screenshot
           </button>
           <button onClick={leaveCall} className="button end-call">
             End Call
@@ -84,15 +91,15 @@ const VideoChat = () => {
             muted
             ref={remoteVideo}
             autoPlay
-          />
+          />{' '}
+          <AR />
           <video
-            className="small-video"
+            className="big-video"
             playsInline
             muted
             ref={localVideo}
             autoPlay
           />
-          <AR />
         </>
       )}
     </div>

@@ -30,7 +30,7 @@ const AR = () => {
         );
       });
       // painterRef.current.clear();
-      painterRef.current.setSize(2);
+      painterRef.current.setSize(1.4);
       painterRef.current.moveTo(vectors.shift());
       vectors.forEach((vector) => {
         painterRef.current.lineTo(vector);
@@ -85,7 +85,7 @@ const AR = () => {
     controllerRef.current.userData.skipFrames = 0;
     sceneRef.current.add(controllerRef.current);
 
-    document.body.appendChild(ARButton.createButton(rendererRef.current));
+    // document.body.appendChild(ARButton.createButton(rendererRef.current));
 
     window.addEventListener('resize', onWindowResize);
 

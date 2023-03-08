@@ -167,9 +167,8 @@ const ClientVIdeo = () => {
             ref={remoteVideo}
             autoPlay
           />
-
           <video
-            className="big-video"
+            className="small-video"
             playsInline
             muted
             ref={localVideo}
