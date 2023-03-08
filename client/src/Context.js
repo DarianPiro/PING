@@ -169,8 +169,6 @@ const ContextProvider = ({ children }) => {
 
   // Calls the helpee user
   const callUser = (id) => {
-    console.log('callUser', id);
-
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -223,6 +221,7 @@ const ContextProvider = ({ children }) => {
       ...request,
       time: DateTime.now(),
     });
+    console.log('answerCall', call.signal);
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })

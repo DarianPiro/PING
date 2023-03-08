@@ -91,7 +91,7 @@ const VideoChat = () => {
             ref={remoteVideo}
             autoPlay
           />
-          {/* <AR /> */}
+          <AR />
         </>
       )}
     </div>
