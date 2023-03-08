@@ -180,16 +180,12 @@ const ContextProvider = ({ children }) => {
       });
 
     const peer = new Peer({
-      host: 'https://ping-pncs.onrender.com',
-      secure: true,
-      port: 443,
-      path: '/peerjs/ping',
-      config: {
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-        ],
-      },
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: true,
       trickle: false,
       stream,
@@ -236,15 +232,12 @@ const ContextProvider = ({ children }) => {
       });
 
     const peer = new Peer({
-      host: 'https://ping-pncs.onrender.com',
-      secure: true,
-      port: 443,
-      config: {
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-          { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
-        ],
-      },
+      // config: {
+      //   iceServers: [
+      //     { url: 'stun:stun.l.google.com:19302' },
+      //     { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' },
+      //   ],
+      // },
       initiator: false,
       trickle: false,
       stream,

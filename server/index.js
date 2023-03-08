@@ -10,7 +10,7 @@ app.use(cors());
 const io = require('socket.io')(server, {
   allowEIO3: true,
   cors: {
-    origin: 'https://ping-kappa.vercel.app/',
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });
