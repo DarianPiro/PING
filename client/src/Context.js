@@ -1,17 +1,13 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import io from 'socket.io-client';
-// import Peer from 'simple-peer';
-import { Peer } from 'peerjs';
+import Peer from 'simple-peer';
 import { DateTime, Interval } from 'luxon';
 import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
-const socket = io('https://ping-pncs.onrender.com', {
-  transports: ['websocket'],
-  secure: true,
-});
+const socket = io(process.env.REACT_APP_SERVER_URL);
 
 const ContextProvider = ({ children }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -55,6 +51,13 @@ const ContextProvider = ({ children }) => {
   const remoteVideo = useRef(null);
 
   useEffect(() => {
+    // Sets up the video stream
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+      });
+
     // Updates the online user list
     if (isAuthenticated && currentUser.registered === true) {
       socket.emit('userConnected', { name: currentUser.username });
@@ -95,6 +98,7 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
+
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
@@ -165,18 +169,11 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.emit('newRequest', newRequest);
+
   };
 
-  // Calls the helpee user
+  // Sets up the peer.js connection
   const callUser = (id) => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        console.log(currentStream instanceof MediaStream);
-
-        setStream(currentStream);
-      });
-
     const peer = new Peer({
       // config: {
       //   iceServers: [
@@ -192,44 +189,31 @@ const ContextProvider = ({ children }) => {
     setRecipient(id);
 
     peer.on('signal', (data) => {
-      console.log('signal', data);
       socket.emit('callUser', {
         userToCall: id,
         signalData: data,
         from: currentUser.socketID,
         name: currentUser.username,
       });
-      console.log('callUser', data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log('stream', currentStream);
     });
 
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
-      console.log('callAccepted', signal);
       peer.signal(signal);
     });
   };
 
-  // Accepts the call from the helper
+  // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
     setRequest({
       ...request,
       time: DateTime.now(),
     });
-    console.log('answerCall', call.signal);
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        console.log(currentStream instanceof MediaStream);
-        setStream(currentStream);
-      });
-
     const peer = new Peer({
       // config: {
       //   iceServers: [
@@ -244,12 +228,10 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
-      console.log('answerCall', data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log('stream', currentStream);
     });
 
     peer.signal(call.signal);
