@@ -88,6 +88,7 @@ exports.sendReview = async (req, res) => {
   }
 };
 
+// this function has to be fixed, images get added to wrong documents
 exports.updateImages = async (req, res) => {
   try {
     const { username, image } = req.body;

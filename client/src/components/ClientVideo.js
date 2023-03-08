@@ -41,29 +41,31 @@ const ClientVIdeo = () => {
     canvas.width = videoWidth;
     canvas.height = videoHeight;
 
-  //   const sketchpad = new Atrament(canvasRef.current, {
-  //     color: 'orange',
-  //   });
-  //   sketchpad.smoothing = 1.3;
-  //   sketchpadRef.current = sketchpad;
+    // this draws 2D sketches instead of 3D in the AR component
 
-  //   if (incomingStroke.points) {
-  //     const points = incomingStroke.points.slice();
-  //     const firstPoint = points.shift().point;
-  //     sketchpad.beginStroke(firstPoint.x, firstPoint.y);
-  //     let prevPoint = firstPoint;
-  //     while (points.length > 0) {
-  //       const point = points.shift().point;
-  //       const { x, y } = sketchpad.draw(
-  //         point.x,
-  //         point.y,
-  //         prevPoint.x,
-  //         prevPoint.y
-  //       );
-  //       prevPoint = { x, y };
-  //     }
-  //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
-  //   }
+    //   const sketchpad = new Atrament(canvasRef.current, {
+    //     color: 'orange',
+    //   });
+    //   sketchpad.smoothing = 1.3;
+    //   sketchpadRef.current = sketchpad;
+
+    //   if (incomingStroke.points) {
+    //     const points = incomingStroke.points.slice();
+    //     const firstPoint = points.shift().point;
+    //     sketchpad.beginStroke(firstPoint.x, firstPoint.y);
+    //     let prevPoint = firstPoint;
+    //     while (points.length > 0) {
+    //       const point = points.shift().point;
+    //       const { x, y } = sketchpad.draw(
+    //         point.x,
+    //         point.y,
+    //         prevPoint.x,
+    //         prevPoint.y
+    //       );
+    //       prevPoint = { x, y };
+    //     }
+    //     sketchpad.endStroke(prevPoint.x, prevPoint.y);
+    //   }
   }, []);
 
   const handleScreenshot = async () => {
@@ -83,7 +85,7 @@ const ClientVIdeo = () => {
   };
 
   return (
-    <div >
+    <div>
       <div className="center">
         {!call.incoming && (
           <Typography variant="h4">
@@ -129,7 +131,8 @@ const ClientVIdeo = () => {
             ref={remoteVideo}
             autoPlay
           />
-          <AR ref={canvasRef}c />
+
+          <AR ref={canvasRef} />
           <video
             className="big-video"
             playsInline

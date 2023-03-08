@@ -27,8 +27,6 @@ const VideoChat = () => {
     );
   }, [call]);
 
-
-
   return (
     <div className="video-container" style={{ videoWidth }}>
       {call.accepted && !call.ended && (

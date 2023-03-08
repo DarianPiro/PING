@@ -4,8 +4,9 @@ import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
 // import { ARButton } from './ui/ARButton';
 // import { ARButtonAlt } from './ui/ARButtonAlt';
-import { ARButton } from 'three/addons/webxr/ARButton.js';
 // import { ARButton } from '@react-three/xr';
+import { ARButton } from 'three/addons/webxr/ARButton.js';
+// Investigate ARButton on how to add dom elements in AR mode
 
 const AR = () => {
   const { incomingStroke } = useContext(Context);
@@ -18,6 +19,8 @@ const AR = () => {
   const cursor = new THREE.Vector3();
 
   useEffect(() => {
+    // Vectors are currently not corrent position/size, needs change either here or on the helper side
+
     if (incomingStroke.points) {
       const vectors = [];
       incomingStroke.points.forEach((point) => {
@@ -29,7 +32,7 @@ const AR = () => {
           )
         );
       });
-      // painterRef.current.clear();
+
       painterRef.current.setSize(1);
       painterRef.current.moveTo(vectors.shift());
       vectors.forEach((vector) => {
@@ -37,6 +40,9 @@ const AR = () => {
       });
 
       painterRef.current.update();
+
+      // to clear the canvas
+      // painterRef.current.clear();
     }
   }, [incomingStroke]);
 
@@ -130,6 +136,8 @@ const AR = () => {
 };
 
 export default AR;
+
+// this is an old/alternative version using three js fiber but the tube painter does not work in this
 
 // import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 // import * as THREE from 'three';

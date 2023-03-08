@@ -98,7 +98,6 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
-
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
@@ -108,7 +107,9 @@ const ContextProvider = ({ children }) => {
   // Checks if user exists in database
   const handleGetUser = async () => {
     const receivedUser = await getUser({ user });
+
     setInitialFetch(true);
+
     if (receivedUser) {
       setCurrentUser({
         ...currentUser,
@@ -125,11 +126,13 @@ const ContextProvider = ({ children }) => {
   // Creates user in database
   const handleCreateUser = async (event) => {
     event.preventDefault();
+
     const receivedUser = await createUser({
       username: currentUser.username,
       email: user.email,
       role: currentUser.role,
     });
+
     if (receivedUser) {
       setCurrentUser({
         ...currentUser,
@@ -152,15 +155,18 @@ const ContextProvider = ({ children }) => {
   };
 
   // Send request to database and socket
-  const handleRequest = async (e) => {
-    e.preventDefault();
+  const handleRequest = async (event) => {
+    event.preventDefault();
+
     const userResponse = await sendRequest({
       username: currentUser.username,
       content: request.content,
       type: request.type,
       status: 'Pending',
     });
+
     const newRequest = userResponse.requests[userResponse.requests.length - 1];
+
     setRequest({
       ...request,
       _id: newRequest._id,
@@ -169,11 +175,11 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.emit('newRequest', newRequest);
-
   };
 
   // Sets up the peer.js connection
   const callUser = (id) => {
+    // stun/turn servers might be needed to avoid connection problems, needs investigating
     const peer = new Peer({
       // config: {
       //   iceServers: [
@@ -210,10 +216,13 @@ const ContextProvider = ({ children }) => {
   // Accepts the call from the other user
   const answerCall = () => {
     setCall({ ...call, accepted: true });
+
     setRequest({
       ...request,
       time: DateTime.now(),
     });
+
+    // stun/turn servers might be needed to avoid connection problems, needs investigating
     const peer = new Peer({
       // config: {
       //   iceServers: [
@@ -231,7 +240,7 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on('stream', (currentStream) => {
-      console.log(remoteVideo)
+      console.log(remoteVideo);
 
       remoteVideo.current.srcObject = currentStream;
     });
@@ -245,6 +254,7 @@ const ContextProvider = ({ children }) => {
       recipientID: call.from,
       senderID: currentUser.socketID,
     });
+
     setRequest({
       ...request,
       helper: call.name,
