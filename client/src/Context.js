@@ -8,7 +8,7 @@ import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
-const socket = io(process.env.REACT_APP_SERVER_URL, {
+const socket = io('https://ping-pncs.onrender.com', {
   transports: ['websocket'],
   secure: true,
 });
