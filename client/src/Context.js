@@ -180,6 +180,10 @@ const ContextProvider = ({ children }) => {
       });
 
     const peer = new Peer({
+      host: 'https://ping-pncs.onrender.com',
+      secure: true,
+      port: 443,
+      path: '/peerjs/ping',
       config: {
         iceServers: [
           { url: 'stun:stun.l.google.com:19302' },
@@ -232,6 +236,9 @@ const ContextProvider = ({ children }) => {
       });
 
     const peer = new Peer({
+      host: 'https://ping-pncs.onrender.com',
+      secure: true,
+      port: 443,
       config: {
         iceServers: [
           { url: 'stun:stun.l.google.com:19302' },

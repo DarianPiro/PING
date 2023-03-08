@@ -30,8 +30,9 @@ const ClientVIdeo = () => {
   useEffect(() => {
     if (call.accepted) {
       localVideo.current.srcObject = stream;
-      console.log(call);
+      
     }
+    console.log(call);
   }, [call]);
 
   useEffect(() => {

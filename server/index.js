@@ -17,14 +17,12 @@ const io = require('socket.io')(server, {
 
 const User = require('./models/User');
 
-// const peerServer = ExpressPeerServer(server, {
-// 	debug: true,
-// 	path: "/ping",
-// });
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+  path: '/ping',
+});
 
-// app.use("/peerjs", peerServer);
-
-
+app.use('/peerjs', peerServer);
 
 io.on('connection', (socket) => {
   console.log(`👽 User ${socket.id} connected 👽`);
