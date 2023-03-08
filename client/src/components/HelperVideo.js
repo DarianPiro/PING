@@ -3,8 +3,15 @@ import { Context } from '../Context';
 import { Atrament } from 'atrament';
 
 const HelperVideo = () => {
-  const { setStream, call, localVideo, remoteVideo, leaveCall, setStroke, stream } =
-    useContext(Context);
+  const {
+    setStream,
+    call,
+    localVideo,
+    remoteVideo,
+    leaveCall,
+    setStroke,
+    stream,
+  } = useContext(Context);
 
   const canvasRef = useRef(null);
   let videoWidth = 600;
@@ -12,11 +19,6 @@ const HelperVideo = () => {
 
   useEffect(() => {
     if (call.accepted) {
-      navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-      });
       localVideo.current.srcObject = stream;
     }
     const canvas = canvasRef.current;
@@ -35,29 +37,24 @@ const HelperVideo = () => {
   }, [call]);
 
   return (
-      <div className="video-container" style={{ videoWidth }}>
-        {call.accepted && !call.ended && (
-          <button className="button end-call" onClick={leaveCall}>
-            End Call
-          </button>
-        )}
+    <div className="video-container" style={{ videoWidth }}>
+      {call.accepted && !call.ended && (
+        <button className="button end-call" onClick={leaveCall}>
+          End Call
+        </button>
+      )}
 
-        <video
-          className="small-video"
-          playsInline
-          ref={localVideo}
-          autoPlay
-        />
+      <video className="small-video" playsInline ref={localVideo} autoPlay />
 
-        <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
-        <video
-          className="big-video"
-          playsInline
-          muted
-          ref={remoteVideo}
-          autoPlay
-        />
-      </div>
+      <canvas ref={canvasRef} id="sketchpad" className="sketchpad" />
+      <video
+        className="big-video"
+        playsInline
+        muted
+        ref={remoteVideo}
+        autoPlay
+      />
+    </div>
   );
 };
 

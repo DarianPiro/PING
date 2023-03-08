@@ -8,7 +8,10 @@ import { getUser, createUser, updateUser, sendRequest } from './lib/ApiService';
 
 const Context = createContext();
 
-const socket = io(process.env.REACT_APP_SERVER_URL, {transports: ['websocket'], secure: true});
+const socket = io(process.env.REACT_APP_SERVER_URL, {
+  transports: ['websocket'],
+  secure: true,
+});
 
 const ContextProvider = ({ children }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -52,9 +55,6 @@ const ContextProvider = ({ children }) => {
   const remoteVideo = useRef(null);
 
   useEffect(() => {
-    // Sets up the video stream
- 
-
     // Updates the online user list
     if (isAuthenticated && currentUser.registered === true) {
       socket.emit('userConnected', { name: currentUser.username });
@@ -95,7 +95,6 @@ const ContextProvider = ({ children }) => {
     socket.on('stroke', (stroke) => {
       setIncomingStroke(stroke);
     });
-
   }, [isAuthenticated, currentUser, user, currentPage, call]);
 
   useEffect(() => {
@@ -166,12 +165,18 @@ const ContextProvider = ({ children }) => {
     });
 
     socket.emit('newRequest', newRequest);
-
   };
 
-// Calls the helpee user
+  // Calls the helpee user
   const callUser = (id) => {
-    console.log('callUser', id)
+    console.log('callUser', id);
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+      });
+
     const peer = new Peer({
       config: {
         iceServers: [
@@ -187,24 +192,24 @@ const ContextProvider = ({ children }) => {
     setRecipient(id);
 
     peer.on('signal', (data) => {
-      console.log('signal', data)
+      console.log('signal', data);
       socket.emit('callUser', {
         userToCall: id,
         signalData: data,
         from: currentUser.socketID,
         name: currentUser.username,
       });
-      console.log('callUser', data)
+      console.log('callUser', data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log('stream', currentStream)
+      console.log('stream', currentStream);
     });
 
     socket.on('callAccepted', (signal) => {
       setCall({ ...call, accepted: true, incoming: true });
-      console.log('callAccepted', signal)
+      console.log('callAccepted', signal);
       peer.signal(signal);
     });
   };
@@ -216,6 +221,13 @@ const ContextProvider = ({ children }) => {
       ...request,
       time: DateTime.now(),
     });
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+      });
+
     const peer = new Peer({
       config: {
         iceServers: [
@@ -230,12 +242,12 @@ const ContextProvider = ({ children }) => {
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
-      console.log('answerCall', data)
+      console.log('answerCall', data);
     });
 
     peer.on('stream', (currentStream) => {
       remoteVideo.current.srcObject = currentStream;
-      console.log('stream', currentStream)
+      console.log('stream', currentStream);
     });
 
     peer.signal(call.signal);
