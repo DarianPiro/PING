@@ -93,7 +93,7 @@ const AR = () => {
 
 
     // Uncomment this button to add AR functionality
-    // document.body.appendChild(ARButton.createButton(rendererRef.current));
+    document.body.appendChild(ARButton.createButton(rendererRef.current));
 
     window.addEventListener('resize', onWindowResize);
 
