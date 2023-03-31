@@ -2,10 +2,11 @@ Get expert help from anywhere with our AR remote assistance app – connecting y
 
 # PING
 
-
-<img src="https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268956/Screenshot_2023-03-31_at_14.09.56_ujri4k.png"  height="400" alt='PING login screen'>
-<img src="https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268969/Screenshot_2023-03-31_at_14.10.45_ztcmkj.png"  height="400" alt='PING request screen'>
-
+<p>
+<img src="https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268956/login.png"  height="400" alt='PING login screen'>
+<img src="https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268969/newrequest.png"  height="400" alt='PING new request screen'>
+<img src="https://res.cloudinary.com/dc3ejnypr/image/upload/v1680270919/requests.png"  height="400" alt='PING open request screen'>
+</p>
 Say goodbye to confusing, frustrating video calls – Ping makes remote assistance a breeze. Our app lets users send 3D drawings that can are rendered in augmented reality on client side, giving professionals a powerful visual aid to help them communicate complex ideas. With Ping, you'll enjoy a seamless video chat experience that's more interactive and engaging than ever before.
 
 Remote work is becoming increasingly popular, but it can be challenging to provide effective assistance when you can't be in the same room as your client. That's where Ping comes in. Our app leverages the latest technology to offer a unique solution that's perfect for remote video chat assistance. With Ping, you can provide your clients with a visual aid that's as clear and helpful as if you were in the same room.
