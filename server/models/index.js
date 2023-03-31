@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 try {
   mongoose.connect(
-    "mongodb+srv://P1ro:oDOaxYB8Du3Y9GJx@piro.f8cbqeh.mongodb.net/ping?retryWrites=true&w=majority",  
+    process.env.DATABASE_URL || "mongodb://localhost:27017/your-database-name",
   console.log('💗 Connected to database 💗')
   );
 } catch (error) {
