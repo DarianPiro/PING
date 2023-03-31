@@ -3,9 +3,9 @@ import { Context } from '../Context';
 import * as THREE from 'three';
 import { TubePainter } from 'three/addons/misc/TubePainter.js';
 // import { ARButton } from './ui/ARButton';
-// import { ARButtonAlt } from './ui/ARButtonAlt';
+import { ARButtonAlt } from './ui/ARButtonAlt';
 // import { ARButton } from '@react-three/xr';
-import { ARButton } from 'three/addons/webxr/ARButton.js';
+// import { ARButton } from 'three/addons/webxr/ARButton.js';
 // Investigate ARButton on how to add dom elements in AR mode
 
 const AR = () => {

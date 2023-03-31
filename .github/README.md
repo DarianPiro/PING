@@ -30,7 +30,7 @@ Create a Cloudinary account.
    ```bash
    cd client
    npm i
-   
+
    cd ../server	
    npm i
    ```
@@ -45,13 +45,13 @@ Copy each .env.sample and add your data.
 
 # Tech Stack
 
-Frontend: [![React](https://img.shields.io/badge/React-blue?logo=react&logoColor=white)](https://reactjs.org/), [![ThreeJS](https://img.shields.io/badge/ThreeJS-black?logo=three.js&logoColor=white)](https://threejs.org/), [![MaterialUI](https://img.shields.io/badge/MaterialUI-teal?logo=material-ui&logoColor=white)](https://material-ui.com/)
+Frontend: [![React](https://img.shields.io/badge/React-blue?logo=react&logoColor=white)](https://reactjs.org/) [![ThreeJS](https://img.shields.io/badge/ThreeJS-black?logo=three.js&logoColor=white)](https://threejs.org/) [![MaterialUI](https://img.shields.io/badge/MaterialUI-teal?logo=material-ui&logoColor=white)](https://material-ui.com/)
 
 Backend: [![Express.js](https://img.shields.io/badge/Express.js-grey?logo=express&logoColor=white)](https://expressjs.com/)
 
 Database: [![MongoDB](https://img.shields.io/badge/MongoDB-green?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
-Real-time communication: [![WebRTC](https://img.shields.io/badge/WebRTC-red?logo=webrtc&logoColor=white)](https://webrtc.org/), [![Socket.io](https://img.shields.io/badge/Socket.io-grey?logo=socket.io&logoColor=white)](https://socket.io/)
+Real-time communication: [![WebRTC](https://img.shields.io/badge/WebRTC-red?logo=webrtc&logoColor=white)](https://webrtc.org/) [![Socket.io](https://img.shields.io/badge/Socket.io-grey?logo=socket.io&logoColor=white)](https://socket.io/)
 
 Authentication and authorization: [![Auth0](https://img.shields.io/badge/Auth0-orange?logo=auth0&logoColor=white)](https://auth0.com/)
 
