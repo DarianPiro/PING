@@ -1,50 +1,56 @@
+Get expert help from anywhere with our AR remote assistance app – connecting you with the knowledge you need in real-time.
+
 # PING
 
-Ping is a video chat assistance app. 
+Say goodbye to confusing, frustrating video calls – Ping makes remote assistance a breeze. Our app lets users send 3D drawings that can are rendered in augmented reality on client side, giving professionals a powerful visual aid to help them communicate complex ideas. With Ping, you'll enjoy a seamless video chat experience that's more interactive and engaging than ever before.
 
-It can send 2d or 3d drawings from client to client and render the 3d drawings in argumented reality.
+Remote work is becoming increasingly popular, but it can be challenging to provide effective assistance when you can't be in the same room as your client. That's where Ping comes in. Our app leverages the latest technology to offer a unique solution that's perfect for remote video chat assistance. With Ping, you can provide your clients with a visual aid that's as clear and helpful as if you were in the same room.
 
-# Installation:
-NPM i in both client and server folder.
+From architects and engineers to healthcare providers and educators, Ping can a valuable tool for anyone who needs to communicate complex ideas remotely.
 
-Create Cloudinary account. 
-
-Create .env in client and add following variables with your data:
-
-REACT_APP_SERVER_URL
-
-REACT_APP_CLOUDINARY_CLOUD_NAME
-
-REACT_APP_CLOUDINARY_UPLOAD_PRESET
-
-REACT_APP_CLOUDINARY_API_KEY
-
-REACT_APP_CLOUDINARY_API_SECRET
-
-REACT_APP_CLOUDINARY_URL
+Ping is built on a powerful tech stack comprising of React, ThreeJS, Express.js, MongoDB, WebRTC, Socket.io, Cloudinary, and Auth0. This combination of technologies offers high performance, security, and reliability, ensuring that you can always provide the best possible assistance to your clients.
 
 
-Create .env in server and add the node version and your database url
+# Getting Started
 
-NODE_VERSION = 14.17.5
-
-DATABASE_URL
+Create a Cloudinary account.
 
 
-# Techstack:
+# Installation
 
-React
+1. Clone this repo and enter!
 
-Express.js
+   ```bash
+   git clone https://github.com/DarianPiro/PING
+   cd PING
+   ```
 
-MongoDB
+2. Install dependencies.
 
-WebRTC
+   ```bash
+   cd client
+   npm i
+   cd ../server	
+   npm i
+   ```
 
-Socket.io
+3. Create .env files in both the client and server folders. In the .env files, copy the .env.sample and add your data.
 
-Auth0
+4. To start the front end run ````npm start```` in client folder
 
-Cloudinary
+5. To start the back end run ````npm run start```` in server folder
 
-MaterialUI
+
+# Tech Stack
+
+Frontend: [![React](https://img.shields.io/badge/React-blue?logo=react&logoColor=white)](https://reactjs.org/), [![ThreeJS](https://img.shields.io/badge/ThreeJS-black?logo=three.js&logoColor=white)](https://threejs.org/), [![MaterialUI](https://img.shields.io/badge/MaterialUI-teal?logo=material-ui&logoColor=white)](https://material-ui.com/)
+Backend: [![Express.js](https://img.shields.io/badge/Express.js-grey?logo=express&logoColor=white)](https://expressjs.com/)
+Database: [![MongoDB](https://img.shields.io/badge/MongoDB-green?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+Real-time communication: [![WebRTC](https://img.shields.io/badge/WebRTC-red?logo=webrtc&logoColor=white)](https://webrtc.org/), [![Socket.io](https://img.shields.io/badge/Socket.io-grey?logo=socket.io&logoColor=white)](https://socket.io/)
+Authentication and authorization: [![Auth0](https://img.shields.io/badge/Auth0-orange?logo=auth0&logoColor=white)](https://auth0.com/)
+Image and video hosting: [![Cloudinary](https://img.shields.io/badge/Cloudinary-blueviolet?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+
+
+# Author
+
+Darian Pirowhedayati - [Github](https://github.com/DarianPiro) - [LinkedIn](https://www.linkedin.com/in/darian-pirowhedayati-3a928a1b6/)
