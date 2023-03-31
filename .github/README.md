@@ -2,6 +2,9 @@ Get expert help from anywhere with our AR remote assistance app – connecting y
 
 # PING
 
+![PING login screen](https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268956/Screenshot_2023-03-31_at_14.09.56_ujri4k.png 'PING login screen')
+![PING request screen](https://res.cloudinary.com/dc3ejnypr/image/upload/v1680268969/Screenshot_2023-03-31_at_14.10.45_ztcmkj.png 'PING request screen')
+
 Say goodbye to confusing, frustrating video calls – Ping makes remote assistance a breeze. Our app lets users send 3D drawings that can are rendered in augmented reality on client side, giving professionals a powerful visual aid to help them communicate complex ideas. With Ping, you'll enjoy a seamless video chat experience that's more interactive and engaging than ever before.
 
 Remote work is becoming increasingly popular, but it can be challenging to provide effective assistance when you can't be in the same room as your client. That's where Ping comes in. Our app leverages the latest technology to offer a unique solution that's perfect for remote video chat assistance. With Ping, you can provide your clients with a visual aid that's as clear and helpful as if you were in the same room.
@@ -10,11 +13,9 @@ From architects and engineers to healthcare providers and educators, Ping can a 
 
 Ping is built on a powerful tech stack comprising of React, ThreeJS, Express.js, MongoDB, WebRTC, Socket.io, Cloudinary, and Auth0. This combination of technologies offers high performance, security, and reliability, ensuring that you can always provide the best possible assistance to your clients.
 
-
 # Getting Started
 
 Create a Cloudinary account.
-
 
 # Installation
 
@@ -31,17 +32,16 @@ Create a Cloudinary account.
    cd client
    npm i
 
-   cd ../server	
+   cd ../server
    npm i
    ```
 
-3. Create .env files in both the client and server folders. 
-Copy each .env.sample and add your data.
+3. Create .env files in both the client and server folders.
+   Copy each .env.sample and add your data.
 
-4. To start the front end run ````npm start```` in client folder
+4. To start the front end run `npm start` in client folder
 
-5. To start the back end run ````npm run start```` in server folder
-
+5. To start the back end run `npm run start` in server folder
 
 # Tech Stack
 
@@ -56,7 +56,6 @@ Real-time communication: [![WebRTC](https://img.shields.io/badge/WebRTC-red?logo
 Authentication and authorization: [![Auth0](https://img.shields.io/badge/Auth0-orange?logo=auth0&logoColor=white)](https://auth0.com/)
 
 Image and video hosting: [![Cloudinary](https://img.shields.io/badge/Cloudinary-blueviolet?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
-
 
 # Author
 
